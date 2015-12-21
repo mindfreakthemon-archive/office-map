@@ -16,21 +16,18 @@
 
 <script>
     System.config({
-        baseURL: '/',
         map: {
             'angular2-universal-preview': '/node_modules/angular2-universal-preview/dist/client/client'
         },
-        transpiler: 'typescript',
-        typescriptOptions: { emitDecoratorMetadata: true },
         packages: {
             'node_modules': { defaultExtension: 'js' },
-            'build': { defaultExtension: 'js' }
+            'public': { defaultExtension: 'js' }
         }
     });
 </script>
 
 <script>
-    System.import('build/client/client/bootstrap');
+    System.import('public/js/client/bootstrap');
 </script>
 </body>
 
