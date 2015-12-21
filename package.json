@@ -1,7 +1,7 @@
 {
   "name": "office-map",
   "version": "0.0.1",
-  "description": "PT Office Map project",
+  "description": "Office Map project",
   "dependencies": {
     "@reactivex/rxjs": "5.0.0-alpha.4",
     "angular2": "2.0.0-alpha.45",
