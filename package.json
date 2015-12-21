@@ -8,22 +8,21 @@
     "angular2-universal-preview": "0.6.1",
     "css": "^2.2.1",
     "express": "^4.13.3",
-    "gulp-nodemon": "^2.0.4",
     "lodash": "^3.10.1",
     "parse5": "^1.5.0",
     "preboot": "^1.0.0",
     "reflect-metadata": "0.1.2",
     "systemjs": "^0.19.9",
-    "ts": "0.0.0",
     "zone.js": "0.5.8"
   },
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-livereload": "^3.8.1",
+    "gulp-nodemon": "^2.0.4",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-stylus": "^2.1.1",
     "gulp-typescript": "^2.10.0",
-    "ts-loader": "^0.7.2",
+    "requiredir": "^1.0.7",
     "typescript": "^1.7.5"
   },
   "scripts": {
