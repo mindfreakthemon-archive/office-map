@@ -1,5 +1,6 @@
 var gulp = require('gulp'),
 	ts = require('gulp-typescript'),
+	livereload = require('gulp-livereload'),
 	sourcemaps = require('gulp-sourcemaps');
 
 gulp.task('ts-client', function () {
@@ -22,5 +23,6 @@ gulp.task('ts-client', function () {
 
 	return tsResult.js
 		.pipe(sourcemaps.write())
-		.pipe(gulp.dest('public/js'));
+		.pipe(gulp.dest('public/js'))
+		.pipe(livereload());
 });
