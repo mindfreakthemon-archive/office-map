@@ -3,7 +3,7 @@ var gulp = require('gulp'),
 
 gulp.task('nodemon', ['ts-server'], function () {
 	nodemon({
-		script: 'build/server/server/bootstrap.js',
+		script: 'build/server/bootstrap.js',
 		ext: 'ts',
 		watch: ['app/server', 'app/shared'],
 		tasks: ['ts-server']

@@ -2,7 +2,8 @@
 /bower_components
 /typings
 /build
-/public/images
+/public/*
+!/public/images
 npm-debug.log
 
 *.ipr

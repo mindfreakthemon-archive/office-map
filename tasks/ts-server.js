@@ -22,5 +22,5 @@ gulp.task('ts-server', function () {
 
 	return tsResult.js
 		.pipe(sourcemaps.write())
-		.pipe(gulp.dest('build/server'));
+		.pipe(gulp.dest('build'));
 });
