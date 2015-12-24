@@ -4,6 +4,6 @@ var gulp = require('gulp'),
 gulp.task('watch', ['nodemon'], function () {
 	livereload.listen();
 
-	gulp.watch(['app/client/**/*.ts', 'app/shared/**/*.ts'], ['ts-client']);
+	gulp.watch(['app/client/**/*.ts', 'app/shared/**/*.ts', 'app/**/*.jade'], ['ts-client']);
 	gulp.watch(['assets/styles/**/*.styl'], ['styles']);
 });
