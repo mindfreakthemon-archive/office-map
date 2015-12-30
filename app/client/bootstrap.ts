@@ -1,6 +1,4 @@
-import { bootstrap } from 'angular2-universal-preview';
-
-import { FORM_PROVIDERS, provide } from 'angular2/angular2';
+import { FORM_PROVIDERS, provide, bootstrap } from 'angular2/angular2';
 import { ROUTER_PROVIDERS, ROUTER_PRIMARY_COMPONENT, APP_BASE_HREF, LocationStrategy, HashLocationStrategy, PathLocationStrategy } from 'angular2/router';
 import { HTTP_PROVIDERS } from 'angular2/http';
 

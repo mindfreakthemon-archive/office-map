@@ -1,0 +1,26 @@
+doctype html
+html
+	head
+		meta(charset='utf-8')
+		title Office App
+		link(rel='stylesheet', type='text/css', href='/public/css/main.css')
+		base(href='/')
+	body
+		app
+			| Loading...
+		script(src='/node_modules/systemjs/dist/system.js')
+		script(src='/node_modules/angular2/bundles/angular2.min.js')
+		script(src='/node_modules/angular2/bundles/http.min.js')
+		script(src='/node_modules/angular2/bundles/router.dev.min.js')
+		script.
+			System.config({
+				map: {
+					'angular2-universal-preview': '/node_modules/angular2-universal-preview/dist/client/client'
+				},
+				packages: {
+					'node_modules': { defaultExtension: 'js' },
+					'public': { defaultExtension: 'js' }
+				}
+			});
+		script.
+			System.import('public/js/client/bootstrap');
