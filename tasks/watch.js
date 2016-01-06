@@ -1,7 +1,9 @@
 var gulp = require('gulp'),
 	livereload = require('gulp-livereload');
 
-gulp.task('watch', ['nodemon', 'styles', 'ts-client'], function () {
+gulp.task('build', ['styles', 'ts-client', 'ts-server']);
+
+gulp.task('watch', ['nodemon', 'build'], function () {
 	livereload.listen();
 
 	gulp.watch(['app/client/**/*.ts', 'app/shared/**/*.ts', 'app/**/*.jade'], ['ts-client']);
