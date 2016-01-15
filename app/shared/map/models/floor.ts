@@ -6,5 +6,5 @@ export class Floor {
     walls: Wall[];
     places: Place[];
 
-    constructor() {}
+    constructor(public number: number) {}
 }
