@@ -1,3 +1,5 @@
+import { Point } from './point';
+
 export class Place {
-    constructor() {}
+    constructor(public position: Point) {}
 }

@@ -1,3 +1,5 @@
+import { Point } from './point';
+
 export class Wall {
-    constructor() {}
+    constructor(public start: Point, public end: Point) {}
 }

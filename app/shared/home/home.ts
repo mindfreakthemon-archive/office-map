@@ -9,5 +9,5 @@ import { Location } from 'angular2/router';
     templateUrl: 'home/home.jade'
 })
 export class Home {
-    constructor(public location:Location) {}
+    constructor() {}
 }
