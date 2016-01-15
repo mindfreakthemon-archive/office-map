@@ -4,7 +4,7 @@ import { Floor } from '../models/floor';
 
 @Injectable()
 export class FloorService {
-    constructor(@Inject(Http) private http: Http) {}
+    constructor(private http: Http) {}
 
     getFloors(): Promise<Floor[]> {
         return this.http.get('/public/mocks/floors.json')
