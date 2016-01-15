@@ -4,6 +4,7 @@ html
 		meta(charset='utf-8')
 		title Office App
 		link(rel='stylesheet', type='text/css', href='/public/css/main.css')
+		link(rel='stylesheet', type='text/css', href='/node_modules/leaflet/dist/leaflet.css')
 		base(href='/')
 	body
 		app
@@ -15,7 +16,8 @@ html
 		script.
 			System.config({
 				map: {
-					'angular2-universal-preview': '/node_modules/angular2-universal-preview/dist/client/client'
+					'angular2-universal-preview': '/node_modules/angular2-universal-preview/dist/client/client',
+					'leaflet': '/node_modules/leaflet/dist/leaflet'
 				},
 				packages: {
 					'node_modules': { defaultExtension: 'js' },

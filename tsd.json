@@ -19,6 +19,9 @@
     },
     "mongodb/mongodb.d.ts": {
       "commit": "dc9dabe74a5be62613b17a3605309783a12ff28a"
+    },
+    "leaflet/leaflet.d.ts": {
+      "commit": "d1f6bde13f2209be42e86c3686761e8bfcbb50a5"
     }
   }
 }

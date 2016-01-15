@@ -3,6 +3,7 @@ import {Location, RouteConfig, RouterLink, Router, ROUTER_DIRECTIVES, ROUTER_PRO
 
 import {Home} from '../home/home';
 import {Admin} from '../admin/admin';
+import {Map} from '../map/map';
 
 @Component({
     selector: 'app',
@@ -12,7 +13,8 @@ import {Admin} from '../admin/admin';
 @RouteConfig([
     {path: '/', redirectTo: '/home'},
     {path: '/home', as: 'Home', component: Home},
-    {path: '/admin', as: 'Admin', component: Admin}
+    {path: '/admin', as: 'Admin', component: Admin},
+    {path: '/map', as: 'Map', component: Map}
 ])
 export class App {
     constructor(public location:Location) {
