@@ -4,6 +4,7 @@
 /build
 /public/*
 !/public/images
+!/public/mocks
 npm-debug.log
 
 *.ipr

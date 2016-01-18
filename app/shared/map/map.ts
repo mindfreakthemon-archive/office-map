@@ -1,5 +1,5 @@
 import { Component, View, CORE_DIRECTIVES } from 'angular2/angular2';
-import { Location } from 'angular2/router';
+import { RouteParams } from 'angular2/router';
 import { Inject } from 'angular2/core';
 import * as L from 'leaflet';
 
@@ -15,11 +15,14 @@ import { Floor } from './models/floor';
     templateUrl: 'map/map.jade'
 })
 export class Map {
-    name:string = 'map';
+    // default floor to show
+    floorNumber: number = 20;
 
-    constructor(private floorService:FloorService) {
-        floorService.getFloors()
-            .then(floors => this.buildMap(floors.shift()));
+    constructor(private routeParams: RouteParams, private floorService: FloorService) {
+        this.floorNumber = +routeParams.get('number') || this.floorNumber;
+
+        floorService.getFloor(this.floorNumber)
+            .then(floor => this.buildMap(floor));
     }
 
     buildMap(floor: Floor) {
