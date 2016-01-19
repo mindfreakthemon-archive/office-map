@@ -16,8 +16,6 @@ import { Floor } from '../models/floor';
 export class Map {
     @Input() floorNumber: number;
 
-    private floorService: FloorService;
-
     constructor(private floorService: FloorService) {}
 
     onInit() {
