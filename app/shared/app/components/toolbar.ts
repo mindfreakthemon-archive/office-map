@@ -1,5 +1,5 @@
 import { CORE_DIRECTIVES, Component } from 'angular2/angular2';
-import { ROUTER_DIRECTIVES, Router } from 'angular2/router';
+import { ROUTER_DIRECTIVES } from 'angular2/router';
 
 import { FloorService } from '../../map/services/floor.service';
 import { Floor } from '../../map/models/floor';
@@ -11,7 +11,7 @@ import { Floor } from '../../map/models/floor';
     templateUrl: 'app/templates/toolbar.jade'
 })
 export class Toolbar {
-    floors:Floor[];
+    floors: Floor[];
 
     constructor(public floorService: FloorService) {
         this.floorService.getFloors()
