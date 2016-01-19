@@ -11,7 +11,7 @@ const DEFAULT_FLOOR = 20;
 })
 @View({
     directives: [CORE_DIRECTIVES, Map],
-    template: '<map [floor-number]="floorNumber"></map>'
+    template: '<map-canvas [floor-number]="floorNumber"></map-canvas>'
 })
 export class MapRoute {
     private floorNumber: number;

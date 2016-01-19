@@ -14,9 +14,9 @@ import { Toolbar } from './components/toolbar';
 @RouteConfig([
     { path: '/', redirectTo: '/map' },
     { path: '/admin', as: 'Admin', component: Admin },
+    { path: '/map/...', as: 'MapDefault', component: MapRoute },
     { path: '/map/:number', as: 'Map', component: MapRoute }
 ])
 export class App {
     constructor() {}
 }
-

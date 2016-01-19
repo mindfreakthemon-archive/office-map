@@ -6,7 +6,7 @@ import { FloorService } from '../services/floor.service';
 import { Floor } from '../models/floor';
 
 @Component({
-    selector: 'map',
+    selector: 'map-canvas',
     providers: [FloorService]
 })
 @View({
@@ -14,9 +14,13 @@ import { Floor } from '../models/floor';
     templateUrl: 'map/templates/map.jade'
 })
 export class Map {
-    @Input() private floorNumber: number;
+    @Input() floorNumber: number;
 
-    constructor(private floorService: FloorService) {
+    private floorService: FloorService;
+
+    constructor(private floorService: FloorService) {}
+
+    onInit() {
         this.floorService.getFloor(this.floorNumber)
             .then(floor => this.buildMap(floor));
     }
