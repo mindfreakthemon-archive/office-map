@@ -1,5 +1,6 @@
 import { Point } from './point';
 
-export class Wall {
-    constructor(public start: Point, public end: Point) {}
+export interface Wall {
+    start: Point;
+    end: Point;
 }
