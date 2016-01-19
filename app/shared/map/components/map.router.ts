@@ -1,29 +1,20 @@
 import { Component, View, CORE_DIRECTIVES } from 'angular2/angular2';
 import { RouteParams } from 'angular2/router';
-import { Inject } from 'angular2/core';
 import { RouteConfig, ROUTER_DIRECTIVES } from 'angular2/router';
 
 import { Map } from './map';
-
-const DEFAULT_FLOOR = 20;
 
 @Component({
     selector: 'map-route'
 })
 @View({
     directives: [CORE_DIRECTIVES, ROUTER_DIRECTIVES, Map],
-    template: '<map-canvas [floor-number]="floorNumber"></map-canvas>'
+    template: '<router-outlet></router-outlet>'
 })
 @RouteConfig([
     { path: '/', as: 'Default', component: Map },
     { path: '/floor/:floor', as: 'Floor', component: Map }
 ])
 export class MapRouter {
-    private floorNumber: number;
-
-    constructor(private routeParams: RouteParams) {
-        console.log(routeParams.params);
-        this.floorNumber = +routeParams.get('floor') || DEFAULT_FLOOR;
-    }
-
+    constructor() {}
 }
