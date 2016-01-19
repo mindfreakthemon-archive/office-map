@@ -1,10 +1,9 @@
 import { Component, View, CORE_DIRECTIVES } from 'angular2/angular2';
-import { RouteParams } from 'angular2/router';
-import { Inject } from 'angular2/core';
+import { Inject, Input } from 'angular2/core';
 import * as L from 'leaflet';
 
-import { FloorService } from './services/floor.service';
-import { Floor } from './models/floor';
+import { FloorService } from '../services/floor.service';
+import { Floor } from '../models/floor';
 
 @Component({
     selector: 'map',
@@ -12,16 +11,13 @@ import { Floor } from './models/floor';
 })
 @View({
     directives: [CORE_DIRECTIVES],
-    templateUrl: 'map/map.jade'
+    templateUrl: 'map/templates/map.jade'
 })
 export class Map {
-    // default floor to show
-    floorNumber: number = 20;
+    @Input() private floorNumber: number;
 
-    constructor(private routeParams: RouteParams, private floorService: FloorService) {
-        this.floorNumber = +routeParams.get('number') || this.floorNumber;
-
-        floorService.getFloor(this.floorNumber)
+    constructor(private floorService: FloorService) {
+        this.floorService.getFloor(this.floorNumber)
             .then(floor => this.buildMap(floor));
     }
 
