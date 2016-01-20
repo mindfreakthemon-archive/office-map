@@ -11,4 +11,3 @@ gulp.task('styles', function () {
 		.pipe(gulp.dest('./public/css'))
 		.pipe(livereload());
 });
- 

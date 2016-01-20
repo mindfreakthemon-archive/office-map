@@ -30,12 +30,53 @@ export class Map {
     buildMap(floor: Floor) {
         console.log(floor);
 
-        document.getElementById('mapContainer').innerHTML = '<div id="map" style="width: 600px; height: 400px"></div>';
-        let map = L.map('map').setView([51.505, -0.09], 13);
+        document.getElementById('mapContainer').innerHTML = '<div id="map"></div>';
+        const map = L.map('map', { zoomControl: false }).setView([39.5, -8.5], 7);
+
+        new L.Control.Zoom({ position: 'bottomleft' }).addTo(map);
 
         L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ', {
-        maxZoom: 18,
-        id: 'mapbox.streets'
+            maxZoom: 18,
+            id: 'mapbox.streets'
         }).addTo(map);
+
+        const canvasTiles = L.tileLayer.canvas();
+
+        canvasTiles.drawTile = (canvas, tile, zoom) => {
+            var context = canvas.getContext('2d');
+            context.fillStyle = "blue";
+
+            if (floor['seats']){
+                this.drowSeats(canvasTiles, floor['seats'], map);
+            }
+        };
+        map.addLayer(canvasTiles);
+    }
+
+    drowSeats(canvasTiles, points, map) {
+        canvasTiles.drawTile = function(canvas, tile, zoom) {
+            let context = canvas.getContext('2d'),
+                radius = 12,
+                tileSize = this.options.tileSize;
+
+            for (var i = 0; i < points.length; i++) {
+                let point = new L.LatLng(points[i].lat, points[i].lon),
+                    start = tile.multiplyBy(tileSize),
+                    p = map.project(point),
+                    x = Math.round(p.x - start.x),
+                    y = Math.round(p.y - start.y);
+
+                // Circle
+                context.beginPath();
+                context.arc(x, y, radius, 0, 2 * Math.PI, false);
+
+                // Fill (Gradient)
+                var grd = context.createRadialGradient(x, y, 5, x, y, radius);
+                grd.addColorStop(0, "#8ED6FF");
+                grd.addColorStop(1, "#004CB3");
+                context.fillStyle = grd;
+                context.fill();
+            }
+        };
     }
 }
