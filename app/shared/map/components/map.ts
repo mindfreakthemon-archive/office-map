@@ -40,38 +40,33 @@ export class Map {
             id: 'mapbox.streets'
         }).addTo(map);
 
-        const canvasTiles = L.tileLayer.canvas();
+        if (floor['seats']){
+            const canvasTiles = L.tileLayer.canvas();
 
-        canvasTiles.drawTile = (canvas, tile, zoom) => {
-            var context = canvas.getContext('2d');
-            context.fillStyle = "blue";
-
-            if (floor['seats']){
-                this.drowSeats(canvasTiles, floor['seats'], map);
-            }
-        };
-        map.addLayer(canvasTiles);
+            canvasTiles.drawTile = this.drowSeats(canvasTiles, floor['seats'], map);
+            map.addLayer(canvasTiles);
+        }
     }
 
     drowSeats(canvasTiles, points, map) {
-        canvasTiles.drawTile = function(canvas, tile, zoom) {
+          return (canvas, tile, zoom) => {
             let context = canvas.getContext('2d'),
                 radius = 12,
-                tileSize = this.options.tileSize;
+                tileSize = canvasTiles.options.tileSize;
 
-            for (var i = 0; i < points.length; i++) {
+            for (let i = 0; i < points.length; i++) {
                 let point = new L.LatLng(points[i].lat, points[i].lon),
                     start = tile.multiplyBy(tileSize),
                     p = map.project(point),
                     x = Math.round(p.x - start.x),
-                    y = Math.round(p.y - start.y);
+                    y = Math.round(p.y - start.y),
+                    grd = context.createRadialGradient(x, y, 5, x, y, radius);
 
                 // Circle
                 context.beginPath();
                 context.arc(x, y, radius, 0, 2 * Math.PI, false);
 
                 // Fill (Gradient)
-                var grd = context.createRadialGradient(x, y, 5, x, y, radius);
                 grd.addColorStop(0, "#8ED6FF");
                 grd.addColorStop(1, "#004CB3");
                 context.fillStyle = grd;
