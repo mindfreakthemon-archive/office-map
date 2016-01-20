@@ -3,8 +3,18 @@
 		a.navbar-brand(href='#/') Office Map
 
 	ul.nav.navbar-nav
-		li: a('[router-link]'='["/Admin"]') Admin
+		li: a('[router-link]'='["/AdminRouter", "Default"]') Admin
 		li: a('[router-link]'='["/MapRouter", "Default"]') Map
 
-	ul.nav.navbar-nav('*ng-if'='floors')
-		li('*ng-for'='#floor of floors'): a('[router-link]'='["/MapRouter", "Floor", { floor: floor.number }]') {{floor.number}}
+	.nav.navbar-nav('*ng-if'='floors')
+		a.btn.btn-default.navbar-btn('*ng-for'='#floor of floors', '[router-link]'='["./Floor", { floor: floor.number }]') {{floor.number}}
+
+	admin-tools('*ng-if'='tools', '(type-change)'='onTypeChange($event)')
+
+
+	//.btn.btn-default.navbar-btn Sign in?
+	//
+	//form.navbar-form.navbar-right
+	//	.form-group
+	//		input.form-control(placeholder='Search')
+	//		button.btn.btn-default Submit

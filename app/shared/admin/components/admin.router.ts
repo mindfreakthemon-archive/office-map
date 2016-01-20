@@ -1,20 +1,28 @@
 import { Component, View, CORE_DIRECTIVES } from 'angular2/angular2';
 import { RouteParams, RouteConfig, ROUTER_DIRECTIVES } from 'angular2/router';
 
-import { Map } from './map';
 import { Toolbar } from '../../app/components/toolbar';
+import { Map } from '../../map/components/map';
 
 @Component({
-    selector: 'map-route'
+    selector: 'admin',
 })
 @View({
     directives: [CORE_DIRECTIVES, ROUTER_DIRECTIVES, Toolbar, Map],
-    templateUrl: 'map/templates/map.router.jade'
+    templateUrl: 'admin/templates/admin.router.jade'
 })
 @RouteConfig([
     { path: '/', as: 'Default', component: Map },
     { path: '/floor/:floor', as: 'Floor', component: Map }
 ])
-export class MapRouter {
-    constructor() {}
+export class AdminRouter {
+    entityType: string = 'the default';
+
+    constructor(public routeParams: RouteParams) {
+        console.log(routeParams)
+    }
+
+    onTypeChange(entityType: string) {
+        this.entityType = entityType;
+    }
 }
