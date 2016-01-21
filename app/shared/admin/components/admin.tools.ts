@@ -1,18 +1,22 @@
-import { COMMON_DIRECTIVES } from 'angular2/common';
 import { Component, Input, Output, EventEmitter } from 'angular2/core';
+import { Router } from 'angular2/router';
 
 
 @Component({
     selector: 'admin-tools',
-    directives: [COMMON_DIRECTIVES],
     templateUrl: 'admin/templates/admin.tools.jade'
 })
 export class AdminTools {
     type: string;
-    @Output() typeChange = new EventEmitter();
+
+    constructor(public router: Router) {};
 
     changeType(type: string) {
         this.type = type;
-        this.typeChange.next(type);
+
+        let instruction = this.router.generate(['/AdminRouter', 'Action', { floor: 20, action: type }]);
+
+        this.router.navigateByInstruction(instruction);
+
     }
 }

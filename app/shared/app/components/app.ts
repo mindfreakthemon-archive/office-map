@@ -11,7 +11,7 @@ import { MapRouter } from '../../map/components/map.router';
 })
 @RouteConfig([
     { path: '/', redirectTo: ['/MapRouter', 'Default'] },
-    { path: '/admin/...', as: 'AdminRouter', component: AdminRouter },
+    { path: '/admin/...', as: 'AdminRouter', component: AdminRouter, data: { admin: true } },
     { path: '/map/...', as: 'MapRouter', component: MapRouter }
 ])
 export class App {}

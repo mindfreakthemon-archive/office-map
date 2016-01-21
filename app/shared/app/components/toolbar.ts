@@ -1,6 +1,5 @@
-import { COMMON_DIRECTIVES } from 'angular2/common';
-import { Component, View, Input, Output, EventEmitter } from 'angular2/core';
-import { ROUTER_DIRECTIVES } from 'angular2/router';
+import { Component } from 'angular2/core';
+import { ROUTER_DIRECTIVES, RouteData, Router } from 'angular2/router';
 
 import { FloorService } from '../../map/services/floor.service';
 import { Floor } from '../../map/models/floor';
@@ -8,25 +7,20 @@ import { AdminTools } from '../../admin/components/admin.tools';
 
 @Component({
     selector: 'toolbar',
-    providers: [FloorService]
-})
-@View({
-    directives: [COMMON_DIRECTIVES, ROUTER_DIRECTIVES, AdminTools],
+    providers: [FloorService],
+    directives: [ROUTER_DIRECTIVES, AdminTools],
     templateUrl: 'app/templates/toolbar.jade'
 })
 export class Toolbar {
     floors: Floor[];
 
-    @Input() tools: boolean = false;
-    @Output() typeChange = new EventEmitter();
+    displayAdminTools: boolean = false;
 
-    constructor(public floorService: FloorService) {
+    constructor(public floorService: FloorService, routeData: RouteData) {
+        this.displayAdminTools = routeData.get('admin');
+
         this.floorService.getFloors()
             .then(floors => this.floors = floors);
-    }
-
-    onTypeChange(entityType: string) {
-        this.typeChange.next(entityType);
     }
 }
 

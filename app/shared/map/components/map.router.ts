@@ -1,15 +1,12 @@
-import { COMMON_DIRECTIVES } from 'angular2/common';
-import { Component, View } from 'angular2/core';
-import { RouteParams, RouteConfig, ROUTER_DIRECTIVES } from 'angular2/router';
+import { Component } from 'angular2/core';
+import { ROUTER_DIRECTIVES, RouteConfig } from 'angular2/router';
 
 import { Map } from './map';
 import { Toolbar } from '../../app/components/toolbar';
 
 @Component({
-    selector: 'map-route'
-})
-@View({
-    directives: [COMMON_DIRECTIVES, ROUTER_DIRECTIVES, Toolbar, Map],
+    selector: 'map-route',
+    directives: [ROUTER_DIRECTIVES, Toolbar, Map],
     templateUrl: 'map/templates/map.router.jade'
 })
 @RouteConfig([

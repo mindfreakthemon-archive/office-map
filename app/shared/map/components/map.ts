@@ -1,4 +1,3 @@
-import { COMMON_DIRECTIVES } from 'angular2/common';
 import { Component, View } from 'angular2/core';
 import { RouteParams } from 'angular2/router';
 import * as L from 'leaflet';
@@ -6,20 +5,23 @@ import * as L from 'leaflet';
 import { FloorService } from '../services/floor.service';
 import { Floor } from '../models/floor';
 
+
 @Component({
     selector: 'map-canvas',
-    providers: [FloorService]
-})
-@View({
-    directives: [COMMON_DIRECTIVES],
+    providers: [FloorService],
     templateUrl: 'map/templates/map.jade'
 })
 export class Map {
     floorNumber: number = 20;
+    clickAction: string = null;
 
     constructor(private floorService: FloorService, private routeParams: RouteParams) {
         if (routeParams.get('floor')) {
             this.floorNumber = +routeParams.get('floor');
+        }
+
+        if (routeParams.get('action')) {
+            this.clickAction = routeParams.get('action');
         }
     }
 
