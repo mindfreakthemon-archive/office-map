@@ -9,7 +9,7 @@
 	.nav.navbar-nav('*ngIf'='floors')
 		a.btn.btn-default.navbar-btn('*ngFor'='#floor of floors', '[routerLink]'='["./Floor", { floor: floor.number }]') {{floor.number}}
 
-	admin-tools('*ngIf'='tools', '(type-change)'='onTypeChange($event)')
+	admin-tools('*ngIf'='tools', '(typeChange)'='onTypeChange($event)')
 
 
 	//.btn.btn-default.navbar-btn Sign in?
