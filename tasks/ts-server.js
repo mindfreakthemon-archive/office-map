@@ -7,8 +7,7 @@ var gulp = require('gulp'),
 gulp.task('ts-server', function () {
 	var tsResult = gulp.src([
 			'app/server/**/*.ts',
-			'app/shared/**/*.ts',
-			'universal.d.ts',
+			//'app/shared/**/*.ts',
 			'typings/tsd.d.ts'
 		], { base: 'app/' })
 		.pipe(plumber())

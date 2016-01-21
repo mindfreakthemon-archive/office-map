@@ -1,4 +1,5 @@
-import { Component, View, CORE_DIRECTIVES } from 'angular2/angular2';
+import { COMMON_DIRECTIVES } from 'angular2/common';
+import { Component, View } from 'angular2/core';
 import { RouteParams, RouteConfig, ROUTER_DIRECTIVES } from 'angular2/router';
 
 import { Toolbar } from '../../app/components/toolbar';
@@ -8,7 +9,7 @@ import { Map } from '../../map/components/map';
     selector: 'admin',
 })
 @View({
-    directives: [CORE_DIRECTIVES, ROUTER_DIRECTIVES, Toolbar, Map],
+    directives: [COMMON_DIRECTIVES, ROUTER_DIRECTIVES, Toolbar, Map],
     templateUrl: 'admin/templates/admin.router.jade'
 })
 @RouteConfig([
@@ -17,10 +18,6 @@ import { Map } from '../../map/components/map';
 ])
 export class AdminRouter {
     entityType: string = 'the default';
-
-    constructor(public routeParams: RouteParams) {
-        console.log(routeParams)
-    }
 
     onTypeChange(entityType: string) {
         this.entityType = entityType;

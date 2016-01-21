@@ -1,15 +1,15 @@
 .container
 	.navbar-header
-		a.navbar-brand(href='#/') Office Map
+		a.navbar-brand('[routerLink]'='["/MapRouter", "Default"]') Office Map
 
 	ul.nav.navbar-nav
-		li: a('[router-link]'='["/AdminRouter", "Default"]') Admin
-		li: a('[router-link]'='["/MapRouter", "Default"]') Map
+		li: a('[routerLink]'='["/AdminRouter", "Default"]') Admin
+		li: a('[routerLink]'='["/MapRouter", "Default"]') Map
 
-	.nav.navbar-nav('*ng-if'='floors')
-		a.btn.btn-default.navbar-btn('*ng-for'='#floor of floors', '[router-link]'='["./Floor", { floor: floor.number }]') {{floor.number}}
+	.nav.navbar-nav('*ngIf'='floors')
+		a.btn.btn-default.navbar-btn('*ngFor'='#floor of floors', '[routerLink]'='["./Floor", { floor: floor.number }]') {{floor.number}}
 
-	admin-tools('*ng-if'='tools', '(type-change)'='onTypeChange($event)')
+	admin-tools('*ngIf'='tools', '(type-change)'='onTypeChange($event)')
 
 
 	//.btn.btn-default.navbar-btn Sign in?

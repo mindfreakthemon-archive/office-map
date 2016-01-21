@@ -1,9 +1,10 @@
-import { CORE_DIRECTIVES, Component, Input, Output, EventEmitter } from 'angular2/angular2';
+import { COMMON_DIRECTIVES } from 'angular2/common';
+import { Component, Input, Output, EventEmitter } from 'angular2/core';
 
 
 @Component({
     selector: 'admin-tools',
-    directives: [CORE_DIRECTIVES],
+    directives: [COMMON_DIRECTIVES],
     templateUrl: 'admin/templates/admin.tools.jade'
 })
 export class AdminTools {

@@ -1,4 +1,5 @@
-import { Component, View, CORE_DIRECTIVES } from 'angular2/angular2';
+import { COMMON_DIRECTIVES } from 'angular2/common';
+import { Component, View } from 'angular2/core';
 import { RouteParams } from 'angular2/router';
 import * as L from 'leaflet';
 
@@ -10,7 +11,7 @@ import { Floor } from '../models/floor';
     providers: [FloorService]
 })
 @View({
-    directives: [CORE_DIRECTIVES],
+    directives: [COMMON_DIRECTIVES],
     templateUrl: 'map/templates/map.jade'
 })
 export class Map {
@@ -22,7 +23,7 @@ export class Map {
         }
     }
 
-    onInit() {
+    ngOnInit() {
         this.floorService.getFloor(this.floorNumber)
             .then(floor => this.buildMap(floor));
     }
