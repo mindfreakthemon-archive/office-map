@@ -13,6 +13,7 @@ html
 		app
 			| Loading...
 		script(src='/node_modules/systemjs/dist/system.js')
+		script(src='/node_modules/rxjs/bundles/Rx.min.js')
 		script(src='/node_modules/angular2/bundles/angular2.js') // should not be .min! https://github.com/angular/angular/issues/6380
 		script(src='/node_modules/angular2/bundles/angular2-polyfills.min.js')
 		script(src='/node_modules/angular2/bundles/http.min.js')
@@ -20,8 +21,7 @@ html
 		script.
 			System.config({
 				map: {
-					'leaflet': '/node_modules/leaflet/dist/leaflet',
-					'rxjs': '/node_modules/rxjs'
+					'leaflet': '/node_modules/leaflet/dist/leaflet'
 				},
 				packages: {
 					'node_modules': { defaultExtension: 'js' },
