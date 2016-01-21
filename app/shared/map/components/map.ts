@@ -72,6 +72,8 @@ export class Map {
                 context.fillStyle = grd;
                 context.fill();
             }
+
+            return canvasTiles;
         };
     }
 }
