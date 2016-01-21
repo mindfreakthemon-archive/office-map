@@ -1,11 +1,14 @@
 ul.nav.navbar-nav.navbar-right
+   li: a.action('(click)'='changeAction(actions.NONE)', '[class.bold]'='action === actions.NONE')
+      span.glyphicon.glyphicon-ban-circle
+      | #{' '} Do Nothing
    li: a Add:
-   li: a('(click)'='changeType("seat")')
+   li: a.action('(click)'='changeAction(actions.ADD_SEAT)', '[class.bold]'='action === actions.ADD_SEAT')
       span.glyphicon.glyphicon-home
       | #{' '} Seat
-   li: a('(click)'='changeType("wall")')
+   li: a.action('(click)'='changeAction(actions.ADD_WORKER)', '[class.bold]'='action === actions.ADD_WORKER')
       span.glyphicon.glyphicon-modal-window
-      | #{' '} Wall
-   li: a('(click)'='changeType("tower")')
+      | #{' '} Worker
+   li: a.action('(click)'='changeAction(actions.ADD_ROOM)', '[class.bold]'='action === actions.ADD_ROOM')
       span.glyphicon.glyphicon-tower
-      | #{' '} Tower
+      | #{' '} Room

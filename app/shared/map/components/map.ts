@@ -2,27 +2,34 @@ import { Component, View } from 'angular2/core';
 import { RouteParams } from 'angular2/router';
 import * as L from 'leaflet';
 
+import { AdminActionService, AdminAction } from '../../admin/services/admin.action.service';
 import { FloorService } from '../services/floor.service';
 import { Floor } from '../models/floor';
 
 
 @Component({
     selector: 'map-canvas',
-    providers: [FloorService],
+    providers: [FloorService, AdminActionService],
     templateUrl: 'map/templates/map.jade'
 })
 export class Map {
     floorNumber: number = 20;
-    clickAction: string = null;
+    clickAction: AdminAction = AdminAction.NONE;
 
-    constructor(private floorService: FloorService, private routeParams: RouteParams) {
+    constructor(
+        private floorService: FloorService,
+        private adminActionService: AdminActionService,
+        private routeParams: RouteParams
+    ) {
         if (routeParams.get('floor')) {
             this.floorNumber = +routeParams.get('floor');
         }
 
-        if (routeParams.get('action')) {
-            this.clickAction = routeParams.get('action');
-        }
+        this.adminActionService.getEmitter().subscribe(action => {
+            console.log('going to do %s when click on map', AdminAction[action]);
+
+            this.clickAction = action;
+        });
     }
 
     ngOnInit() {
