@@ -15,6 +15,7 @@ import { Floor } from '../models/floor';
 export class Map {
     floorNumber: number = 20;
     clickAction: AdminAction = AdminAction.NONE;
+    adminActionSubscription: any;
 
     constructor(
         private floorService: FloorService,
@@ -24,17 +25,21 @@ export class Map {
         if (routeParams.get('floor')) {
             this.floorNumber = +routeParams.get('floor');
         }
+    }
 
-        this.adminActionService.getEmitter().subscribe(action => {
+    ngOnInit() {
+        this.floorService.getFloor(this.floorNumber)
+            .then(floor => this.buildMap(floor));
+
+        this.adminActionSubscription = this.adminActionService.getEmitter().subscribe(action => {
             console.log('going to do %s when click on map', AdminAction[action]);
 
             this.clickAction = action;
         });
     }
 
-    ngOnInit() {
-        this.floorService.getFloor(this.floorNumber)
-            .then(floor => this.buildMap(floor));
+    ngOnDestroy() {
+        this.adminActionSubscription.unsubscribe();
     }
 
     buildMap(floor: Floor) {
