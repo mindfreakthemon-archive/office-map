@@ -1,2 +1,16 @@
 h1 Worker Search
-	h2 So you're looking for {{query}}, eh?
+h2 So you're looking for {{query}}, eh?
+
+
+
+h3('*ngIf'='loading') Loading...
+
+div('*ngIf'='!loading && workers.length')
+	.media('*ngFor'='#worker of workers')
+		.media-left
+			img.media-object(src='http://placehold.it/64x64')
+		.media-body
+			h4.media-heading {{worker.first_name}} {{worker.last_name}}
+			p Really nice description
+			button.btn.btn-danger Locate
+
