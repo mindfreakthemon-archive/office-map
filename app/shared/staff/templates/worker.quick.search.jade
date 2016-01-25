@@ -1,0 +1,5 @@
+form.navbar-form('(submit)'='onSubmit($event)')
+	.form-group
+		input.form-control(placeholder='Search', '[(ngModel)]'='query', '(input)'='onInput($event)')
+		button.btn.btn-default Search
+

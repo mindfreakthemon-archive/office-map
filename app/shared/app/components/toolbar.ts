@@ -4,11 +4,12 @@ import { ROUTER_DIRECTIVES, RouteData, Router } from 'angular2/router';
 import { FloorService } from '../../map/services/floor.service';
 import { Floor } from '../../map/models/floor';
 import { AdminTools } from '../../admin/components/admin.tools';
+import { WorkerQuickSearch } from '../../staff/components/worker.quick.search';
 
 @Component({
     selector: 'toolbar',
     providers: [FloorService],
-    directives: [ROUTER_DIRECTIVES, AdminTools],
+    directives: [ROUTER_DIRECTIVES, AdminTools, WorkerQuickSearch],
     templateUrl: 'app/templates/toolbar.jade'
 })
 export class Toolbar {

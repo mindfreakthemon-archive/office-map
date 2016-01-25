@@ -7,14 +7,9 @@
 		li: a('[routerLink]'='["/MapRouter", "Default"]') Map
 
 	.nav.navbar-nav('*ngIf'='floors')
-		a.btn.btn-default.navbar-btn('*ngFor'='#floor of floors', '[routerLink]'='["./Floor", { floor: floor.number }]') {{floor.number}}
+		a.btn.btn-default.navbar-btn('*ngFor'='#floor of floors', '[routerLink]'='[displayAdminTools ? "/AdminRouter" : "/MapRouter", "Floor", { floor: floor.number }]') {{floor.number}}
 
+	worker-quick-search.navbar-right
 	admin-tools('*ngIf'='displayAdminTools', '(typeChange)'='onTypeChange($event)')
 
-
 	//.btn.btn-default.navbar-btn Sign in?
-	//
-	//form.navbar-form.navbar-right
-	//	.form-group
-	//		input.form-control(placeholder='Search')
-	//		button.btn.btn-default Submit

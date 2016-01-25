@@ -24,7 +24,7 @@ export class FloorService {
 
         return promise
             .then((floors: Floor[]) => {
-                let list:Floor[] = floors.filter(floor => floor.number === number);
+                let list: Floor[] = floors.filter(floor => floor.number === number);
 
                 if (!list.length) {
                     throw new Error('floor not found');
