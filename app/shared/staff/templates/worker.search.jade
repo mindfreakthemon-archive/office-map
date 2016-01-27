@@ -11,6 +11,6 @@ div('*ngIf'='!loading && workers.length')
 			img.media-object(src='http://placehold.it/64x64')
 		.media-body
 			h4.media-heading {{worker.first_name}} {{worker.last_name}}
-			p Really nice description
-			button.btn.btn-danger Locate
+			p Really nice description. He is from {{worker.teamName}}
+			a.btn.btn-danger('[routerLink]'='["/MapRouter", "WorkerLocate", { worker: worker.id }]') Locate
 

@@ -5,7 +5,7 @@
   "dependencies": {
     "angular2": "^2.0.0-beta.1",
     "css": "^2.2.1",
-    "es6-shim": "^0.33.13",
+    "es6-shim": "^0.34.2",
     "express": "^4.13.3",
     "jade": "^1.11.0",
     "leaflet": "^0.7.7",
@@ -14,7 +14,7 @@
     "parse5": "^1.5.0",
     "preboot": "^1.0.0",
     "reflect-metadata": "0.1.2",
-    "rxjs": "^5.0.0-beta.0",
+    "rxjs": "^5.0.0-beta.1",
     "systemjs": "^0.19.9",
     "zone.js": "^0.5.10"
   },

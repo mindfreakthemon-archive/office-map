@@ -1,5 +1,5 @@
 import { Component } from 'angular2/core';
-import { RouteParams } from 'angular2/router';
+import { RouteParams, ROUTER_DIRECTIVES } from 'angular2/router';
 
 import { Worker } from '../models/worker';
 import { WorkerService } from '../services/worker.service';
@@ -8,6 +8,7 @@ import { WorkerService } from '../services/worker.service';
 @Component({
     selector: 'worker-search',
     templateUrl: 'staff/templates/worker.search.jade',
+    directives: [ROUTER_DIRECTIVES],
     providers: [WorkerService]
 })
 export class WorkerSearch {

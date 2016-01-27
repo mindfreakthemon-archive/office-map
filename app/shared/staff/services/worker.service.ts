@@ -15,7 +15,7 @@ export class WorkerService {
 
         return this.http.get('/public/mocks/workers.json')
             .map(response => response.json())
-            .map(workers => this.workers = workers)
+            .map(workers => this.workers = workers.map(worker => new Worker(worker)))
             .toPromise();
     }
 

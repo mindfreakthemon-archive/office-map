@@ -4,5 +4,17 @@
 		"first_name": "Nice",
 		"last_name": "Person",
 		"team": 0
+	},
+	{
+		"id": 2,
+		"first_name": "Angry",
+		"last_name": "Manager",
+		"team": 1
+	},
+	{
+		"id": 3,
+		"first_name": "John",
+		"last_name": "Doe",
+		"team": 3
 	}
 ]

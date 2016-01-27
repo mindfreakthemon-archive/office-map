@@ -11,7 +11,8 @@ import { Toolbar } from '../../app/components/toolbar';
 })
 @RouteConfig([
     { path: '/', as: 'Default', component: Map },
-    { path: '/floor/:floor', as: 'Floor', component: Map }
+    { path: '/floor/:floor', as: 'Floor', component: Map },
+    { path: '/locate/:worker', as: 'WorkerLocate', component: Map }
 ])
 export class MapRouter {
     constructor() {}
