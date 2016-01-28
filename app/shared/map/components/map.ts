@@ -9,62 +9,74 @@ import { Floor } from '../models/floor';
 
 @Component({
     selector: 'map-canvas',
-    providers: [FloorService, AdminActionService],
     templateUrl: 'map/templates/map.jade'
 })
 export class Map {
     floorNumber: number = 20;
+    workerId: number;
+
     clickAction: AdminAction = AdminAction.NONE;
     adminActionSubscription: any;
 
-    constructor(
-        private floorService: FloorService,
-        private adminActionService: AdminActionService,
-        private routeParams: RouteParams
-    ) {
-        if (routeParams.get('floor')) {
+    map: any;
+
+    constructor(private floorService: FloorService,
+                private adminActionService: AdminActionService,
+                private routeParams: RouteParams) {
+        if (routeParams.get('worker')) {
+            this.workerId = +routeParams.get('worker');
+        } else if (routeParams.get('floor')) {
             this.floorNumber = +routeParams.get('floor');
         }
     }
 
     ngOnInit() {
-        this.floorService.getFloor(this.floorNumber)
-            .then(floor => this.buildMap(floor));
+        this.initMap();
 
-        this.adminActionSubscription = this.adminActionService.getEmitter().subscribe(action => {
-            console.log('going to do %s when click on map', AdminAction[action]);
+        if (this.workerId) {
+            // should locate the worker
+        }
 
-            this.clickAction = action;
-        });
+        this.floorService.get(this.floorNumber)
+            .subscribe(floor => this.buildMap(floor));
+
+        this.floorService.load();
+
+        this.adminActionSubscription = this.adminActionService.getEmitter()
+            .subscribe(action => {
+                this.clickAction = action;
+            });
     }
 
     ngOnDestroy() {
         this.adminActionSubscription.unsubscribe();
     }
 
-    buildMap(floor: Floor) {
-        console.log(floor);
-
+    initMap() {
         document.getElementById('mapContainer').innerHTML = '<div id="map"></div>';
-        const map = L.map('map', { zoomControl: false }).setView([39.5, -8.5], 7);
 
-        new L.Control.Zoom({ position: 'bottomleft' }).addTo(map);
+        this.map = L.map('map', { zoomControl: false })
+            .setView([39.5, -8.5], 7);
 
-        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ', {
-            maxZoom: 18,
-            id: 'mapbox.streets'
-        }).addTo(map);
+        new L.Control.Zoom({ position: 'bottomleft' }).addTo(this.map);
 
-        if (floor['seats']){
+        //L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ', {
+        //    maxZoom: 18,
+        //    id: 'mapbox.streets'
+        //}).addTo(map);
+    }
+
+    buildMap(floor: Floor) {
+        if (floor.seats) {
             const canvasTiles = L.tileLayer.canvas();
 
-            canvasTiles.drawTile = this.drowSeats(canvasTiles, floor['seats'], map);
-            map.addLayer(canvasTiles);
+            canvasTiles.drawTile = this.drowSeats(canvasTiles, floor['seats'], this.map);
+            this.map.addLayer(canvasTiles);
         }
     }
 
     drowSeats(canvasTiles, points, map) {
-          return (canvas, tile, zoom) => {
+        return (canvas, tile, zoom) => {
             let context = canvas.getContext('2d'),
                 radius = 12,
                 tileSize = canvasTiles.options.tileSize;

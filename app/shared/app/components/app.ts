@@ -12,7 +12,7 @@ import { StaffRouter } from '../../staff/components/staff.router';
 })
 @RouteConfig([
     { path: '/', redirectTo: ['/MapRouter', 'Default'] },
-    { path: '/admin/...', as: 'AdminRouter', component: AdminRouter, data: { admin: true } },
+    { path: '/admin/...', as: 'AdminRouter', component: AdminRouter},
     { path: '/map/...', as: 'MapRouter', component: MapRouter },
     { path: '/staff/...', as: 'StaffRouter', component: StaffRouter }
 ])

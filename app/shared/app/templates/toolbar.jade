@@ -1,15 +1,12 @@
 .container
 	.navbar-header
 		a.navbar-brand('[routerLink]'='["/MapRouter", "Default"]') Office Map
+		super: small: a.navbar-link('[routerLink]'='["/AdminRouter", "Default"]') admin
+		| &nbsp; &nbsp; &nbsp;
 
-	ul.nav.navbar-nav
-		li: a('[routerLink]'='["/AdminRouter", "Default"]') Admin
-		li: a('[routerLink]'='["/MapRouter", "Default"]') Map
-
-	.nav.navbar-nav('*ngIf'='floors')
-		a.btn.btn-default.navbar-btn('*ngFor'='#floor of floors', '[routerLink]'='[displayAdminTools ? "/AdminRouter" : "/MapRouter", "Floor", { floor: floor.number }]') {{floor.number}}
+	.nav.navbar-nav.btn-group('*ngIf'='floors')
+		a.btn.btn-default.navbar-btn('*ngFor'='#floor of floors', '[routerLink]'='["/MapRouter", "Floor", { floor: floor.number }]') {{floor.number}}
 
 	worker-quick-search.navbar-right
-	admin-tools('*ngIf'='displayAdminTools', '(typeChange)'='onTypeChange($event)')
-
+ng-content
 	//.btn.btn-default.navbar-btn Sign in?

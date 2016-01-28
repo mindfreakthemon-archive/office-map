@@ -1,0 +1,14 @@
+toolbar.navbar.navbar-default.navbar-fixed-top
+	.container
+		.nav.navbar-nav.btn-toolbar
+			admin-tools
+
+.container
+	.media('*ngFor'='#floor of floors')
+		.media-left
+			img.media-object(src='http://placehold.it/64x64')
+		.media-body
+			h4.media-heading {{floor.number}}
+			.btn-group
+				//a.btn.btn-warning('[routerLink]'='["/AdminRouter", "FloorEdit", { floor: floor.number }]') Edit
+				a.btn.btn-danger('(click)'='deleteFloor(floor)') Delete

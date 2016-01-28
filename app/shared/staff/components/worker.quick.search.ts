@@ -16,6 +16,6 @@ export class WorkerQuickSearch {
     }
 
     onInput(e) {
-        console.log(e);
+        // todo Autocomplete
     }
 }

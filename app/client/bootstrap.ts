@@ -6,10 +6,16 @@ import { bootstrap } from 'angular2/platform/browser';
 import 'rxjs/Rx';
 
 import { App } from '../shared/app/components/app';
+import { FloorService } from '../shared/map/services/floor.service';
+import { WorkerService } from '../shared/staff/services/worker.service';
+import { AdminActionService } from '../shared/admin/services/admin.action.service';
 
 bootstrap(App, [
     FORM_PROVIDERS,
     ROUTER_PROVIDERS,
     HTTP_PROVIDERS,
-    provide(LocationStrategy, { useClass: HashLocationStrategy })
+    provide(LocationStrategy, { useClass: HashLocationStrategy }),
+    FloorService,
+    WorkerService,
+    AdminActionService
 ]);

@@ -1,36 +1,43 @@
-import { Injectable } from 'angular2/core';
+import { Injectable, EventEmitter } from 'angular2/core';
 import { Http } from 'angular2/http';
 import { Worker } from '../models/worker';
+import {Observable} from 'rxjs/Observable';
+
 
 @Injectable()
 export class WorkerService {
-    workers: Worker[];
+    private workers: Worker[] = null;
+
+    public $stream = new EventEmitter<Worker[]>();
 
     constructor(private http: Http) {}
 
-    getWorkers(): Promise<Worker[]> {
+    load() {
         if (this.workers) {
-            return Promise.resolve(this.workers.slice(0));
+            this.$stream.next(this.workers);
+            return;
         }
 
-        return this.http.get('/public/mocks/workers.json')
+        this.http.get('/public/mocks/workers.json')
             .map(response => response.json())
             .map(workers => this.workers = workers.map(worker => new Worker(worker)))
-            .toPromise();
+            .subscribe(workers => this.$stream.next(workers));
     }
 
-    getWorker(id: number): Promise<Worker> {
-        let promise = <Promise<Worker|Worker[]>> this.getWorkers();
+    get(id: number): any {
+        return this.$stream
+            .map(workers => workers.filter(worker => worker.id === id).pop());
+    }
 
-        return promise
-            .then((workers: Worker[]) => {
-                let list: Worker[] = workers.filter(worker => worker.id === id);
+    add(worker: Worker) {
+        this.workers.push(worker);
 
-                if (!list.length) {
-                    throw new Error('worker not §ound');
-                }
+        // also http post
+    }
 
-                return list.shift();
-            });
+    search(query: string) {
+        return this.http.get('/public/mocks/workers.json')
+            .map(response => response.json())
+            .map(workers => this.workers = workers.map(worker => new Worker(worker)));
     }
 }

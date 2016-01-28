@@ -1,16 +1,18 @@
 import { Component } from 'angular2/core';
 import { ROUTER_DIRECTIVES } from 'angular2/router';
 
+import { Toolbar } from '../../app/components/toolbar';
+import { AdminTools } from './admin.tools';
 import { FloorService } from '../../map/services/floor.service';
 import { Floor } from '../../map/models/floor';
-import { WorkerQuickSearch } from '../../staff/components/worker.quick.search';
+
 
 @Component({
-    selector: 'toolbar',
-    directives: [ROUTER_DIRECTIVES, WorkerQuickSearch],
-    templateUrl: 'app/templates/toolbar.jade'
+    selector: 'floors-list',
+    templateUrl: '/admin/templates/floors.list.jade',
+    directives: [ROUTER_DIRECTIVES, AdminTools, Toolbar]
 })
-export class Toolbar {
+export class FloorsList {
     floors: Floor[];
 
     constructor(
@@ -20,5 +22,8 @@ export class Toolbar {
             .subscribe(floors => this.floors = floors);
         this.floorService.load();
     }
-}
 
+    deleteFloor(floor: Floor) {
+        this.floorService.remove(floor);
+    }
+}

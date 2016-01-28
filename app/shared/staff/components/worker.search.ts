@@ -8,8 +8,7 @@ import { WorkerService } from '../services/worker.service';
 @Component({
     selector: 'worker-search',
     templateUrl: 'staff/templates/worker.search.jade',
-    directives: [ROUTER_DIRECTIVES],
-    providers: [WorkerService]
+    directives: [ROUTER_DIRECTIVES]
 })
 export class WorkerSearch {
     query: string = '';
@@ -22,10 +21,10 @@ export class WorkerSearch {
     ) {
         this.query = routeParams.get('query');
 
-        setTimeout(() => {
-            this.workerService.getWorkers()
-                .then(workers => this.workers = workers)
-                .then(loading => this.loading = false);
-        }, 500); // just for tests
+        this.workerService.search(this.query)
+            .subscribe(workers => {
+                this.workers = workers;
+                this.loading = false;
+            });
     }
 }

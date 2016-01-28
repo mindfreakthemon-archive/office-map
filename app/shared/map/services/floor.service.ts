@@ -1,36 +1,52 @@
-import { Injectable } from 'angular2/core';
+import { Injectable, EventEmitter } from 'angular2/core';
 import { Http } from 'angular2/http';
+import { Observable } from 'rxjs/Observable';
+
 import { Floor } from '../models/floor';
+
 
 @Injectable()
 export class FloorService {
-    floors: Floor[];
+    private floors: Floor[] = null;
+
+    public $stream = new EventEmitter<Floor[]>();
 
     constructor(private http: Http) {}
 
-    getFloors(): Promise<Floor[]> {
+    load() {
         if (this.floors) {
-            return Promise.resolve(this.floors.slice(0));
+            this.$stream.next(this.floors);
+            return;
         }
 
-        return this.http.get('/public/mocks/floors.json')
+        this.http.get('/public/mocks/floors.json')
             .map(response => response.json())
-            .map(floors => this.floors = floors)
-            .toPromise();
+            .map(floors => this.floors = floors.map(floor => new Floor(floor)))
+            .subscribe(floors => this.$stream.next(floors))
     }
 
-    getFloor(number: number): Promise<Floor> {
-        let promise = <Promise<Floor|Floor[]>> this.getFloors();
+    get(number: number): any {
+        return this.$stream
+            .map(floors => floors.filter(floor => floor.number === number).pop());
+    }
 
-        return promise
-            .then((floors: Floor[]) => {
-                let list: Floor[] = floors.filter(floor => floor.number === number);
+    add(floor: Floor) {
+        this.floors.push(floor);
 
-                if (!list.length) {
-                    throw new Error('floor not found');
-                }
+        // also http post
+    }
 
-                return list.shift();
-            });
+    remove(floor: Floor) {
+        let index = this.floors.indexOf(floor);
+
+        this.removeByIndex(index);
+    }
+
+    removeByIndex(index: number) {
+        if (index > -1) {
+            this.floors.splice(index, 1);
+        }
+
+        // also http post
     }
 }

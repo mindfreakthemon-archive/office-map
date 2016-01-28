@@ -1,14 +1,8 @@
-ul.nav.navbar-nav.navbar-right
-   li: a.action('(click)'='changeAction(actions.NONE)', '[class.bold]'='action === actions.NONE')
+.btn-group
+   button.btn.btn-default.navbar-btn('[routerLink]'='["/AdminRouter", "Floors"]')
       span.glyphicon.glyphicon-ban-circle
-      | #{' '} Do Nothing
-   li: a Add:
-   li: a.action('(click)'='changeAction(actions.ADD_SEAT)', '[class.bold]'='action === actions.ADD_SEAT')
-      span.glyphicon.glyphicon-home
-      | #{' '} Seat
-   li: a.action('(click)'='changeAction(actions.ADD_WORKER)', '[class.bold]'='action === actions.ADD_WORKER')
-      span.glyphicon.glyphicon-modal-window
-      | #{' '} Worker
-   li: a.action('(click)'='changeAction(actions.ADD_ROOM)', '[class.bold]'='action === actions.ADD_ROOM')
-      span.glyphicon.glyphicon-tower
-      | #{' '} Room
+      | #{' '} Floors
+   button.btn.btn-default.navbar-btn
+      span.glyphicon.glyphicon-ban-circle
+      | #{' '} Workers
+

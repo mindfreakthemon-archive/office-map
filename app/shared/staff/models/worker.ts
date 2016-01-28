@@ -22,7 +22,7 @@ export class Worker {
         [Team.MWS, 'Mobile & Web Services'],
         [Team.IMS, 'IMS'],
         [Team.Mobenga, 'Mobenga'],
-        [Team.Plamee, 'Plamee??']
+        [Team.Plamee, 'Plamee']
     ]);
 
     get teamName() {
