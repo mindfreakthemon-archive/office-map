@@ -6,9 +6,9 @@ import { AdminActionService, AdminAction } from '../services/admin.action.servic
 
 @Component({
     selector: 'admin-tools',
-    templateUrl: 'admin/templates/floor.tools.jade'
+    templateUrl: 'admin/templates/floor.toobar.jade'
 })
-export class FloorTools {
+export class FloorToolbar {
     action: AdminAction = AdminAction.NONE;
     actions: any = AdminAction;
 
