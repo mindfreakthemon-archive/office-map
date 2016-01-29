@@ -53,6 +53,12 @@ export class FloorService {
             .filter(floor => floor.number === number);
     }
 
+    first() {
+        return this.load()
+            .flatMap<Floor>(array => Observable.from(array))
+            .first();
+    }
+
     index(floor: Floor) {
         return this.floors.findIndex(_floor => _floor.number === floor.number);
     }

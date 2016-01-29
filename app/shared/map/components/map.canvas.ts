@@ -5,6 +5,7 @@ import * as L from 'leaflet';
 import { AdminActionService, AdminAction } from '../../admin/services/admin.action.service';
 import { FloorService } from '../services/floor.service';
 import { Floor } from '../models/floor';
+import { Worker } from '../../staff/models/worker';
 
 
 @Component({
@@ -12,33 +13,25 @@ import { Floor } from '../models/floor';
     templateUrl: 'map/templates/map.jade'
 })
 export class MapCanvas {
-    @Input() floorNumber: number = 20;
-    workerId: number;
+    @Input() floor: Floor;
+
+    /**
+     * Worker to highlight
+     */
+    @Input() worker: Worker;
 
     clickAction: AdminAction = AdminAction.NONE;
     adminActionSubscription: any;
 
-    private map: any;
+    private map;
 
-    constructor(private floorService: FloorService,
-                private adminActionService: AdminActionService,
-                private routeParams: RouteParams) {
-        if (routeParams.get('worker')) {
-            this.workerId = +routeParams.get('worker');
-        } else if (routeParams.get('floor')) {
-            this.floorNumber = +routeParams.get('floor');
-        }
-    }
+    constructor(private adminActionService: AdminActionService) {}
 
     ngOnInit() {
         this.initMap();
+        this.buildMap(this.floor);
 
-        if (this.workerId) {
-            // should locate the worker
-        }
-
-        this.floorService.get(this.floorNumber)
-            .subscribe(floor => this.buildMap(floor));
+        // if this.worker then locateWorker(this.worker)
 
         this.adminActionSubscription = this.adminActionService.getEmitter()
             .subscribe(action => {
@@ -58,10 +51,13 @@ export class MapCanvas {
 
         new L.Control.Zoom({ position: 'bottomleft' }).addTo(this.map);
 
+        L.tileLayer('http://i.imgur.com/yg93iDJ.png', { maxZoom: 12, id: 'random' })
+            .addTo(this.map);
+
         //L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ', {
         //    maxZoom: 18,
         //    id: 'mapbox.streets'
-        //}).addTo(map);
+        //}).addTo(this.map);
     }
 
     buildMap(floor: Floor) {

@@ -5,4 +5,5 @@ toolbar.navbar.navbar-default.navbar-fixed-top
 			admin-toolbar.btn-group
 
 .container
-
+	.map-admin-header('*ngIf'='floor') Floor {{floor.number}}
+	map-canvas('*ngIf'='floor', '[floor]'='floor')

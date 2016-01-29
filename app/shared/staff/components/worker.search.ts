@@ -19,10 +19,8 @@ export class WorkerSearch {
     loading: boolean = true;
     workers: Worker[] = [];
 
-    constructor(
-        public routeParams: RouteParams,
-        public workerService: WorkerService
-    ) {
+    constructor(public routeParams: RouteParams,
+                public workerService: WorkerService) {
         this.query = routeParams.get('query');
 
         this.workerService.search(this.query)

@@ -7,9 +7,40 @@ import { Worker } from '../models/worker';
 
 @Injectable()
 export class WorkerService {
+    private _cache;
+    private workers;
+
     constructor(private http: Http) {}
 
-    get(id: number) {}
+    request() {
+        if (this._cache) {
+            return this._cache;
+        }
+
+        return this._cache = this.http.get('/public/mocks/workers.json')
+            .map(response => response.json())
+            .flatMap<Worker>(array => Observable.from(array))
+            .map(worker => new Worker(worker))
+            .delay(1000)
+            .share();
+    }
+
+    load(): Observable<Worker[]> {
+        if (this.workers) {
+            return Observable.of(this.workers);
+        }
+
+        return this.request()
+            .toArray()
+            .do(workers => this.workers = workers)
+            .share();
+    }
+
+    get(id: number) {
+        return this.load()
+            .flatMap<Worker>(array => Observable.from(array))
+            .filter(worker => worker.id === id);
+    }
 
     put(worker: Worker) {
         // also http put
