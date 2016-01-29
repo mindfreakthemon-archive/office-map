@@ -1,8 +1,6 @@
-import { Injectable, EventEmitter } from 'angular2/core';
+import { Injectable } from 'angular2/core';
 import { Http } from 'angular2/http';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { BehaviorSubject } from 'rxjs/Rx';
 
 import { Floor } from '../models/floor';
 
@@ -25,10 +23,11 @@ export class FloorService {
             .map(response => response.json())
             .flatMap<Floor>(array => Observable.from(array))
             .map(floor => new Floor(floor))
+            .delay(1000)
             .share();
     }
 
-    load() {
+    load(): Observable<Floor[]> {
         if (this.floors) {
             return Observable.of(this.floors);
         }

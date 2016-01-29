@@ -1,20 +1,20 @@
 [
 	{
 		"id": 1,
-		"first_name": "Nice",
-		"last_name": "Person",
+		"firstName": "Nice",
+		"lastName": "Person",
 		"team": 0
 	},
 	{
 		"id": 2,
-		"first_name": "Angry",
-		"last_name": "Manager",
+		"firstName": "Angry",
+		"lastName": "Manager",
 		"team": 1
 	},
 	{
 		"id": 3,
-		"first_name": "John",
-		"last_name": "Doe",
+		"firstName": "John",
+		"lastName": "Doe",
 		"team": 3
 	}
 ]

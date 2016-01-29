@@ -11,7 +11,7 @@ import { Floor } from '../models/floor';
     selector: 'map-canvas',
     templateUrl: 'map/templates/map.jade'
 })
-export class Map {
+export class MapCanvas {
     @Input() floorNumber: number = 20;
     workerId: number;
 

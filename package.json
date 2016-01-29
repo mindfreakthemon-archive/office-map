@@ -11,6 +11,7 @@
     "leaflet": "^0.7.7",
     "lodash": "^3.10.1",
     "mongodb": "^2.1.2",
+    "ng2-pagination": "0.0.1-alpha.13",
     "parse5": "^1.5.0",
     "preboot": "^1.0.0",
     "reflect-metadata": "0.1.2",

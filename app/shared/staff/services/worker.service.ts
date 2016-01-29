@@ -1,43 +1,31 @@
-import { Injectable, EventEmitter } from 'angular2/core';
+import { Injectable } from 'angular2/core';
 import { Http } from 'angular2/http';
+import { Observable } from 'rxjs/Observable';
+
 import { Worker } from '../models/worker';
-import {Observable} from 'rxjs/Observable';
 
 
 @Injectable()
 export class WorkerService {
-    private workers: Worker[] = null;
-
-    public $stream = new EventEmitter<Worker[]>();
-
     constructor(private http: Http) {}
 
-    load() {
-        if (this.workers) {
-            this.$stream.next(this.workers);
-            return;
-        }
+    get(id: number) {}
 
-        this.http.get('/public/mocks/workers.json')
-            .map(response => response.json())
-            .map(workers => this.workers = workers.map(worker => new Worker(worker)))
-            .subscribe(workers => this.$stream.next(workers));
-    }
-
-    get(id: number): any {
-        return this.$stream
-            .map(workers => workers.filter(worker => worker.id === id).pop());
-    }
-
-    add(worker: Worker) {
-        this.workers.push(worker);
-
-        // also http post
+    put(worker: Worker) {
+        // also http put
     }
 
     search(query: string) {
         return this.http.get('/public/mocks/workers.json')
             .map(response => response.json())
-            .map(workers => this.workers = workers.map(worker => new Worker(worker)));
+            .flatMap<Worker>(array => Observable.from(array))
+            .map(worker => new Worker(worker))
+            .filter(worker => {
+                return worker.firstName.indexOf(query) > -1 ||
+                    worker.lastName.indexOf(query) > -1 ||
+                    worker.teamName.indexOf(query) > -1;
+            })
+            .delay(1000)
+            .toArray();
     }
 }
