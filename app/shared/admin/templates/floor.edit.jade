@@ -1,6 +1,8 @@
 toolbar.navbar.navbar-default.navbar-fixed-top
 	.container
 		.nav.navbar-nav.btn-toolbar
-			admin-tools
+			admin-toolbar.btn-group
 
 .container
+	floor-form('*ngIf'='floor', '[floor]'='floor')
+

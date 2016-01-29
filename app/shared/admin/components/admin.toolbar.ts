@@ -5,7 +5,7 @@ import { AdminActionService, AdminAction } from '../services/admin.action.servic
 
 
 @Component({
-    selector: 'admin-tools',
+    selector: 'admin-toolbar',
     templateUrl: 'admin/templates/admin.toolbar.jade',
     directives: [ROUTER_DIRECTIVES]
 })

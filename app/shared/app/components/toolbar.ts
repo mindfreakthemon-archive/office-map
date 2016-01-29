@@ -16,9 +16,8 @@ export class Toolbar {
     constructor(
         public floorService: FloorService
     ) {
-        this.floorService.$stream
+        this.floorService.getAll()
             .subscribe(floors => this.floors = floors);
-        this.floorService.load();
     }
 }
 

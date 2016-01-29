@@ -5,7 +5,7 @@ import { AdminActionService, AdminAction } from '../services/admin.action.servic
 
 
 @Component({
-    selector: 'admin-tools',
+    selector: 'floor-toolbar',
     templateUrl: 'admin/templates/floor.toobar.jade'
 })
 export class FloorToolbar {

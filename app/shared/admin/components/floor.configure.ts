@@ -5,14 +5,14 @@ import { Toolbar } from '../../app/components/toolbar';
 import { AdminToolbar } from './admin.toolbar';
 import { FloorService } from '../../map/services/floor.service';
 import { Floor } from '../../map/models/floor';
-import { FloorForm } from './floor.form';
+import { FloorToolbar } from './floor.toolbar';
 
 @Component({
-    selector: 'floor-edit',
-    templateUrl: 'admin/templates/floor.edit.jade',
-    directives: [ROUTER_DIRECTIVES, AdminToolbar, Toolbar, FloorForm]
+    selector: 'floor-configure',
+    templateUrl: 'admin/templates/floor.configure.jade',
+    directives: [ROUTER_DIRECTIVES, AdminToolbar, Toolbar, FloorToolbar]
 })
-export class FloorEdit {
+export class FloorConfigure {
     floor: Floor;
 
     constructor(floorService: FloorService, routeParams: RouteParams) {

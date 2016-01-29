@@ -1,4 +1,4 @@
-import { Component, View } from 'angular2/core';
+import { Component, Input } from 'angular2/core';
 import { RouteParams } from 'angular2/router';
 import * as L from 'leaflet';
 
@@ -12,13 +12,13 @@ import { Floor } from '../models/floor';
     templateUrl: 'map/templates/map.jade'
 })
 export class Map {
-    floorNumber: number = 20;
+    @Input() floorNumber: number = 20;
     workerId: number;
 
     clickAction: AdminAction = AdminAction.NONE;
     adminActionSubscription: any;
 
-    map: any;
+    private map: any;
 
     constructor(private floorService: FloorService,
                 private adminActionService: AdminActionService,
@@ -39,8 +39,6 @@ export class Map {
 
         this.floorService.get(this.floorNumber)
             .subscribe(floor => this.buildMap(floor));
-
-        this.floorService.load();
 
         this.adminActionSubscription = this.adminActionService.getEmitter()
             .subscribe(action => {

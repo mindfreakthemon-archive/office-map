@@ -18,9 +18,8 @@ export class FloorsList {
     constructor(
         public floorService: FloorService
     ) {
-        this.floorService.$stream
+        this.floorService.getAll()
             .subscribe(floors => this.floors = floors);
-        this.floorService.load();
     }
 
     deleteFloor(floor: Floor) {
