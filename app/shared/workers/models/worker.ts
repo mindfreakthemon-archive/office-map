@@ -28,4 +28,8 @@ export class Worker {
     get teamName() {
         return Worker.TEAM_NAMES_MAP.get(this.team);
     }
+
+    get fullName() {
+        return `${this.firstName} ${this.lastName}`;
+    }
 }

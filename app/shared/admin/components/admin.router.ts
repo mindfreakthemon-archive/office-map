@@ -6,6 +6,7 @@ import { FloorsList } from '../../floors/component/floors.list';
 import { FloorEdit } from '../../floors/component/floor.edit';
 import { FloorAdd } from '../../floors/component/floor.add';
 import { FloorConfigure } from '../../floors/component/floor.configure';
+import { WorkersList } from '../../workers/components/workers.list';
 
 
 @Component({
@@ -21,7 +22,7 @@ import { FloorConfigure } from '../../floors/component/floor.configure';
     { path: '/floor/new', as: 'FloorAdd', component: FloorAdd },
     { path: '/floor/:floor/edit', as: 'FloorEdit', component: FloorEdit },
     { path: '/floor/:floor/configure', as: 'FloorConfigure', component: FloorConfigure },
-    //{ path: '/worker/:worker', as 'WorkerEdit', component: WorkerEdit }
+    { path: '/workers', as: 'Workers', component: WorkersList }
 ])
 export class AdminRouter {
 }

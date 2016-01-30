@@ -1,0 +1,17 @@
+toolbar.navbar.navbar-default.navbar-fixed-top
+	.container
+		.nav.navbar-nav.btn-toolbar
+			admin-toolbar.btn-group
+
+.container
+	.media('*ngFor'='#worker of workers')
+		.media-left
+			img.media-object(src='http://placehold.it/64x64')
+		.media-body
+			h4.media-heading {{worker.fullName}}
+			.btn-group
+				//a.btn.btn-info('[routerLink]'='["/AdminRouter", "FloorConfigure", { floor: floor.number }]') Configure
+				//a.btn.btn-warning('[routerLink]'='["/AdminRouter", "FloorEdit", { floor: floor.number }]') Edit
+				a.btn.btn-danger('(click)'='deleteWorker(worker)') Delete
+	br
+	//a.btn.btn-default('[routerLink]'='["/AdminRouter", "FloorAdd"]') Add
