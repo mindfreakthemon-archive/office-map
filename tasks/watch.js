@@ -1,7 +1,7 @@
 var gulp = require('gulp'),
 	livereload = require('gulp-livereload');
 
-gulp.task('build', ['styles', 'ts-client', 'ts-server']);
+gulp.task('build', ['styles', 'ts-client', 'ts-server', 'generate-mocks']);
 
 gulp.task('watch', ['nodemon', 'build'], function () {
 	livereload.listen();
