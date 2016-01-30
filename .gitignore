@@ -5,7 +5,7 @@
 /build
 /public/*
 !/public/images
-!/public/mocks
+!/public/mocks/floors.json
 npm-debug.log
 
 *.ipr
