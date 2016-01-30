@@ -2,10 +2,10 @@ import { Component, View } from 'angular2/core';
 import { RouteParams, RouteConfig, ROUTER_DIRECTIVES } from 'angular2/router';
 
 import { AdminWelcome } from './admin.welcome';
-import { FloorsList } from './floors.list';
-import { FloorEdit } from './floor.edit';
-import { FloorAdd } from './floor.add';
-import { FloorConfigure } from './floor.configure';
+import { FloorsList } from '../../floors/component/floors.list';
+import { FloorEdit } from '../../floors/component/floor.edit';
+import { FloorAdd } from '../../floors/component/floor.add';
+import { FloorConfigure } from '../../floors/component/floor.configure';
 
 
 @Component({

@@ -3,9 +3,9 @@ import { RouteParams } from 'angular2/router';
 import * as L from 'leaflet';
 
 import { AdminActionService, AdminAction } from '../../admin/services/admin.action.service';
-import { FloorService } from '../services/floor.service';
-import { Floor } from '../models/floor';
-import { Worker } from '../../staff/models/worker';
+import { FloorService } from '../../floors/services/floor.service';
+import { Floor } from '../../floors/models/floor';
+import { Worker } from '../../workers/models/worker';
 
 
 @Component({

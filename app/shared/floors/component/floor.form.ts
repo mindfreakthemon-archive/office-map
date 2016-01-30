@@ -1,12 +1,12 @@
 import { EventEmitter, Component, Input, Output } from 'angular2/core';
 import { RouteParams, ROUTER_DIRECTIVES } from 'angular2/router';
 
-import { Floor } from '../../map/models/floor';
-import { FloorService } from '../../map/services/floor.service';
+import { Floor } from '../models/floor';
+import { FloorService } from '../services/floor.service';
 
 @Component({
     selector: 'floor-form',
-    templateUrl: 'admin/templates/floor.form.jade'
+    templateUrl: 'floors/templates/floor.form.jade'
 })
 export class FloorForm {
     @Input() floor: Floor;

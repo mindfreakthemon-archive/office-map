@@ -1,12 +1,12 @@
 import { Component } from 'angular2/core';
 import { Router } from 'angular2/router';
 
-import { AdminActionService, AdminAction } from '../services/admin.action.service';
+import { AdminActionService, AdminAction } from '../../admin/services/admin.action.service';
 
 
 @Component({
     selector: 'floor-toolbar',
-    templateUrl: 'admin/templates/floor.toobar.jade'
+    templateUrl: 'floors/templates/floor.toobar.jade'
 })
 export class FloorToolbar {
     action: AdminAction = AdminAction.NONE;

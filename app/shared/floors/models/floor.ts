@@ -1,5 +1,5 @@
-import { Wall } from './wall';
-import { Place } from './place';
+import { Wall } from '../../map/models/wall';
+import { Place } from '../../map/models/place';
 
 const FLOOR_DEFAULT_SKELETON = { number: null, walls: [], places: [], seats: [] };
 

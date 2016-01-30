@@ -1,11 +1,11 @@
 import { Component } from 'angular2/core';
-
-import { FloorService } from '../services/floor.service';
 import { RouteParams } from 'angular2/router';
+
 import { MapCanvas } from './map.canvas';
-import { Worker } from '../../staff/models/worker';
-import { Floor } from '../models/floor';
-import { WorkerService } from '../../staff/services/worker.service';
+import { WorkerService } from '../../workers/services/worker.service';
+import { Worker } from '../../workers/models/worker';
+import { FloorService } from '../../floors/services/floor.service';
+import { Floor } from '../../floors/models/floor';
 
 
 @Component({

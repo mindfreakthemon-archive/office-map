@@ -3,7 +3,7 @@ import { RouteConfig, ROUTER_DIRECTIVES } from 'angular2/router';
 
 import { AdminRouter } from '../../admin/components/admin.router';
 import { MapRouter } from '../../map/components/map.router';
-import { StaffRouter } from '../../staff/components/staff.router';
+import { WorkerRouter } from '../../workers/components/worker.router';
 
 @Component({
     selector: 'app',
@@ -14,7 +14,7 @@ import { StaffRouter } from '../../staff/components/staff.router';
     { path: '/', redirectTo: ['/MapRouter', 'Default'] },
     { path: '/admin/...', as: 'AdminRouter', component: AdminRouter},
     { path: '/map/...', as: 'MapRouter', component: MapRouter },
-    { path: '/staff/...', as: 'StaffRouter', component: StaffRouter }
+    { path: '/worker/...', as: 'WorkerRouter', component: WorkerRouter }
 ])
 export class App {}
 

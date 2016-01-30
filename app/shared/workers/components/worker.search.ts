@@ -9,7 +9,7 @@ import { WorkerService } from '../services/worker.service';
 
 @Component({
     selector: 'worker-search',
-    templateUrl: 'staff/templates/worker.search.jade',
+    templateUrl: 'workers/templates/worker.search.jade',
     directives: [ROUTER_DIRECTIVES, PaginationControlsCmp],
     pipes: [PaginatePipe],
     providers: [PaginationService]

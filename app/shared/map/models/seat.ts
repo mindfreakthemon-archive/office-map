@@ -1,5 +1,5 @@
 import { Place } from './place';
-import { Worker } from '../../staff/models/worker';
+import { Worker } from '../../workers/models/worker';
 import { Point } from './point';
 
 export class Seat extends Place {

@@ -6,13 +6,13 @@ import { Toolbar } from '../../app/components/toolbar';
 
 
 @Component({
-    selector: 'staff-route',
+    selector: 'worker-route',
     directives: [ROUTER_DIRECTIVES, Toolbar],
-    templateUrl: 'staff/templates/staff.router.jade'
+    templateUrl: 'workers/templates/worker.router.jade'
 })
 @RouteConfig([
     { path: '/', as: 'Default', component: WorkerSearch }
 ])
-export class StaffRouter {
+export class WorkerRouter {
     constructor() {}
 }

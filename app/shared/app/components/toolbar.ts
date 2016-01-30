@@ -1,9 +1,9 @@
 import { Component } from 'angular2/core';
 import { ROUTER_DIRECTIVES } from 'angular2/router';
 
-import { FloorService } from '../../map/services/floor.service';
-import { Floor } from '../../map/models/floor';
-import { WorkerQuickSearch } from '../../staff/components/worker.quick.search';
+import { WorkerQuickSearch } from '../../workers/components/worker.quick.search';
+import { FloorService } from '../../floors/services/floor.service';
+import { Floor } from '../../floors/models/floor';
 
 @Component({
     selector: 'toolbar',

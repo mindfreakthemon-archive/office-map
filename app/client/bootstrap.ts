@@ -6,9 +6,9 @@ import { bootstrap } from 'angular2/platform/browser';
 import 'rxjs/Rx';
 
 import { App } from '../shared/app/components/app';
-import { FloorService } from '../shared/map/services/floor.service';
-import { WorkerService } from '../shared/staff/services/worker.service';
 import { AdminActionService } from '../shared/admin/services/admin.action.service';
+import { FloorService } from '../shared/floors/services/floor.service';
+import { WorkerService } from '../shared/workers/services/worker.service';
 
 bootstrap(App, [
     FORM_PROVIDERS,
