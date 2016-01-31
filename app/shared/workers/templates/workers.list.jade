@@ -7,14 +7,9 @@ toolbar.navbar.navbar-default.navbar-fixed-top
 	h3('*ngIf'='!workers') Loading...
 
 	div('*ngIf'='workers && workers.length')
-		.media('*ngFor'='#worker of workers | paginate:10')
-			.media-left
-				img.media-object('[src]'='worker.photo')
-			.media-body
-				h4.media-heading {{worker.fullName}}
-				p {{worker.teamName}}
-				.btn-group
-					a.btn.btn-danger('(click)'='deleteWorker(worker)') Delete
-		pagination-controls
+		worker-item.media('*ngFor'='#worker of workers | paginate:10', '[worker]'='worker')
+			.btn-group(buttons)
+				a.btn.btn-danger('(click)'='deleteWorker(worker)') Delete
 
+		pagination-controls
 	br

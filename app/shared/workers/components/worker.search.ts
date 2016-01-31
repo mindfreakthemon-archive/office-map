@@ -5,12 +5,13 @@ import { PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagi
 
 import { Worker } from '../models/worker';
 import { WorkerService } from '../services/worker.service';
+import { WorkerItem } from './worker.item';
 
 
 @Component({
     selector: 'worker-search',
     templateUrl: 'workers/templates/worker.search.jade',
-    directives: [ROUTER_DIRECTIVES, PaginationControlsCmp],
+    directives: [ROUTER_DIRECTIVES, PaginationControlsCmp, WorkerItem],
     pipes: [PaginatePipe],
     providers: [PaginationService]
 })

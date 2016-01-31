@@ -7,12 +7,13 @@ import { Toolbar } from '../../app/components/toolbar';
 import { AdminToolbar } from '../../admin/components/admin.toolbar';
 import { WorkerService } from '../services/worker.service';
 import { Worker } from '../models/worker';
+import { WorkerItem } from './worker.item';
 
 
 @Component({
     selector: 'workers-list',
     templateUrl: '/workers/templates/workers.list.jade',
-    directives: [ROUTER_DIRECTIVES, AdminToolbar, Toolbar, PaginationControlsCmp],
+    directives: [ROUTER_DIRECTIVES, AdminToolbar, Toolbar, PaginationControlsCmp, WorkerItem],
     pipes: [PaginatePipe],
     providers: [PaginationService]
 })

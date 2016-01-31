@@ -3,12 +3,8 @@ h1 Worker Search
 h3('*ngIf'='!workers') Loading...
 
 div('*ngIf'='workers && workers.length')
-	.media('*ngFor'='#worker of workers | paginate:10')
-		.media-left
-			img.media-object('[src]'='worker.photo')
-		.media-body
-			h4.media-heading {{worker.firstName}} {{worker.lastName}}
-			p Really nice description. He is from {{worker.teamName}}
+	worker-item.media('*ngFor'='#worker of workers | paginate:10', '[worker]'='worker')
+		.btn-group(buttons)
 			a.btn.btn-danger('[routerLink]'='["/MapRouter", "WorkerLocate", { worker: worker.id }]') Locate
 
 	pagination-controls

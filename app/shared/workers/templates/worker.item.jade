@@ -1,0 +1,6 @@
+.media-left
+	img.media-object('[src]'='worker.photo')
+.media-body
+	h4.media-heading {{worker.firstName}} {{worker.lastName}}
+	p Key person. Team: {{worker.teamName}}
+	ng-content(selector='[buttons]')
