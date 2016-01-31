@@ -16,17 +16,13 @@ import { WorkerService } from '../services/worker.service';
 })
 export class WorkerSearch {
     query: string = '';
-    loading: boolean = true;
-    workers: Worker[] = [];
+    workers: Worker[];
 
     constructor(public routeParams: RouteParams,
                 public workerService: WorkerService) {
         this.query = routeParams.get('query');
 
         this.workerService.search(this.query)
-            .subscribe(workers => {
-                this.workers = workers;
-                this.loading = false;
-            });
+            .subscribe(workers => this.workers = workers);
     }
 }

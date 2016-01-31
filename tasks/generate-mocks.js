@@ -16,7 +16,7 @@ gulp.task('generate-mocks', function () {
 			firstName: faker.name.firstName(gender),
 			lastName: faker.name.lastName(),
 			email: faker.internet.email(),
-			photo: faker.image.people(),
+			photo: faker.image.people(64, 64),
 			team: Math.floor(Math.random() * 4)
 		});
 	}

@@ -1,5 +1,7 @@
-import { Component } from 'angular2/core';
+import { Component, ChangeDetectionStrategy } from 'angular2/core';
 import { ROUTER_DIRECTIVES } from 'angular2/router';
+
+import { PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
 
 import { Toolbar } from '../../app/components/toolbar';
 import { AdminToolbar } from '../../admin/components/admin.toolbar';
@@ -10,7 +12,9 @@ import { Worker } from '../models/worker';
 @Component({
     selector: 'workers-list',
     templateUrl: '/workers/templates/workers.list.jade',
-    directives: [ROUTER_DIRECTIVES, AdminToolbar, Toolbar]
+    directives: [ROUTER_DIRECTIVES, AdminToolbar, Toolbar, PaginationControlsCmp],
+    pipes: [PaginatePipe],
+    providers: [PaginationService]
 })
 export class WorkersList {
     workers: Worker[];

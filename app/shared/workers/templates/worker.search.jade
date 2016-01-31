@@ -1,11 +1,11 @@
 h1 Worker Search
 
-h3('*ngIf'='loading') Loading...
+h3('*ngIf'='!workers') Loading...
 
-div('*ngIf'='!loading && workers.length')
-	.media('*ngFor'='#worker of workers | paginate:2')
+div('*ngIf'='workers && workers.length')
+	.media('*ngFor'='#worker of workers | paginate:10')
 		.media-left
-			img.media-object(src='http://placehold.it/64x64')
+			img.media-object('[src]'='worker.photo')
 		.media-body
 			h4.media-heading {{worker.firstName}} {{worker.lastName}}
 			p Really nice description. He is from {{worker.teamName}}
@@ -13,4 +13,4 @@ div('*ngIf'='!loading && workers.length')
 
 	pagination-controls
 
-h4('*ngIf'='!loading && !workers.length') Nothing was found for {{query}}
+h4('*ngIf'='workers && !workers.length') Nothing was found for {{query}}

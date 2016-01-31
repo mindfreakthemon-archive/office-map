@@ -5,16 +5,27 @@ export enum Team {
     Plamee
 }
 
+
+interface IWorker {
+    id: number;
+    firstName: string;
+    lastName: string;
+    photo: string;
+    team: Team;
+}
+
 export class Worker {
     id: number;
     firstName: string;
     lastName: string;
+    photo: string;
     team: Team;
 
-    constructor({ id, firstName, lastName, team } : { id: number, firstName: string, lastName: string, team: Team }) {
+    constructor({ id, firstName, lastName, photo, team }: IWorker) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.photo = photo;
         this.team = team;
     }
 
