@@ -22,12 +22,14 @@ export class WorkerService extends DataService<Worker> {
     }
 
     search(query: string) {
+        query = query.toLowerCase();
+
         return this.getAll()
             .flatMap<Worker>(array => Observable.from(array))
             .filter(worker => {
-                return worker.firstName.indexOf(query) > -1 ||
-                    worker.lastName.indexOf(query) > -1 ||
-                    worker.teamName.indexOf(query) > -1;
+                return [worker.firstName, worker.lastName, worker.teamName]
+                    .map(string => string.toLowerCase())
+                    .some(string => string.indexOf(query) > -1);
             })
             .delay(1000)
             .toArray();
