@@ -1,12 +1,24 @@
-h1 Worker Search
-
 h3('*ngIf'='!workers') Loading...
 
-div('*ngIf'='workers && workers.length')
-	worker-item.media('*ngFor'='#worker of workers | paginate:10', '[worker]'='worker')
-		.btn-group(buttons)
-			a.btn.btn-danger('[routerLink]'='["/MapRouter", "WorkerLocate", { worker: worker.id }]') Locate
+.container('*ngIf'='workers')
+	.row
+		.col-md-8
+			h4('*ngIf'='workers && !workers.length') Nothing was found for {{query}}
 
-	pagination-controls
+			worker-item.media('*ngFor'='#worker of workers | paginate:ITEMS_PER_PAGE', '[worker]'='worker')
+				.btn-group(buttons)
+					a.btn.btn-danger('[routerLink]'='["/MapRouter", "WorkerLocate", { worker: worker.id }]') Locate
+		.col-md-4
+			form
+				.form-grorup
+					h4 Query:
+					input.form-control('(input)'='setQuery($event.target.value)', '[value]'='query')
+				h4 Team:
+				.checkbox('*ngFor'='#entry of TEAM_MAP')
+					label
+						input( type='checkbox', value='{{entry[0]}}', '(change)'='setFilter(entry[0], $event.target.checked)')
+						| {{entry[1]}}
 
-h4('*ngIf'='workers && !workers.length') Nothing was found for {{query}}
+	.row('*ngIf'='workers.length')
+		pagination-controls
+

@@ -31,19 +31,22 @@ export class DataService<T> {
         this.items = null;
     }
 
+    getEach() {
+        return this.load()
+            .flatMap<T>(array => Observable.from(array));
+    }
+
     getAll() {
         return this.load();
     }
 
     get(id: number) {
-        return this.load()
-            .flatMap<T>(array => Observable.from(array))
+        return this.getEach()
             .filter(_item => _item[DataService.KEY] === id);
     }
 
     first() {
-        return this.load()
-            .flatMap<T>(array => Observable.from(array))
+        return this.getEach()
             .first();
     }
 
