@@ -3,7 +3,7 @@ import { Http } from 'angular2/http';
 import { Observable } from 'rxjs/Observable';
 
 import { Floor } from '../models/floor';
-import { DataService } from '../../app/services/DataService';
+import { DataService } from '../../app/services/data.service';
 
 
 @Injectable()
