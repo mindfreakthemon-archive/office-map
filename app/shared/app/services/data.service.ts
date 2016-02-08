@@ -10,7 +10,9 @@ export class DataService<T> {
 
     constructor() {}
 
-    protected static KEY = 'id';
+    protected get KEY() {
+        return 'id';
+    };
 
     protected request(): Observable<T> {
         throw new Error('not implemented');
@@ -42,7 +44,7 @@ export class DataService<T> {
 
     get(id: number) {
         return this.getEach()
-            .filter(_item => _item[DataService.KEY] === id);
+            .filter(_item => _item[this.KEY] === id);
     }
 
     first() {
@@ -51,7 +53,7 @@ export class DataService<T> {
     }
 
     index(item: T) {
-        return this.items.findIndex(_item => _item[DataService.KEY] === item[DataService.KEY]);
+        return this.items.findIndex(_item => _item[this.KEY] === item[this.KEY]);
     }
 
     has(item: T) {

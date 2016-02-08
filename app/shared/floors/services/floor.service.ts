@@ -9,7 +9,9 @@ import { DataService } from '../../app/services/data.service';
 @Injectable()
 export class FloorService extends DataService<Floor> {
 
-    protected static KEY = 'number';
+    protected get KEY() {
+        return 'number';
+    }
 
     constructor(protected http: Http) {
         super();
