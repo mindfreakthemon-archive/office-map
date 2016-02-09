@@ -14,6 +14,9 @@ export class Floor {
         this.number = number;
         this.walls = walls;
         this.places = places;
-        this.seats = seats;
+        this.seats = seats || [];
+    }
+    addSeat(point) {
+        this.seats.push(point);
     }
 }
