@@ -58,16 +58,16 @@ export class MapCanvas {
 
         new L.Control.Zoom({ position: 'bottomleft' })
             .addTo(this.map);
-        var dot, line, polygon;
+        let dot, line, polygon;
 
         let onMapClick = (e) => {
             switch(this.clickAction) {
                 case 0:
                     break;
                 case 1:
-                    let point = { "lat": e.latlng.lat, "lon": e.latlng.lng }
+                    let point = { "x": e.latlng.lat, "y": e.latlng.lng }
                     this.floor.addSeat(point);
-                    this.buildMap(this.floor);
+                    this.drawSeat(point);
                     break;
                 case 3:
                     alert("You clicked the map at 3" + e.latlng);
@@ -83,17 +83,48 @@ export class MapCanvas {
 
     buildMap(floor: Floor) {
         if (floor.seats) {
-            floor.seats.map((item) => {
-                let seat = L.circle(new L.LatLng(item.lat, item.lon))
-                    .setRadius(5000)
-                    .addTo(this.map);
-
-                seat.on('click', (e) => {
-                    if (this.clickAction === 2){
-                        seat.bindPopup("worker: " + this.workers[0]['firstName']).openPopup();
-                    }
-                });
+            floor.seats.map((seat) => {
+                this.drawSeat(seat, this.map);
             });
         }
+
+        if (floor.walls){
+            floor.walls.map(wall => {
+                switch (wall.type) {
+                    case 'arc':
+                        this.drawArc(wall, this.map);
+                        break;
+                    case 'line':
+                        this.drawLine(wall, this.map);
+                        break;
+                }
+            })
+        }
+    }
+
+    drawSeat(seat, map) {
+        let latlng = new L.LatLng(seat.x, seat.y);
+        let seat = L.circle(latlng, 5000)
+            .addTo(this.map);
+
+        seat.on('click', (e) => {
+            if (this.clickAction === 2){
+                seat.bindPopup("worker: " + this.workers[0]['firstName']).openPopup();
+            }
+        });
+    }
+
+    drawArc(wall, map) {
+        let generator = new arc.GreatCircle(wall.start, wall.end);
+        let line = generator.Arc(100, { offset: 300 });
+        console.log(line);
+
+        L.geoJson(line.json()).addTo(this.map);
+    }
+
+    drawLine(wall, map) {
+        let start = new L.LatLng(wall.start.x, wall.start.y);
+        let end = new L.LatLng(wall.end.x, wall.end.y);
+        L.polyline([start, end], {color: 'red'}).addTo(map);
     }
 }
