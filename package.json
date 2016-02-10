@@ -4,6 +4,7 @@
   "description": "Office Map project",
   "dependencies": {
     "angular2": "^2.0.0-beta.1",
+    "cheerio": "^0.20.0",
     "css": "^2.2.1",
     "es6-shim": "^0.34.2",
     "express": "^4.13.3",
@@ -30,6 +31,7 @@
     "gulp-sourcemaps": "^1.6.0",
     "gulp-stylus": "^2.1.1",
     "gulp-typescript": "^2.10.0",
+    "httpntlm": "^1.5.2",
     "node-uuid": "^1.4.7",
     "requiredir": "^1.0.7",
     "typescript": "^1.7.5"
