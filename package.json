@@ -18,7 +18,8 @@
     "reflect-metadata": "0.1.2",
     "rxjs": "^5.0.0-beta.1",
     "systemjs": "^0.19.9",
-    "zone.js": "^0.5.10"
+    "zone.js": "^0.5.10",
+    "arc": "^0.1.0"
   },
   "devDependencies": {
     "faker": "^3.0.1",
