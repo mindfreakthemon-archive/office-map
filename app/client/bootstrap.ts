@@ -9,6 +9,7 @@ import { App } from '../shared/app/components/app';
 import { AdminActionService } from '../shared/admin/services/admin.action.service';
 import { FloorService } from '../shared/floors/services/floor.service';
 import { WorkerService } from '../shared/workers/services/worker.service';
+import { RoomService } from '../shared/rooms/services/room.service';
 
 bootstrap(App, [
     FORM_PROVIDERS,
@@ -17,5 +18,6 @@ bootstrap(App, [
     provide(LocationStrategy, { useClass: HashLocationStrategy }),
     FloorService,
     WorkerService,
+    RoomService,
     AdminActionService
 ]);

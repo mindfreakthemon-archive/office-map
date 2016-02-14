@@ -1,0 +1,17 @@
+h3('*ngIf'='!rooms') Loading...
+
+.container('*ngIf'='rooms')
+	.row
+		.col-md-8('*ngIf'='!rooms.length')
+			h4 Nothing was found for "{{query}}"
+		.col-md-8('*ngIf'='rooms.length')
+			room-item.media('*ngFor'='#room of rooms | paginate:itemsPerPage', '[room]'='room')
+				.btn-group(buttons)
+					//a.btn.btn-danger('[routerLink]'='["/MapRouter", "roomLocate", { room: room.id }]') Locate
+		.col-md-4
+			form
+				h4 Floor:
+
+	.row('*ngIf'='rooms.length')
+		pagination-controls
+
