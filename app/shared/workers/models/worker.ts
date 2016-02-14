@@ -40,6 +40,7 @@ interface IWorker {
     lastName: string;
     photo: string;
     team: Team;
+    gender: number;
 }
 
 export class Worker {
@@ -48,13 +49,15 @@ export class Worker {
     lastName: string;
     photo: string;
     team: Team;
+    gender: number;
 
-    constructor({ id, firstName, lastName, photo, team }: IWorker) {
+    constructor({ id, firstName, lastName, photo, team, gender }: IWorker) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.photo = photo;
         this.team = team;
+        this.gender = gender;
     }
 
     static TEAM_NAMES_MAP = new Map<Team, string>(<Array<any>> [
@@ -92,11 +95,20 @@ export class Worker {
         [Team.INTERNAL, 'INTERNAL']
     ]);
 
+    static GENDER_MAP = new Map<number, string>(<Array<any>> [
+        [0, 'Female'],
+        [1, 'Male']
+    ]);
+
     get teamName() {
         return Worker.TEAM_NAMES_MAP.get(this.team);
     }
 
     get fullName() {
         return `${this.firstName} ${this.lastName}`;
+    }
+
+    get genderName() {
+        return Worker.GENDER_MAP.get(this.gender);
     }
 }

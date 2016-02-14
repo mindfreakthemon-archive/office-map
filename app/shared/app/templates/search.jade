@@ -1,0 +1,12 @@
+toolbar('[showQuickSearch]'='false').navbar.navbar-default.navbar-fixed-top
+
+
+.container
+	.row
+		.col-xs-12
+			form
+				input(type='text', '[(ngModel)]'='query').form-control
+	.row
+		.col-xs-12
+			h2 Workers
+			worker-search('[query]'='query')

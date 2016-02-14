@@ -11,7 +11,7 @@ import { Toolbar } from '../../app/components/toolbar';
     templateUrl: 'workers/templates/worker.router.jade'
 })
 @RouteConfig([
-    { path: '/', as: 'Default', component: WorkerSearch }
+    // @TODO probably edit goes here
 ])
 export class WorkerRouter {
     constructor() {}

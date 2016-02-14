@@ -3,20 +3,27 @@ h3('*ngIf'='!workers') Loading...
 .container('*ngIf'='workers')
 	.row
 		.col-md-8
-			h4('*ngIf'='workers && !workers.length') Nothing was found for {{query}}
+			h4('*ngIf'='workers && !workers.length')
+				| Nothing was found for "{{query}}"
+				span('*ngIf'='')
 
-			worker-item.media('*ngFor'='#worker of workers | paginate:ITEMS_PER_PAGE', '[worker]'='worker')
+			worker-item.media('*ngFor'='#worker of workers | paginate:itemsPerPage', '[worker]'='worker')
 				.btn-group(buttons)
 					a.btn.btn-danger('[routerLink]'='["/MapRouter", "WorkerLocate", { worker: worker.id }]') Locate
 		.col-md-4
 			form
-				.form-grorup
+				.form-grorup('*ngIf'='showQueryField')
 					h4 Query:
-					input.form-control('(input)'='setQuery($event.target.value)', '[value]'='query')
+					input.form-control('(input)'='query = $event.target.value', '[value]'='query')
 				h4 Team:
-				.checkbox('*ngFor'='#entry of TEAM_MAP')
+				.checkbox('*ngFor'='#entry of teamMap')
 					label
-						input( type='checkbox', value='{{entry[0]}}', '(change)'='setFilter(entry[0], $event.target.checked)')
+						input(type='checkbox', '[value]'='entry[0]', '[checked]'='teamFilter.has(entry[0])' '(change)'='setTeamFilter(entry[0], $event.target.checked)')
+						| {{entry[1]}}
+				h4 Gender:
+				.checkbox('*ngFor'='#entry of genderMap')
+					label
+						input(type='checkbox', 'value'='entry[0]', '[checked]'='genderFilter.has(entry[0])', '(change)'='setGenderFilter(entry[0], $event.target.checked)')
 						| {{entry[1]}}
 
 	.row('*ngIf'='workers.length')

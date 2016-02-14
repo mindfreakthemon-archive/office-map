@@ -1,17 +1,19 @@
-import { Component } from 'angular2/core';
+import { Component, Input } from 'angular2/core';
 import { ROUTER_DIRECTIVES } from 'angular2/router';
 
-import { WorkerQuickSearch } from '../../workers/components/worker.quick.search';
+import { QuickSearch } from './quick.search';
 import { FloorService } from '../../floors/services/floor.service';
 import { Floor } from '../../floors/models/floor';
 
 @Component({
     selector: 'toolbar',
-    directives: [ROUTER_DIRECTIVES, WorkerQuickSearch],
+    directives: [ROUTER_DIRECTIVES, QuickSearch],
     templateUrl: 'app/templates/toolbar.jade'
 })
 export class Toolbar {
     floors: Floor[];
+
+    @Input() showQuickSearch: boolean = true;
 
     constructor(
         public floorService: FloorService

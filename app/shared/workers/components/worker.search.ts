@@ -1,4 +1,4 @@
-import { Component } from 'angular2/core';
+import { Component, Input, OnChanges, SimpleChange } from 'angular2/core';
 import { Router, RouteParams, ROUTER_DIRECTIVES } from 'angular2/router';
 import { FormBuilder } from 'angular2/common';
 
@@ -18,23 +18,56 @@ import { SearchPipe } from '../../app/pipe/search.pipe';
     pipes: [PaginatePipe, FilterPipe, SearchPipe],
     providers: [PaginationService]
 })
-export class WorkerSearch {
+export class WorkerSearch implements OnChanges {
     workers: Worker[];
 
-    query: string = '';
+    @Input() query: string = '';
+    @Input() itemsPerPage = 10;
+    @Input() showQueryField: boolean = false;
+
     teamFilter = new Set();
+    genderFilter = new Set();
 
-    ITEMS_PER_PAGE = 10;
-    TEAM_MAP = Array.from(<any> Worker.TEAM_NAMES_MAP);
+    genderMap = Array.from(<any> Worker.GENDER_MAP);
+    teamMap = Array.from(<any> Worker.TEAM_NAMES_MAP);
 
-    constructor(public routeParams: RouteParams,
-                public workerService: WorkerService) {
+    constructor(public workerService: WorkerService) {}
 
-        this.query = routeParams.get('query');
+    ngOnInit() {
+        this.request();
+    }
+
+    ngOnChanges(changes: {[propName: string]: SimpleChange}) {
+        if (changes.query) {
+            this.request();
+        }
+    }
+
+    setTeamFilter(team: Team, show: boolean) {
+        if (show) {
+            this.teamFilter.add(team);
+        } else {
+            this.teamFilter.delete(team);
+        }
+
+        // also makes request on every change
+        this.request();
+    }
+
+    setGenderFilter(gender: number, show: boolean) {
+        if (show) {
+            this.genderFilter.add(gender);
+        } else {
+            this.genderFilter.delete(gender);
+        }
+
+        // also makes request on every change
         this.request();
     }
 
     request() {
+        this.workers = null;
+
         let query = this.query.toLowerCase();
 
         this.workerService.getEach()
@@ -53,23 +86,14 @@ export class WorkerSearch {
 
                 return true;
             })
+            .filter(worker => {
+                if (this.genderFilter.size) {
+                    return this.genderFilter.has(worker.gender);
+                }
+
+                return true;
+            })
             .toArray()
             .subscribe(workers => this.workers = workers);
-    }
-
-    setFilter(team: Team, show: boolean) {
-        if (show) {
-            this.teamFilter.add(team);
-        } else {
-            this.teamFilter.delete(team);
-        }
-
-        this.request();
-    }
-
-    setQuery(query: string) {
-        this.query = query;
-
-        this.request();
     }
 }

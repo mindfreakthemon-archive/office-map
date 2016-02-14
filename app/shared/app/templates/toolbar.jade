@@ -7,6 +7,6 @@
 	.nav.navbar-nav.btn-group('*ngIf'='floors')
 		a.btn.btn-default.navbar-btn('*ngFor'='#floor of floors', '[routerLink]'='["/MapRouter", "Floor", { floor: floor.number }]') {{floor.number}}
 
-	worker-quick-search.navbar-right
+	quick-search('*ngIf'='showQuickSearch').navbar-right
 ng-content
 	//.btn.btn-default.navbar-btn Sign in?
