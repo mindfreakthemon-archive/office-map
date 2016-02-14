@@ -5,8 +5,11 @@ toolbar('[showQuickSearch]'='false').navbar.navbar-default.navbar-fixed-top
 	.row
 		.col-xs-12
 			form
-				input(type='text', '[(ngModel)]'='query').form-control
+				input(type='text', '[(ngModel)]'='query', placeholder='Search Query').form-control
 	.row
 		.col-xs-12
 			h2 Workers
 			worker-search('[query]'='query')
+
+			h2 Rooms
+			room-search

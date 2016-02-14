@@ -1,21 +1,19 @@
 import { Component, Input, OnChanges, SimpleChange } from 'angular2/core';
 import { Router, RouteParams, ROUTER_DIRECTIVES } from 'angular2/router';
-import { FormBuilder } from 'angular2/common';
 
 import { PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
 
 import { Worker, Team } from '../models/worker';
 import { WorkerService } from '../services/worker.service';
 import { WorkerItem } from './worker.item';
-import { FilterPipe } from '../../app/pipe/filter.pipe';
-import { SearchPipe } from '../../app/pipe/search.pipe';
+import { FilterUtils } from '../../app/utils/filter.utils';
 
 
 @Component({
     selector: 'worker-search',
     templateUrl: 'workers/templates/worker.search.jade',
     directives: [ROUTER_DIRECTIVES, PaginationControlsCmp, WorkerItem],
-    pipes: [PaginatePipe, FilterPipe, SearchPipe],
+    pipes: [PaginatePipe],
     providers: [PaginationService]
 })
 export class WorkerSearch implements OnChanges {
@@ -33,12 +31,8 @@ export class WorkerSearch implements OnChanges {
 
     constructor(public workerService: WorkerService) {}
 
-    ngOnInit() {
-        this.request();
-    }
-
     ngOnChanges(changes: {[propName: string]: SimpleChange}) {
-        if (changes.query) {
+        if (changes['query']) {
             this.request();
         }
     }
@@ -68,17 +62,8 @@ export class WorkerSearch implements OnChanges {
     request() {
         this.workers = null;
 
-        let query = this.query.toLowerCase();
-
         this.workerService.getEach()
-            .filter(worker => {
-                return query ?
-                    ['firstName', 'lastName', 'teamName']
-                        .map(key => worker[key])
-                        .map(string => string.toLowerCase())
-                        .some(string => string.indexOf(query) > -1) :
-                    true;
-            })
+            .filter(FilterUtils.searchFilter(this.query, ['firstName', 'lastName']))
             .filter(worker => {
                 if (this.teamFilter.size) {
                     return this.teamFilter.has(worker.team);
