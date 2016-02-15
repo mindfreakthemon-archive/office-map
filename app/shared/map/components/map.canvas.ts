@@ -1,11 +1,13 @@
 import { Component, Input } from 'angular2/core';
 import { RouteParams } from 'angular2/router';
 import * as L from 'leaflet';
+import 'leaflet-curve';
 
 import { AdminActionService, AdminAction } from '../../admin/services/admin.action.service';
 import { FloorService } from '../../floors/services/floor.service';
 import { Floor } from '../../floors/models/floor';
 import { Worker } from '../../workers/models/worker';
+import { Wall } from '../models/wall';
 import { WorkerService } from '../../workers/services/worker.service';
 
 
@@ -25,6 +27,7 @@ export class MapCanvas {
     adminActionSubscription: any;
     getWorkersSubscription: any;
     workers: Worker[];
+    wall: Wall;
 
     private map;
 
@@ -52,7 +55,6 @@ export class MapCanvas {
 
     initMap() {
         document.getElementById('mapContainer').innerHTML = '<div id="map"></div>';
-
         this.map = L.map('map', { zoomControl: false })
             .setView([39.5, -8.5], 7);
 
@@ -65,9 +67,9 @@ export class MapCanvas {
                 case 0:
                     break;
                 case 1:
-                    let point = { "x": e.latlng.lat, "y": e.latlng.lng }
+                    let point = { "x": e.latlng.lat, "y": e.latlng.lng };
                     this.floor.addSeat(point);
-                    this.drawSeat(point);
+                    this.drawSeat(point, this.map);
                     break;
                 case 3:
                     alert("You clicked the map at 3" + e.latlng);
@@ -77,7 +79,7 @@ export class MapCanvas {
 
         this.map.on('click', onMapClick);
 
-        L.tileLayer('http://i.imgur.com/yg93iDJ.png', { maxZoom: 12, id: 'random' })
+        L.tileLayer('http://www.colorcombos.com/images/colors/FFFFFF.png', { maxZoom: 12, id: 'random' })
             .addTo(this.map);
     }
 
@@ -115,16 +117,20 @@ export class MapCanvas {
     }
 
     drawArc(wall, map) {
-        let generator = new arc.GreatCircle(wall.start, wall.end);
-        let line = generator.Arc(100, { offset: 300 });
-        console.log(line);
-
-        L.geoJson(line.json()).addTo(this.map);
+        L.curve(
+            [
+            'M',[wall.start.x, wall.start.y],
+            'C',[wall.start.x, wall.start.y], [wall.vertex.x, wall.vertex.y], [wall.end.x, wall.end.y],
+            'T',[wall.end.x, wall.end.y]
+            ],
+            {color:wall.color}
+        ).addTo(map);
     }
 
     drawLine(wall, map) {
         let start = new L.LatLng(wall.start.x, wall.start.y);
         let end = new L.LatLng(wall.end.x, wall.end.y);
-        L.polyline([start, end], {color: 'red'}).addTo(map);
+
+        L.polyline([start, end], {color: wall.color}).addTo(map);
     }
 }

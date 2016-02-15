@@ -9,7 +9,7 @@
     "es6-shim": "^0.34.2",
     "express": "^4.13.3",
     "jade": "^1.11.0",
-    "leaflet": "^0.7.7",
+    "leaflet": "1.0.0-beta.2",
     "lodash": "^3.10.1",
     "mongodb": "^2.1.2",
     "ng2-pagination": "github:mindfreakthemon/ng2-pagination",
