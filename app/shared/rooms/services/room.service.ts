@@ -18,7 +18,6 @@ export class RoomService extends DataService<Room> {
             .map(response => response.json())
             .flatMap<Room>(array => Observable.from(array))
             .map(floor => new Room(floor))
-            .delay(1000)
             .share();
     }
 }

@@ -22,6 +22,9 @@
     },
     "leaflet/leaflet.d.ts": {
       "commit": "d1f6bde13f2209be42e86c3686761e8bfcbb50a5"
+    },
+    "es6-shim/es6-shim.d.ts": {
+      "commit": "99c4fb76b5d941939ba53e61d0daee4bd74f150f"
     }
   }
 }

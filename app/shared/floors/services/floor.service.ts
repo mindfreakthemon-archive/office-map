@@ -22,7 +22,6 @@ export class FloorService extends DataService<Floor> {
             .map(response => response.json())
             .flatMap<Floor>(array => Observable.from(array))
             .map(floor => new Floor(floor))
-            .delay(1000)
             .share();
     }
 }
