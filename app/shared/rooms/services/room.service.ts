@@ -16,8 +16,7 @@ export class RoomService extends DataService<Room> {
     request() {
         return this.http.get('/public/mocks/rooms.json')
             .map(response => response.json())
-            .flatMap<Room>(array => Observable.from(array, null, null, null))
-            .map(floor => new Room(floor))
+            .flatMap<Room>(array => Observable.from(array, floor => new Room(floor), null, null))
             .share();
     }
 }
