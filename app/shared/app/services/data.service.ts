@@ -12,7 +12,7 @@ export class DataService<T> {
 
     protected get KEY() {
         return 'id';
-    };
+    }
 
     protected request(): Observable<T> {
         throw new Error('not implemented');
@@ -35,7 +35,7 @@ export class DataService<T> {
 
     getEach() {
         return this.load()
-            .flatMap<T>(array => Observable.from(array));
+            .flatMap<T>(array => Observable.from(array, null, null, null));
     }
 
     getAll() {

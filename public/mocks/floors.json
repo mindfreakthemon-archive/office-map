@@ -164,6 +164,15 @@
         "position": {
           "x": 37.17782559332976,
           "y": -5.679931640625001
+        },
+        "worker": {
+          "id": "71a7d973-2719-4b5b-82df-f56c4bbf9032",
+          "firstName": "Adella",
+          "lastName": "Herzog",
+          "email": "Winnifred_Bechtelar@gmail.com",
+          "photo": "http://lorempixel.com/64/64/people",
+          "team": 2,
+          "gender": 1
         }
       },
       {

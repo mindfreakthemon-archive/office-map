@@ -20,7 +20,7 @@ export class FloorService extends DataService<Floor> {
     request() {
         return this.http.get('/public/mocks/floors.json')
             .map(response => response.json())
-            .flatMap<Floor>(array => Observable.from(array))
+            .flatMap<Floor>(array => Observable.from(array, null, null, null))
             .map(floor => new Floor(floor))
             .share();
     }
