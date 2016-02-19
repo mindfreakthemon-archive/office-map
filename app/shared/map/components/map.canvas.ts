@@ -106,12 +106,12 @@ export class MapCanvas {
 
     drawSeat(seat, map) {
         let latlng = new L.LatLng(seat.x, seat.y);
-        let seat = L.circle(latlng, 5000)
+        let seatOnMap = L.circle(latlng, 5000)
             .addTo(this.map);
 
-        seat.on('click', (e) => {
+        seatOnMap.on('click', (e) => {
             if (this.clickAction === 2){
-                seat.bindPopup("worker: " + this.workers[0]['firstName']).openPopup();
+                seatOnMap.bindPopup("worker: " + this.workers[0]['firstName']).openPopup();
             }
         });
     }
@@ -123,7 +123,7 @@ export class MapCanvas {
             'C',[wall.start.x, wall.start.y], [wall.vertex.x, wall.vertex.y], [wall.end.x, wall.end.y],
             'T',[wall.end.x, wall.end.y]
             ],
-            {color:wall.color}
+            {color: wall.color}
         ).addTo(map);
     }
 

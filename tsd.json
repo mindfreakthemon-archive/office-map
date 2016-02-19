@@ -21,10 +21,13 @@
       "commit": "dc9dabe74a5be62613b17a3605309783a12ff28a"
     },
     "leaflet/leaflet.d.ts": {
-      "commit": "d1f6bde13f2209be42e86c3686761e8bfcbb50a5"
+      "commit": "95b7178e0ef33b4b88327676418b4cc3ad61df0f"
     },
     "es6-shim/es6-shim.d.ts": {
       "commit": "99c4fb76b5d941939ba53e61d0daee4bd74f150f"
+    },
+    "leaflet-curve/leaflet-curve.d.ts": {
+      "commit": "95b7178e0ef33b4b88327676418b4cc3ad61df0f"
     }
   }
 }
