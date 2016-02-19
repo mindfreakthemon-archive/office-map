@@ -5,4 +5,5 @@ export interface Wall {
     color: string;
     start: Point;
     end: Point;
+    vertex?: Point;
 }
