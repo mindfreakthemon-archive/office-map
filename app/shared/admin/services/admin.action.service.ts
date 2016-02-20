@@ -4,7 +4,9 @@ export enum AdminAction {
     NONE,
     ADD_SEAT,
     ADD_WORKER,
-    ADD_ROOM
+    ADD_ROOM,
+    CREATE_LINE,
+    CREATE_ARC
 }
 
 @Component({})

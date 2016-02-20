@@ -12,7 +12,6 @@ import { Seat } from '../models/seat';
 import { Point } from '../models/point';
 import { WorkerService } from '../../workers/services/worker.service';
 
-
 @Component({
     selector: 'map-canvas',
     templateUrl: 'map/templates/map.jade'
@@ -55,32 +54,94 @@ export class MapCanvas {
     }
 
     initMap() {
-        document.getElementById('mapContainer').innerHTML = '<div id="map"></div>';
-        this.map = L.map('map', { zoomControl: false })
-            .setView([39.5, -8.5], 7);
+        let controlZoom = new L.Control.Zoom({ position: 'bottomleft' }),
+            tileLayer = L.tileLayer(
+                'http://www.colorcombos.com/images/colors/FFFFFF.png',
+                {
+                    maxZoom: 12,
+                    id: 'random'
+                }
+            );
 
-        new L.Control.Zoom({ position: 'bottomleft' })
-            .addTo(this.map);
-        let dot, line, polygon;
+        this.map = L.map('map', { zoomControl: false });
+        this.map.setView([39.5, -8.5], 7);
 
-        this.map.on('click', this.onMapClick.bind(this));
+        controlZoom.addTo(this.map);
+        tileLayer.addTo(this.map);
 
-        L.tileLayer('http://www.colorcombos.com/images/colors/FFFFFF.png', { maxZoom: 12, id: 'random' })
-            .addTo(this.map);
-    }
+        let linePoints = [],
+            group = L.layerGroup().addTo(this.map),
+            drawTemporaryLine,
+            pointOnMap;
 
-    onMapClick(e) {
-        switch(this.clickAction) {
-            case 0:
-                break;
-            case 1:
-                this.floor.addSeat(e.latlng);
-                this.drawSeat(this.floor.lastSeat());
-                break;
-            case 3:
-                alert("You clicked the map at 3" + e.latlng);
-                break;
-        }
+        let createLine = (e) => {
+            let point = {x: e.latlng.lat, y: e.latlng.lng};
+            let temporaryLine: L.polyline;
+
+            linePoints.push(point);
+            pointOnMap = L.circle([e.latlng.lat, e.latlng.lng]);
+
+            if (!drawTemporaryLine){
+                drawTemporaryLine = (e) => {
+                    if(temporaryLine) {
+                        this.map.removeLayer(temporaryLine);
+                        this.map.removeLayer(pointOnMap);
+                    }
+
+                    let start = new L.LatLng(pointOnMap.getLatLng().lat, pointOnMap.getLatLng().lng),
+                        end = new L.LatLng(e.latlng.lat, e.latlng.lng);
+
+                    temporaryLine = L.polyline([start, end]).addTo(this.map);
+                };
+            }
+
+            if(linePoints.length === 1) {
+                pointOnMap.addTo(this.map);
+                this.map.on('mousemove', drawTemporaryLine);
+            } else {
+                this.map.off('mousemove', drawTemporaryLine);
+                this.floor.addWall('line', 'black', linePoints[0], linePoints[1]);
+                linePoints = [];
+                this.drawWall(this.floor.lastWall());
+            }
+        };
+
+        let createArc = (e) => {
+            let point = {x: e.latlng.lat, y: e.latlng.lng};
+            let pointOnMap = L.circle([e.latlng.lat, e.latlng.lng]);
+            linePoints.push(point);
+
+            if(linePoints.length === 1) {
+                pointOnMap.addTo(this.map);
+            } else {
+                this.map.removeLayer(pointOnMap);
+                this.floor.addWall('line', 'black', linePoints[0], linePoints[1]);
+                linePoints = [];
+                this.drawWall(this.floor.lastWall());
+            }
+        };
+
+        let onMapClick = (e) => {
+            switch(this.clickAction) {
+                case 1:
+                    this.floor.addSeat(e.latlng);
+                    this.drawSeat(this.floor.lastSeat());
+                    break;
+                case 3:
+                    alert("You clicked the map at 3" + e.latlng);
+                    break;
+                case 4:
+                    createLine(e);
+                    break;
+                case 5:
+                    createArc(e);
+                    break;
+                default:
+                    break;
+            }
+        };
+
+        this.map.on('click', onMapClick);
     }
 
     buildMap(floor: Floor) {
@@ -90,27 +151,28 @@ export class MapCanvas {
 
         floor.walls.map(wall => {
             this.drawWall(wall);
-        })
+        });
     }
 
     drawSeat(seat: Seat) {
         let latlng = new L.LatLng(seat.position.x, seat.position.y),
-        seatOnMap = L.circleMarker(latlng)
-            .addTo(this.map),
+        seatOnMap = L.circleMarker(latlng),
         onSeatClick = (e) => {
-            if (this.clickAction === 2 && !seat.worker){
-                this.floor.setWorkerOnSeat(seat,this.workers[0]);
+            if (this.clickAction === 2){
+                this.floor.setWorkerOnSeat(seat, this.workers[0]);
                 this.map.removeLayer(seatOnMap);
                 this.drawSeat(seat);
             }
         };
 
+        seatOnMap.addTo(this.map);
+
         if (seat.worker){
             seatOnMap.setStyle({color: 'red'});
             seatOnMap.bindPopup(`worker: ${seat.worker['firstName']}<br>lastName: ${seat.worker['lastName']}`);
+        } else {
+            seatOnMap.on('click', onSeatClick);
         }
-
-        seatOnMap.on('click', onSeatClick);
     }
 
 
@@ -123,29 +185,30 @@ export class MapCanvas {
             case 'arc':
                 this.drawArc(wall);
                 break;
-            default :
-                break;
         }
     }
 
     drawLine(line: Wall) {
-        let start = new L.LatLng(line.start.x, line.start.y);
-        let end = new L.LatLng(line.end.x, line.end.y);
+        let start = new L.LatLng(line.start.x, line.start.y),
+            end = new L.LatLng(line.end.x, line.end.y),
+            lineOnMap = L.polyline(
+                [start, end],
+                {color: line.color}
+            );
 
-        L.polyline(
-            [start, end],
-            {color: line.color}
-        ).addTo(this.map);
+        lineOnMap.addTo(this.map);
     }
 
     drawArc(arc: Wall) {
-        L.curve(
+        let arcOnMap = L.curve(
             [
                 'M', [arc.start.x, arc.start.y],
                 'C', [arc.start.x, arc.start.y], [arc.vertex.x, arc.vertex.y], [arc.end.x, arc.end.y],
                 'T', [arc.end.x, arc.end.y]
             ],
             {color: arc.color}
-        ).addTo(this.map);
+        );
+
+        arcOnMap.addTo(this.map);
     }
 }

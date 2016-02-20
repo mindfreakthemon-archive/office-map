@@ -10,3 +10,9 @@ button.btn.btn-default.navbar-btn('(click)'='changeAction(actions.ADD_WORKER)', 
 button.btn.btn-default.navbar-btn('(click)'='changeAction(actions.ADD_ROOM)', '[class.active]'='action === actions.ADD_ROOM')
    span.glyphicon.glyphicon-tower
    | #{' '} Attach Room
+button.btn.btn-default.navbar-btn('(click)'='changeAction(actions.CREATE_LINE)', '[class.active]'='action === actions.CREATE_LINE')
+   span.glyphicon.glyphicon-pencil
+   | #{' '} Create line
+button.btn.btn-default.navbar-btn('(click)'='changeAction(actions.CREATE_ARC)', '[class.active]'='action === actions.CREATE_ARC')
+   span.glyphicon.glyphicon-pencil
+   | #{' '} Create arc

@@ -15,7 +15,8 @@ export class WorkerService extends DataService<Worker> {
     request() {
         return this.http.get('/public/mocks/workers.json')
             .map(response => response.json())
-            .flatMap<Worker>(array => Observable.from(array, worker => new Worker(worker), null,null))
+            .flatMap<Worker>(array => Observable.from(array, null, null, null))
+            .map(worker => new Worker(worker))
             .share();
     }
 
