@@ -70,8 +70,10 @@ export class MapCanvas {
         tileLayer.addTo(this.map);
 
         let linePoints = [],
+            arcPoints = [],
             group = L.layerGroup().addTo(this.map),
             drawTemporaryLine,
+            drawTemporaryArc,
             pointOnMap;
 
         let createLine = (e) => {
@@ -82,13 +84,12 @@ export class MapCanvas {
             pointOnMap = L.circle([e.latlng.lat, e.latlng.lng]);
 
             if (!drawTemporaryLine){
-                drawTemporaryLine = (e) => {
+                drawTemporaryLine =  (e) => {
                     if(temporaryLine) {
                         this.map.removeLayer(temporaryLine);
-                        this.map.removeLayer(pointOnMap);
                     }
 
-                    let start = new L.LatLng(pointOnMap.getLatLng().lat, pointOnMap.getLatLng().lng),
+                    let start = new L.LatLng(linePoints[0].x, linePoints[0].y),
                         end = new L.LatLng(e.latlng.lat, e.latlng.lng);
 
                     temporaryLine = L.polyline([start, end]).addTo(this.map);
@@ -108,15 +109,50 @@ export class MapCanvas {
 
         let createArc = (e) => {
             let point = {x: e.latlng.lat, y: e.latlng.lng};
-            let pointOnMap = L.circle([e.latlng.lat, e.latlng.lng]);
-            linePoints.push(point);
+            let temporaryFirstLine: L.polyline;
+            let temporarySecondLine: L.polyline;
+            let temporaryArc: L.curve;
 
-            if(linePoints.length === 1) {
+            arcPoints.push(point);
+            pointOnMap = L.circle([e.latlng.lat, e.latlng.lng]);
+
+            if (!drawTemporaryArc){
+                drawTemporaryArc = (e) => {
+                    if(temporaryArc) {
+                        this.map.removeLayer(temporaryFirstLine);
+                        this.map.removeLayer(temporarySecondLine);
+                        this.map.removeLayer(temporaryArc);
+                    }
+
+                    temporaryFirstLine = L.polyline([
+                        new L.LatLng(arcPoints[0].x, arcPoints[0].y),
+                        new L.LatLng(e.latlng.lat, e.latlng.lng)
+                    ]).addTo(this.map);
+
+                    temporarySecondLine = L.polyline([
+                        new L.LatLng(arcPoints[1].x, arcPoints[1].y),
+                        new L.LatLng(e.latlng.lat, e.latlng.lng)
+                    ]).addTo(this.map);
+
+                    temporaryArc = L.curve(
+                        [
+                            'M', [arcPoints[0].x, arcPoints[0].y],
+                            'C', [arcPoints[0].x, arcPoints[0].y], [e.latlng.lat, e.latlng.lng], [arcPoints[1].x, arcPoints[1].y],
+                            'T', [arcPoints[1].x, arcPoints[1].y]
+                        ]
+                    ).addTo(this.map);
+                };
+            }
+
+            if(arcPoints.length === 1) {
                 pointOnMap.addTo(this.map);
+            } else if (arcPoints.length === 2) {
+                pointOnMap.addTo(this.map);
+                this.map.on('mousemove', drawTemporaryArc);
             } else {
-                this.map.removeLayer(pointOnMap);
-                this.floor.addWall('line', 'black', linePoints[0], linePoints[1]);
-                linePoints = [];
+                this.map.off('mousemove', drawTemporaryArc);
+                this.floor.addWall('arc', 'black', arcPoints[0], arcPoints[1], arcPoints[2]);
+                arcPoints = [];
                 this.drawWall(this.floor.lastWall());
             }
         };
