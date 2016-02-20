@@ -1,5 +1,5 @@
 import { Wall } from '../../map/models/wall';
-import { Place } from '../../map/models/place';
+//import { Place } from '../../map/models/place';
 import { Seat } from '../../map/models/seat';
 import { Point } from '../../map/models/point';
 import { Worker } from '../../workers/models/worker';
@@ -10,13 +10,13 @@ export class Floor {
 
     number: number;
     walls: Wall[];
-    places: Place[];
+    //places: Place[];
     seats: any[];
 
-    constructor({ number, walls, places, seats }: { number: number, walls: Wall[], places: Place[], seats: any[] } = FLOOR_DEFAULT_SKELETON) {
+    constructor({ number, walls, places, seats }: { number: number, walls: Wall[]/*, places: Place[],*/ seats: any[] } = FLOOR_DEFAULT_SKELETON) {
         this.number = number;
         this.walls = walls;
-        this.places = places;
+        //this.places = places;
         this.seats = seats || [];
     }
 
@@ -28,6 +28,7 @@ export class Floor {
             vertex: vertex,
             end: end
         });
+        window.floor = this;
     }
 
     lastWall() {

@@ -1,7 +1,11 @@
 [
-	{
-		"id": "blabla",
-		"name": "Ukraine",
-		"flag": "yes"
+  {
+	"id": "blabla",
+	"name": "Ukraine",
+	"floor": 20,
+	"position": {
+	  "x": 39.63954,
+	  "y": -9.2395
 	}
+  }
 ]

@@ -10,7 +10,9 @@ import { Worker } from '../../workers/models/worker';
 import { Wall } from '../models/wall';
 import { Seat } from '../models/seat';
 import { Point } from '../models/point';
+import { Room } from '../models/room';
 import { WorkerService } from '../../workers/services/worker.service';
+import { RoomService } from '../../rooms/services/room.service';
 
 @Component({
     selector: 'map-canvas',
@@ -27,11 +29,14 @@ export class MapCanvas {
     clickAction: AdminAction = AdminAction.NONE;
     adminActionSubscription: any;
     getWorkersSubscription: any;
+    getRoomsSubscriptions: any;
+
     workers: Worker[];
+    rooms: Room[];
 
     private map;
 
-    constructor(private adminActionService: AdminActionService, public workerService: WorkerService) {}
+    constructor(private adminActionService: AdminActionService, public workerService: WorkerService, public roomService: RoomService) {}
 
     ngOnInit() {
         this.initMap();
@@ -46,11 +51,21 @@ export class MapCanvas {
             .subscribe(workers => {
                 this.workers = workers
             });
+
+        this.getRoomsSubscriptions = this.roomService.getAll()
+            .subscribe(rooms => {
+                rooms.map(room => {
+                    if(this.floor.number == room.floor){
+                        this.drawRoom(room);
+                    }
+                });
+            });
     }
 
     ngOnDestroy() {
         this.adminActionSubscription.unsubscribe();
         this.getWorkersSubscription.unsubscribe();
+        this.getRoomsSubscriptions.unsubscribe();
     }
 
     initMap() {
@@ -190,6 +205,14 @@ export class MapCanvas {
         });
     }
 
+    drawRoom(room: Room) {
+        let latlng = new L.LatLng(room.position.x, room.position.y),
+            roomOnMap = L.circleMarker(latlng, {color: 'green'});
+
+        roomOnMap.addTo(this.map);
+        roomOnMap.bindPopup(`room: ${room.name}`);
+    }
+
     drawSeat(seat: Seat) {
         let latlng = new L.LatLng(seat.position.x, seat.position.y),
         seatOnMap = L.circleMarker(latlng),
@@ -205,7 +228,7 @@ export class MapCanvas {
 
         if (seat.worker){
             seatOnMap.setStyle({color: 'red'});
-            seatOnMap.bindPopup(`worker: ${seat.worker['firstName']}<br>lastName: ${seat.worker['lastName']}`);
+            seatOnMap.bindPopup(`<img src="${seat.worker.photo}" alt=""/> <br> worker: ${seat.worker['firstName']}<br>lastName: ${seat.worker['lastName']}`);
         } else {
             seatOnMap.on('click', onSeatClick);
         }
