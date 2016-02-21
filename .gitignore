@@ -4,7 +4,6 @@
 !/typings/tsd.d.client.ts
 /build
 /public/*
-!/public/images
 !/public/mocks/floors.json
 npm-debug.log
 

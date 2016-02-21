@@ -1,6 +1,17 @@
 [
   {
     "number": 20,
+    "places": [
+      {
+        "id": "blabla",
+        "name": "Ukraine",
+        "icon": "meeting.png",
+        "position": {
+          "x": 39.63954,
+          "y": -9.2395
+        }
+      }
+    ],
     "seats": [
       {
         "position": {

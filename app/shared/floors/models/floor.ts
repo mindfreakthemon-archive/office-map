@@ -20,15 +20,24 @@ export class Floor {
         this.seats = seats || [];
     }
 
-    addWall(type: string, color: string, start: Point, end: Point, vertex?: Point){
-        this.walls.push({
-            type: type,
-            color: color,
-            start: start,
-            vertex: vertex,
-            end: end
-        });
+    addWall(type: string, color: string, start: Point, end: Point, vertex?: Point) {
+        if (vertex) {
+            this.walls.push(new Wall(type, color, start, end, vertex));
+        } else {
+            this.walls.push(new Wall(type, color, start, end));
+        }
+
+
         window.floor = this;
+    }
+
+    addPlace(latlng: L.LatLng, icon: string) {
+        this.places.push(new Place('test', 'Germany', icon, { x: latlng.lat, y: latlng.lng }));
+        window.floor = this;
+    }
+
+    lastPlace() {
+        return this.places[this.places.length - 1];
     }
 
     lastWall() {

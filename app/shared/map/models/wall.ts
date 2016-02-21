@@ -1,9 +1,5 @@
 import { Point } from './point';
 
-export interface Wall {
-    type: string;
-    color: string;
-    start: Point;
-    end: Point;
-    vertex?: Point;
+export class Wall {
+    constructor(public type: string, public color: string, public start: Point, public end: Point, public vertex?: Point) {}
 }
