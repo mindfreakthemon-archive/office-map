@@ -10,7 +10,7 @@ import { Worker } from '../../workers/models/worker';
 import { Wall } from '../models/wall';
 import { Seat } from '../models/seat';
 import { Point } from '../models/point';
-import { Room } from '../models/room';
+import { Room } from '../../rooms/models/room';
 import { WorkerService } from '../../workers/services/worker.service';
 import { RoomService } from '../../rooms/services/room.service';
 
@@ -93,10 +93,10 @@ export class MapCanvas {
 
         let createLine = (e) => {
             let point = {x: e.latlng.lat, y: e.latlng.lng};
-            let temporaryLine: L.polyline;
+            let temporaryLine: any;
 
             linePoints.push(point);
-            pointOnMap = L.circle([e.latlng.lat, e.latlng.lng]);
+            pointOnMap = L.circleMarker([e.latlng.lat, e.latlng.lng]);
 
             if (!drawTemporaryLine){
                 drawTemporaryLine =  (e) => {
@@ -124,12 +124,12 @@ export class MapCanvas {
 
         let createArc = (e) => {
             let point = {x: e.latlng.lat, y: e.latlng.lng};
-            let temporaryFirstLine: L.polyline;
-            let temporarySecondLine: L.polyline;
-            let temporaryArc: L.curve;
+            let temporaryFirstLine: any;
+            let temporarySecondLine: any;
+            let temporaryArc: any;
 
             arcPoints.push(point);
-            pointOnMap = L.circle([e.latlng.lat, e.latlng.lng]);
+            pointOnMap = L.circleMarker([e.latlng.lat, e.latlng.lng]);
 
             if (!drawTemporaryArc){
                 drawTemporaryArc = (e) => {
@@ -218,17 +218,25 @@ export class MapCanvas {
         seatOnMap = L.circleMarker(latlng),
         onSeatClick = (e) => {
             if (this.clickAction === 2){
-                this.floor.setWorkerOnSeat(seat, this.workers[0]);
+                this.floor.setWorkerOnSeat(seat, this.workers[0].id);
                 this.map.removeLayer(seatOnMap);
                 this.drawSeat(seat);
             }
         };
 
+        if(seat.worker){
+            this.workerService.searchById(seat.worker).subscribe(worker => {
+                seatOnMap.setStyle({color: 'red'});
+                seatOnMap.bindPopup(`<img src="${worker.photo}" alt=""/>
+             <br>worker: ${worker['firstName']}
+             <br>lastName: ${worker['lastName']}`);
+            });
+        }
+
         seatOnMap.addTo(this.map);
 
         if (seat.worker){
-            seatOnMap.setStyle({color: 'red'});
-            seatOnMap.bindPopup(`<img src="${seat.worker.photo}" alt=""/> <br> worker: ${seat.worker['firstName']}<br>lastName: ${seat.worker['lastName']}`);
+
         } else {
             seatOnMap.on('click', onSeatClick);
         }

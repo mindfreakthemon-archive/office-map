@@ -32,4 +32,12 @@ export class WorkerService extends DataService<Worker> {
             })
             .toArray();
     }
+
+    searchById(id: string) {
+        return this.getAll()
+            .flatMap<Worker>(array => Observable.from(array, null, null, null))
+            .filter(worker => {
+                return worker.id === id;
+            });
+    }
 }

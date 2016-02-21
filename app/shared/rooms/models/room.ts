@@ -3,6 +3,7 @@ import { Point } from '../../map/models/point';
 interface IRoom {
     id: number;
     name: string;
+    floor: number;
     position: Point;
 }
 

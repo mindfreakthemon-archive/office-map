@@ -35,7 +35,7 @@ export enum Team {
 
 
 interface IWorker {
-    id: number;
+    id: string;
     firstName: string;
     lastName: string;
     photo: string;
@@ -44,7 +44,7 @@ interface IWorker {
 }
 
 export class Worker {
-    id: number;
+    id: string;
     firstName: string;
     lastName: string;
     photo: string;
