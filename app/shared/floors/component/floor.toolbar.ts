@@ -6,6 +6,7 @@ import { AdminActionService, AdminAction } from '../../admin/services/admin.acti
 import { WorkerService } from '../../workers/services/worker.service';
 import { RoomService } from '../../rooms/services/room.service';
 import { Worker } from '../../workers/models/worker';
+import { IRoom } from '../../rooms/models/room';
 
 @Component({
     selector: 'floor-toolbar',
@@ -16,16 +17,25 @@ export class FloorToolbar {
     actions: any = AdminAction;
 
     getWorkersSubscription: any;
+    getRoomsSubscription: any;
     workers: Worker[];
+    rooms: IRoom[];
     currentWorker: string;
+    currentRoom: string;
 
-    constructor(public adminActionService: AdminActionService, private workerService: WorkerService) {}
+    constructor(public adminActionService: AdminActionService, private workerService: WorkerService, private roomService: RoomService) {}
 
     ngOnInit() {
         this.getWorkersSubscription = this.workerService.getAll()
-            .subscribe(workers => {
-                this.workers = workers
-            });
+            .subscribe(workers => this.workers = workers);
+
+        this.getRoomsSubscription = this.roomService.getAll()
+            .subscribe(rooms => this.rooms = rooms);
+    }
+
+    ngOnDestroy() {
+        this.getRoomsSubscription.unsubscribe();
+        this.getWorkersSubscription.unsubscribe();
     }
 
     toggleDropdown() {
@@ -35,6 +45,11 @@ export class FloorToolbar {
     changeCurrentWorker(event) {
         this.currentWorker = event.target.classList[0];
         this.adminActionService.setWorker(this.currentWorker);
+    }
+
+    changeCurrentRoom(event) {
+        this.currentRoom = event.target.classList[0];
+        this.adminActionService.setRoom(this.currentRoom);
     }
 
     changeAction(action: AdminAction) {

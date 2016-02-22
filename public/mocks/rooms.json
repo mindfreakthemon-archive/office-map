@@ -1,11 +1,14 @@
 [
   {
 	"id": "blabla",
-	"name": "Ukraine",
-	"floor": 20,
-	"position": {
-	  "x": 39.63954,
-	  "y": -9.2395
-	}
+	"name": "Ukraine"
+  },
+  {
+	"id": "blublu",
+	"name": "Estonia"
+  },
+  {
+	"id": "bleble",
+	"name": "France"
   }
 ]

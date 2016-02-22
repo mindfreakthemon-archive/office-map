@@ -4,17 +4,22 @@ button.btn.btn-default.navbar-btn('(click)'='changeAction(actions.NONE)', '[clas
 button.btn.btn-default.navbar-btn('(click)'='changeAction(actions.ADD_SEAT)', '[class.active]'='action === actions.ADD_SEAT')
    span.glyphicon.glyphicon-home
    | #{' '} Point a Seat
-button.btn.btn-default.navbar-btn.dropdown-toggle('(click)'='toggleDropdown($event);', '[class.active]'='action === actions.ADD_WORKER')
+button.btn.btn-default.navbar-btn.dropdown-toggle('(click)'='toggleDropdown();')
    span.glyphicon.glyphicon-modal-window
    | #{' '} Attach Worker
    span.caret
 ul.dropdown-menu
    li('*ngFor'='#worker of workers')
-      a(class='{{worker.id}}', '(click)'='changeCurrentWorker($event); toggleDropdown($event); changeAction(actions.ADD_WORKER);')
+      a(class='{{worker.id}}', '(click)'='changeCurrentWorker($event); toggleDropdown(); changeAction(actions.ADD_WORKER);')
          |{{worker.firstName}} {{worker.lastName}}
-button.btn.btn-default.navbar-btn('(click)'='changeAction(actions.ADD_ROOM)', '[class.active]'='action === actions.ADD_ROOM')
+button.btn.btn-default.navbar-btn('(click)'='toggleDropdown($event);')
    span.glyphicon.glyphicon-tower
    | #{' '} Attach Room
+   span.caret
+ul.dropdown-menu
+   li('*ngFor'='#room of rooms')
+      a(class='{{room.id}}', '(click)'='changeCurrentRoom($event); toggleDropdown(); changeAction(actions.ADD_ROOM);')
+         | {{room.name}}
 button.btn.btn-default.navbar-btn('(click)'='changeAction(actions.CREATE_LINE)', '[class.active]'='action === actions.CREATE_LINE')
    span.glyphicon.glyphicon-pencil
    | #{' '} Create line

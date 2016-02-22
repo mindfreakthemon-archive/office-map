@@ -1,20 +1,20 @@
 import { Point } from '../../map/models/point';
 
-interface IRoom {
-    id: number;
+export interface IRoom {
+    id: string;
     name: string;
-    floor: number;
+    floor?: number;
     position: Point;
 }
 
 export class Room {
 
-    id: number;
+    id: string;
     name: string;
     floor: number;
     position: Point;
 
-    constructor({ id, name, floor, position }: IRoom) {
+    constructor({ id, name, floor, position}: IRoom) {
         this.id = id;
         this.name = name;
         this.floor = floor;

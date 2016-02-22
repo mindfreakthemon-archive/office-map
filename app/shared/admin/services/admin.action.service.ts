@@ -13,6 +13,7 @@ export enum AdminAction {
 export class AdminActionService {
     public static actionEmitter = new EventEmitter<AdminAction>();
     public static workerEmitter = new EventEmitter();
+    public static roomEmitter = new EventEmitter();
 
     setAction(action: AdminAction) {
         AdminActionService.actionEmitter.next(action);
@@ -22,8 +23,16 @@ export class AdminActionService {
         AdminActionService.workerEmitter.next(workerId);
     }
 
+    setRoom(roomId: string) {
+        AdminActionService.roomEmitter.next(roomId);
+    }
+
     getWorkerEmitter() {
         return AdminActionService.workerEmitter;
+    }
+
+    getRoomEmitter() {
+        return AdminActionService.roomEmitter;
     }
 
     getEmitter() {

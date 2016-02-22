@@ -3,6 +3,7 @@ import { Place } from '../../map/models/place';
 import { Seat } from '../../map/models/seat';
 import { Point } from '../../map/models/point';
 import { Worker } from '../../workers/models/worker';
+import { IRoom } from '../../rooms/models/room';
 
 const FLOOR_DEFAULT_SKELETON = { number: null, walls: [], places: [], seats: [] };
 
@@ -16,7 +17,7 @@ export class Floor {
     constructor({ number, walls, places, seats }: { number: number, walls: Wall[], places: Place[], seats: any[] } = FLOOR_DEFAULT_SKELETON) {
         this.number = number;
         this.walls = walls;
-        this.places = places;
+        this.places = places|| [];
         this.seats = seats || [];
     }
 
@@ -31,8 +32,8 @@ export class Floor {
         window.floor = this;
     }
 
-    addPlace(latlng: L.LatLng, icon: string) {
-        this.places.push(new Place('test', 'Germany', icon, { x: latlng.lat, y: latlng.lng }));
+    addPlace(latlng, room: IRoom, icon: string) {
+        this.places.push(new Place(room.id , room.name, icon, { x: latlng.lat, y: latlng.lng }, room.floor));
         window.floor = this;
     }
 

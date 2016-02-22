@@ -7,6 +7,7 @@ import { AdminActionService, AdminAction } from '../../admin/services/admin.acti
 import { FloorService } from '../../floors/services/floor.service';
 import { Floor } from '../../floors/models/floor';
 import { Worker } from '../../workers/models/worker';
+import { Room } from '../../rooms/models/room';
 import { Wall } from '../models/wall';
 import { Seat } from '../models/seat';
 import { Point } from '../models/point';
@@ -29,14 +30,19 @@ export class MapCanvas {
     clickAction: AdminAction = AdminAction.NONE;
     adminActionSubscription: any;
     adminWorkerSubscription: any;
+    adminRoomSubscription: any;
+
     getWorkersSubscription: any;
+    getRoomsSubscription: any;
 
     workers: Worker[];
+    rooms: Room[];
     workerIdToAttach: string;
+    roomIdToAttach: string;
 
     private map;
 
-    constructor(private adminActionService: AdminActionService, private workerService: WorkerService) {}
+    constructor(private adminActionService: AdminActionService, private workerService: WorkerService, private roomService: RoomService) {}
 
     ngOnInit() {
         this.initMap();
@@ -50,13 +56,24 @@ export class MapCanvas {
         this.adminWorkerSubscription = this.adminActionService.getWorkerEmitter()
             .subscribe(workerId => this.workerIdToAttach = workerId);
 
+        this.adminRoomSubscription = this.adminActionService.getRoomEmitter()
+            .subscribe(roomId => {
+                this.roomIdToAttach = roomId;
+            });
+
+
         this.getWorkersSubscription = this.workerService.getAll()
             .subscribe(workers => this.workers = workers);
+
+        this.getRoomsSubscription = this.roomService.getAll()
+            .subscribe(rooms => this.rooms = rooms);
+
     }
 
     ngOnDestroy() {
         this.adminActionSubscription.unsubscribe();
         this.adminWorkerSubscription.unsubscribe();
+        this.adminRoomSubscription.unsubscribe();
         this.getWorkersSubscription.unsubscribe();
     }
 
@@ -170,8 +187,11 @@ export class MapCanvas {
                     this.drawSeat(this.floor.lastSeat());
                     break;
                 case 3:
-                    this.floor.addPlace(e.latlng, 'meeting.png');
-                    this.drawPlace(this.floor.lastPlace());
+                    this.roomService.searchById(this.roomIdToAttach).subscribe(room => {
+                        room['floor'] = this.floor.number;
+                        this.floor.addPlace(e.latlng, room, 'meeting.png');
+                        this.drawPlace(this.floor.lastPlace());
+                    });
                     break;
                 case 4:
                     createLine(e);
