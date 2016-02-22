@@ -28,13 +28,15 @@ export class MapCanvas {
 
     clickAction: AdminAction = AdminAction.NONE;
     adminActionSubscription: any;
+    adminWorkerSubscription: any;
     getWorkersSubscription: any;
 
     workers: Worker[];
+    workerIdToAttach: string;
 
     private map;
 
-    constructor(private adminActionService: AdminActionService, public workerService: WorkerService) {}
+    constructor(private adminActionService: AdminActionService, private workerService: WorkerService) {}
 
     ngOnInit() {
         this.initMap();
@@ -45,14 +47,16 @@ export class MapCanvas {
         this.adminActionSubscription = this.adminActionService.getEmitter()
             .subscribe(action => this.clickAction = action);
 
+        this.adminWorkerSubscription = this.adminActionService.getWorkerEmitter()
+            .subscribe(workerId => this.workerIdToAttach = workerId);
+
         this.getWorkersSubscription = this.workerService.getAll()
-            .subscribe(workers => {
-                this.workers = workers
-            });
+            .subscribe(workers => this.workers = workers);
     }
 
     ngOnDestroy() {
         this.adminActionSubscription.unsubscribe();
+        this.adminWorkerSubscription.unsubscribe();
         this.getWorkersSubscription.unsubscribe();
     }
 
@@ -74,7 +78,6 @@ export class MapCanvas {
 
         let linePoints = [],
             arcPoints = [],
-            group = L.layerGroup().addTo(this.map),
             drawTemporaryLine,
             drawTemporaryArc,
             pointOnMap;
@@ -213,7 +216,7 @@ export class MapCanvas {
         seatOnMap = L.circleMarker(latlng),
         onSeatClick = (e) => {
             if (this.clickAction === 2){
-                this.floor.setWorkerOnSeat(seat, this.workers[0].id);
+                this.floor.setWorkerOnSeat(seat, this.workerIdToAttach);
                 this.map.removeLayer(seatOnMap);
                 this.drawSeat(seat);
             }

@@ -4,9 +4,14 @@ button.btn.btn-default.navbar-btn('(click)'='changeAction(actions.NONE)', '[clas
 button.btn.btn-default.navbar-btn('(click)'='changeAction(actions.ADD_SEAT)', '[class.active]'='action === actions.ADD_SEAT')
    span.glyphicon.glyphicon-home
    | #{' '} Point a Seat
-button.btn.btn-default.navbar-btn('(click)'='changeAction(actions.ADD_WORKER)', '[class.active]'='action === actions.ADD_WORKER')
+button.btn.btn-default.navbar-btn.dropdown-toggle('(click)'='toggleDropdown($event);', '[class.active]'='action === actions.ADD_WORKER')
    span.glyphicon.glyphicon-modal-window
    | #{' '} Attach Worker
+   span.caret
+ul.dropdown-menu
+   li('*ngFor'='#worker of workers')
+      a(class='{{worker.id}}', '(click)'='changeCurrentWorker($event); toggleDropdown($event); changeAction(actions.ADD_WORKER);')
+         |{{worker.firstName}} {{worker.lastName}}
 button.btn.btn-default.navbar-btn('(click)'='changeAction(actions.ADD_ROOM)', '[class.active]'='action === actions.ADD_ROOM')
    span.glyphicon.glyphicon-tower
    | #{' '} Attach Room
