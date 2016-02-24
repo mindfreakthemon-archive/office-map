@@ -16,7 +16,7 @@ export class FloorEdit {
     floor: Floor;
 
     constructor(floorService: FloorService, routeParams: RouteParams) {
-        let floorNumber = +routeParams.get('floor');
+        let floorNumber = routeParams.get('floor');
 
         floorService.get(floorNumber)
             .subscribe(floor => this.floor = floor);

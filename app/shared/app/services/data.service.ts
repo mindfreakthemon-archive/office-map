@@ -42,7 +42,7 @@ export class DataService<T> {
         return this.load();
     }
 
-    get(id: number) {
+    get(id: string) {
         return this.getEach()
             .filter(_item => _item[this.KEY] === id);
     }

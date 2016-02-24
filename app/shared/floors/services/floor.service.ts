@@ -17,6 +17,12 @@ export class FloorService extends DataService<Floor> {
         super();
     }
 
+    getFloorByWorkerId(id: string) {
+        return this.getAll()
+            .flatMap<Floor>(array => Observable.from(array, null, null, null))
+            .filter(floor => floor.seats.filter(seat => seat.worker === id).length > 0);
+    }
+
     request() {
         return this.http.get('/public/mocks/floors.json')
             .map(response => response.json())

@@ -16,9 +16,7 @@ export class RoomService extends DataService<Room> {
     searchById(id: string) {
         return this.getAll()
             .flatMap<Room>(array => Observable.from(array, null, null, null))
-            .filter(room => {
-                return room.id === id;
-            });
+            .filter(room => room.id === id);
     }
 
     request() {

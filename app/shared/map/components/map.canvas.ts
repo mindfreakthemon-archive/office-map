@@ -27,7 +27,6 @@ export class MapCanvas {
      */
     @Input() worker: Worker;
 
-    clickAction: AdminAction = AdminAction.NONE;
     adminActionSubscription: any;
     adminWorkerSubscription: any;
     adminRoomSubscription: any;
@@ -37,8 +36,10 @@ export class MapCanvas {
 
     workers: Worker[];
     rooms: Room[];
+
     workerIdToAttach: string;
     roomIdToAttach: string;
+    clickAction: AdminAction = AdminAction.NONE;
 
     private map;
 
@@ -48,8 +49,6 @@ export class MapCanvas {
         this.initMap();
         this.buildMap(this.floor);
 
-        // if this.worker then locateWorker(this.worker)
-
         this.adminActionSubscription = this.adminActionService.getEmitter()
             .subscribe(action => this.clickAction = action);
 
@@ -57,10 +56,7 @@ export class MapCanvas {
             .subscribe(workerId => this.workerIdToAttach = workerId);
 
         this.adminRoomSubscription = this.adminActionService.getRoomEmitter()
-            .subscribe(roomId => {
-                this.roomIdToAttach = roomId;
-            });
-
+            .subscribe(roomId => this.roomIdToAttach = roomId);
 
         this.getWorkersSubscription = this.workerService.getAll()
             .subscribe(workers => this.workers = workers);
@@ -68,13 +64,18 @@ export class MapCanvas {
         this.getRoomsSubscription = this.roomService.getAll()
             .subscribe(rooms => this.rooms = rooms);
 
+        if (this.worker) {
+            this.locateWorker();
+        }
     }
 
     ngOnDestroy() {
         this.adminActionSubscription.unsubscribe();
         this.adminWorkerSubscription.unsubscribe();
         this.adminRoomSubscription.unsubscribe();
+
         this.getWorkersSubscription.unsubscribe();
+        this.getRoomsSubscription.unsubscribe();
     }
 
     initMap() {
@@ -93,6 +94,24 @@ export class MapCanvas {
         controlZoom.addTo(this.map);
         tileLayer.addTo(this.map);
 
+        this.attachMapEvents();
+    }
+
+    buildMap(floor: Floor) {
+        floor.seats.map((seat) => {
+            this.drawSeat(seat);
+        });
+
+        floor.walls.map(wall => {
+            this.drawWall(wall);
+        });
+
+        floor.places.map(place => {
+            this.drawPlace(place);
+        });
+    }
+
+    attachMapEvents() {
         let linePoints = [],
             arcPoints = [],
             drawTemporaryLine,
@@ -139,33 +158,31 @@ export class MapCanvas {
             arcPoints.push(point);
             pointOnMap = L.circleMarker([e.latlng.lat, e.latlng.lng]);
 
-            if (!drawTemporaryArc){
-                drawTemporaryArc = (e) => {
-                    if(temporaryArc) {
-                        this.map.removeLayer(temporaryFirstLine);
-                        this.map.removeLayer(temporarySecondLine);
-                        this.map.removeLayer(temporaryArc);
-                    }
+            drawTemporaryArc = (drawTemporaryArc) ? drawTemporaryArc : (e) => {
+                if(temporaryArc) {
+                    this.map.removeLayer(temporaryFirstLine);
+                    this.map.removeLayer(temporarySecondLine);
+                    this.map.removeLayer(temporaryArc);
+                }
 
-                    temporaryFirstLine = L.polyline([
-                        new L.LatLng(arcPoints[0].x, arcPoints[0].y),
-                        new L.LatLng(e.latlng.lat, e.latlng.lng)
-                    ]).addTo(this.map);
+                temporaryFirstLine = L.polyline([
+                    new L.LatLng(arcPoints[0].x, arcPoints[0].y),
+                    new L.LatLng(e.latlng.lat, e.latlng.lng)
+                ]).addTo(this.map);
 
-                    temporarySecondLine = L.polyline([
-                        new L.LatLng(arcPoints[1].x, arcPoints[1].y),
-                        new L.LatLng(e.latlng.lat, e.latlng.lng)
-                    ]).addTo(this.map);
+                temporarySecondLine = L.polyline([
+                    new L.LatLng(arcPoints[1].x, arcPoints[1].y),
+                    new L.LatLng(e.latlng.lat, e.latlng.lng)
+                ]).addTo(this.map);
 
-                    temporaryArc = L.curve(
-                        [
-                            'M', [arcPoints[0].x, arcPoints[0].y],
-                            'C', [arcPoints[0].x, arcPoints[0].y], [e.latlng.lat, e.latlng.lng], [arcPoints[1].x, arcPoints[1].y],
-                            'T', [arcPoints[1].x, arcPoints[1].y]
-                        ]
-                    ).addTo(this.map);
-                };
-            }
+                temporaryArc = L.curve(
+                    [
+                        'M', [arcPoints[0].x, arcPoints[0].y],
+                        'C', [arcPoints[0].x, arcPoints[0].y], [e.latlng.lat, e.latlng.lng], [arcPoints[1].x, arcPoints[1].y],
+                        'T', [arcPoints[1].x, arcPoints[1].y]
+                    ]
+                ).addTo(this.map);
+            };
 
             if(arcPoints.length === 1) {
                 pointOnMap.addTo(this.map);
@@ -180,18 +197,26 @@ export class MapCanvas {
             }
         };
 
+        let attachSeat = (e) => {
+            this.floor.addSeat(e.latlng);
+            this.drawSeat(this.floor.lastSeat());
+        };
+
+        let attachPlace = (e) => {
+            this.roomService.searchById(this.roomIdToAttach).subscribe(room => {
+                room['floor'] = this.floor.number;
+                this.floor.addPlace(e.latlng, room, 'meeting.png');
+                this.drawPlace(this.floor.lastPlace());
+            });
+        };
+
         let onMapClick = (e) => {
             switch(this.clickAction) {
                 case 1:
-                    this.floor.addSeat(e.latlng);
-                    this.drawSeat(this.floor.lastSeat());
+                    attachSeat(e);
                     break;
                 case 3:
-                    this.roomService.searchById(this.roomIdToAttach).subscribe(room => {
-                        room['floor'] = this.floor.number;
-                        this.floor.addPlace(e.latlng, room, 'meeting.png');
-                        this.drawPlace(this.floor.lastPlace());
-                    });
+                    attachPlace(e);
                     break;
                 case 4:
                     createLine(e);
@@ -207,60 +232,44 @@ export class MapCanvas {
         this.map.on('click', onMapClick);
     }
 
-    buildMap(floor: Floor) {
-        floor.seats.map((seat) => {
-            this.drawSeat(seat);
-        });
+    locateWorker() {
+        let workerSeat = this.floor.seats.filter(seat => seat.worker === this.worker.id)[0],
+            newCenter = new L.LatLng(workerSeat.position.x, workerSeat.position.y);
 
-        floor.walls.map(wall => {
-            this.drawWall(wall);
-        });
-
-        if (floor.places) {
-            floor.places.map(place => {
-                this.drawPlace(place);
-            });
-        }
+        this.map.setView(newCenter , 10);
+        document.getElementById('map').click();
     }
 
     drawPlace(place) {
-        let myIcon = L.icon({iconUrl: 'public/images/' + place.icon}),
-            roomOnMap = L.marker( [place.position.x, place.position.y], {icon: myIcon});
+        let myIcon = L.icon({iconUrl: 'public/images/' + place.icon});
 
-        roomOnMap.addTo(this.map);
-        roomOnMap.bindPopup(`room: ${place.name}`);
+        L.marker([place.position.x, place.position.y], {icon: myIcon})
+            .bindPopup(`room: ${place.name}`)
+            .addTo(this.map);
     }
 
     drawSeat(seat: Seat) {
         let latlng = new L.LatLng(seat.position.x, seat.position.y),
-        seatOnMap = L.circleMarker(latlng),
-        onSeatClick = (e) => {
-            if (this.clickAction === 2){
+            seatOnMap = L.circleMarker(latlng);
+
+        if (seat.worker) {
+            this.workerService.searchById(seat.worker).subscribe(worker => {
+                seatOnMap
+                    .setStyle({color: 'red'})
+                    .bindPopup(`<img src="${worker.photo}" alt=""/>
+                         <br>worker: ${worker['firstName']}
+                         <br>lastName: ${worker['lastName']}`);
+            });
+        } else seatOnMap.on('click', (e) => {
+            if (this.clickAction === 2) {
                 this.floor.setWorkerOnSeat(seat, this.workerIdToAttach);
                 this.map.removeLayer(seatOnMap);
                 this.drawSeat(seat);
             }
-        };
-
-        if(seat.worker){
-            this.workerService.searchById(seat.worker).subscribe(worker => {
-                seatOnMap.setStyle({color: 'red'});
-                seatOnMap.bindPopup(`<img src="${worker.photo}" alt=""/>
-             <br>worker: ${worker['firstName']}
-             <br>lastName: ${worker['lastName']}`);
-            });
-        }
+        });
 
         seatOnMap.addTo(this.map);
-
-        if (seat.worker){
-
-        } else {
-            seatOnMap.on('click', onSeatClick);
-        }
     }
-
-
 
     drawWall(wall: Wall) {
         switch(wall.type) {
@@ -275,25 +284,22 @@ export class MapCanvas {
 
     drawLine(line: Wall) {
         let start = new L.LatLng(line.start.x, line.start.y),
-            end = new L.LatLng(line.end.x, line.end.y),
-            lineOnMap = L.polyline(
-                [start, end],
-                {color: line.color}
-            );
+            end = new L.LatLng(line.end.x, line.end.y);
 
-        lineOnMap.addTo(this.map);
+        L.polyline(
+            [start, end],
+            {color: line.color}
+        ).addTo(this.map);
     }
 
     drawArc(arc: Wall) {
-        let arcOnMap = L.curve(
+        L.curve(
             [
                 'M', [arc.start.x, arc.start.y],
                 'C', [arc.start.x, arc.start.y], [arc.vertex.x, arc.vertex.y], [arc.end.x, arc.end.y],
                 'T', [arc.end.x, arc.end.y]
             ],
             {color: arc.color}
-        );
-
-        arcOnMap.addTo(this.map);
+        ).addTo(this.map);
     }
 }

@@ -13,8 +13,8 @@ import { Floor } from '../../floors/models/floor';
     directives: [MapCanvas]
 })
 export class MapRenderer {
-    workerId: number;
-    floorNumber: number;
+    workerId: string;
+    floorNumber: string;
 
     worker: Worker;
     floor: Floor;
@@ -23,11 +23,11 @@ export class MapRenderer {
                 private workerService: WorkerService,
                 private routeParams: RouteParams) {
         if (routeParams.get('worker')) {
-            this.workerId = +routeParams.get('worker');
-        }
-
-        if (routeParams.get('floor')) {
-            this.floorNumber = +routeParams.get('floor');
+            this.workerId = routeParams.get('worker');
+            this.floorService.getFloorByWorkerId(this.workerId)
+                .subscribe(floor => this.floorNumber = floor.number);
+        } else if (routeParams.get('floor')) {
+            this.floorNumber = routeParams.get('floor');
         }
 
         this.floorService.get(this.floorNumber)
@@ -42,7 +42,7 @@ export class MapRenderer {
                 }
             );
 
-        this.workerService.get(this.workerId)
+        this.floorNumber && this.workerService.get(this.workerId)
             .subscribe(worker => this.worker = worker);
     }
 }

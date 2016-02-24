@@ -9,12 +9,12 @@ const FLOOR_DEFAULT_SKELETON = { number: null, walls: [], places: [], seats: [] 
 
 export class Floor {
 
-    number: number;
+    number: string;
     walls: Wall[];
     places: Place[];
-    seats: any[];
+    seats: Seat[];
 
-    constructor({ number, walls, places, seats }: { number: number, walls: Wall[], places: Place[], seats: any[] } = FLOOR_DEFAULT_SKELETON) {
+    constructor({ number, walls, places, seats }: { number: string, walls: Wall[], places: Place[], seats: any[] } = FLOOR_DEFAULT_SKELETON) {
         this.number = number;
         this.walls = walls;
         this.places = places|| [];
