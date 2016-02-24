@@ -7,7 +7,7 @@ h3('*ngIf'='!rooms') Loading...
 		.col-md-8('*ngIf'='rooms.length')
 			room-item.media('*ngFor'='#room of rooms | paginate:itemsPerPage', '[room]'='room')
 				.btn-group(buttons)
-					//a.btn.btn-danger('[routerLink]'='["/MapRouter", "roomLocate", { room: room.id }]') Locate
+					a.btn.btn-danger('[routerLink]'='["/MapRouter", "RoomLocate", { room: room.id }]') Locate
 		.col-md-4
 			form
 				h4 Floor:

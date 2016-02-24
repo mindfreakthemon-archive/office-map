@@ -21,11 +21,9 @@ import { RoomService } from '../../rooms/services/room.service';
 })
 export class MapCanvas {
     @Input() floor: Floor;
-
-    /**
-     * Worker to highlight
-     */
     @Input() worker: Worker;
+    //@Input() workerId: string;
+    @Input() room: Room;
 
     adminActionSubscription: any;
     adminWorkerSubscription: any;
@@ -66,6 +64,10 @@ export class MapCanvas {
 
         if (this.worker) {
             this.locateWorker();
+        }
+
+        if (this.room) {
+            this.locateRoom();
         }
     }
 
@@ -237,7 +239,13 @@ export class MapCanvas {
             newCenter = new L.LatLng(workerSeat.position.x, workerSeat.position.y);
 
         this.map.setView(newCenter , 10);
-        document.getElementById('map').click();
+    }
+
+    locateRoom() {
+        let room = this.floor.places.filter(place => place.id === this.room.id)[0],
+            newCenter = new L.LatLng(room.position.x, room.position.y);
+
+        this.map.setView(newCenter , 10);
     }
 
     drawPlace(place) {

@@ -3,7 +3,7 @@ import { ROUTER_DIRECTIVES, RouteConfig } from 'angular2/router';
 
 import { MapCanvas } from './map.canvas';
 import { Toolbar } from '../../app/components/toolbar';
-import {MapRenderer} from './map.renderer';
+import { MapRenderer } from './map.renderer';
 
 @Component({
     selector: 'map-route',
@@ -13,6 +13,7 @@ import {MapRenderer} from './map.renderer';
 @RouteConfig([
     { path: '/', as: 'Default', component: MapRenderer },
     { path: '/floor/:floor', as: 'Floor', component: MapRenderer },
-    { path: '/locate/:worker', as: 'WorkerLocate', component: MapRenderer }
+    { path: '/locate/:worker', as: 'WorkerLocate', component: MapRenderer },
+    { path: '/locateRoom/:room', as: 'RoomLocate', component: MapRenderer }
 ])
 export class MapRouter {}
