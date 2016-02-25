@@ -27,42 +27,43 @@ export class MapRenderer {
                 private workerService: WorkerService,
                 private routeParams: RouteParams,
                 private roomService: RoomService) {
+
         if (routeParams.get('worker')) {
             this.workerId = routeParams.get('worker');
+
+            this.floorService.getFloorByWorkerId(this.workerId)
+                .subscribe(floor => this.floorNumber = floor.number);
+
+            this.floorNumber && this.workerService.get(this.workerId)
+                .subscribe(worker => this.worker = worker);
         }
 
         if (routeParams.get('room')){
             this.roomId = routeParams.get('room');
+            this.roomService.searchById(this.roomId)
+                .subscribe(room => {
+                    if (room.floor) {
+                        this.floorNumber = room.floor;
+                        this.room = room;
+                    }
+                });
         }
 
+        console.log(routeParams);
         if (routeParams.get('floor')) {
             this.floorNumber = routeParams.get('floor');
         }
-
-        this.workerId && this.floorService.getFloorByWorkerId(this.workerId)
-            .subscribe(floor => this.floorNumber = floor.number);
-
-        this.workerId && this.floorNumber && this.workerService.get(this.workerId)
-            .subscribe(worker => this.worker = worker);
-
-        this.roomId && this.roomService.searchById(this.roomId)
-            .subscribe(room => {
-                if (room.floor) {
-                    this.floorNumber = room.floor;
-                    this.room = room;
-                }
-            });
 
         this.floorService.get(this.floorNumber)
             .subscribe(
                 floor => this.floor = floor,
                 error => error,
-            () => {
-                if (!this.floor) {
-                    this.floorService.first()
-                        .subscribe(floor => this.floor = floor);
+                () => {
+                    if (!this.floor) {
+                        this.floorService.first()
+                            .subscribe(floor => this.floor = floor);
+                    }
                 }
-            }
-        );
+            );
     }
 }

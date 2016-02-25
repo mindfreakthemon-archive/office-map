@@ -22,7 +22,6 @@ import { RoomService } from '../../rooms/services/room.service';
 export class MapCanvas {
     @Input() floor: Floor;
     @Input() worker: Worker;
-    //@Input() workerId: string;
     @Input() room: Room;
 
     adminActionSubscription: any;
@@ -41,7 +40,9 @@ export class MapCanvas {
 
     private map;
 
-    constructor(private adminActionService: AdminActionService, private workerService: WorkerService, private roomService: RoomService) {}
+    constructor(private adminActionService: AdminActionService,
+        private workerService: WorkerService,
+        private roomService: RoomService) {}
 
     ngOnInit() {
         this.initMap();
@@ -61,14 +62,6 @@ export class MapCanvas {
 
         this.getRoomsSubscription = this.roomService.getAll()
             .subscribe(rooms => this.rooms = rooms);
-
-        if (this.worker) {
-            this.locateWorker();
-        }
-
-        if (this.room) {
-            this.locateRoom();
-        }
     }
 
     ngOnDestroy() {
@@ -100,50 +93,54 @@ export class MapCanvas {
     }
 
     buildMap(floor: Floor) {
-        floor.seats.map((seat) => {
-            this.drawSeat(seat);
-        });
-
-        floor.walls.map(wall => {
-            this.drawWall(wall);
-        });
-
-        floor.places.map(place => {
-            this.drawPlace(place);
-        });
+        floor.seats.map((seat) => this.drawSeat(seat));
+        floor.walls.map(wall => this.drawWall(wall));
+        floor.places.map(place => this.drawPlace(place));
+        this.worker && this.locateWorker();
+        this.room && this.locateRoom();
     }
 
     attachMapEvents() {
         let linePoints = [],
-            arcPoints = [],
-            drawTemporaryLine,
-            drawTemporaryArc,
-            pointOnMap;
+            arcPoints = [];
 
-        let createLine = (e) => {
+        let drawTemporaryLine,
+            drawTemporaryArc;
+
+        let temporaryFirstPoint,
+            temporarySecondPoint;
+
+        let temporaryFirstLine,
+            temporarySecondLine;
+
+        let temporaryArc;
+
+        let createLine,
+            createArc;
+
+        createLine = createLine ? createLine : (e) => {
             let point = {x: e.latlng.lat, y: e.latlng.lng};
-            let temporaryLine: any;
 
             linePoints.push(point);
-            pointOnMap = L.circleMarker([e.latlng.lat, e.latlng.lng]);
 
-            if (!drawTemporaryLine){
-                drawTemporaryLine =  (e) => {
-                    if(temporaryLine) {
-                        this.map.removeLayer(temporaryLine);
-                    }
+            drawTemporaryLine = drawTemporaryLine ? drawTemporaryLine : (e) => {
+                temporaryFirstLine && this.map.removeLayer(temporaryFirstLine);
 
-                    let start = new L.LatLng(linePoints[0].x, linePoints[0].y),
-                        end = new L.LatLng(e.latlng.lat, e.latlng.lng);
+                let start = new L.LatLng(linePoints[0].x, linePoints[0].y),
+                    end = new L.LatLng(e.latlng.lat,  e.latlng.lng);
 
-                    temporaryLine = L.polyline([start, end]).addTo(this.map);
-                };
-            }
+                temporaryFirstLine = L.polyline([start, end]).addTo(this.map);
+            };
 
             if(linePoints.length === 1) {
-                pointOnMap.addTo(this.map);
+                temporaryFirstPoint = L.circleMarker([linePoints[0].x, linePoints[0].y])
+                    .setRadius(3);
+                temporaryFirstPoint.addTo(this.map);
                 this.map.on('mousemove', drawTemporaryLine);
             } else {
+                this.map.removeLayer(temporaryFirstPoint);
+                this.map.removeLayer(temporaryFirstLine);
+
                 this.map.off('mousemove', drawTemporaryLine);
                 this.floor.addWall('line', 'black', linePoints[0], linePoints[1]);
                 linePoints = [];
@@ -151,16 +148,12 @@ export class MapCanvas {
             }
         };
 
-        let createArc = (e) => {
+        createArc = createArc ? createArc : (e) => {
             let point = {x: e.latlng.lat, y: e.latlng.lng};
-            let temporaryFirstLine: any;
-            let temporarySecondLine: any;
-            let temporaryArc: any;
 
             arcPoints.push(point);
-            pointOnMap = L.circleMarker([e.latlng.lat, e.latlng.lng]);
 
-            drawTemporaryArc = (drawTemporaryArc) ? drawTemporaryArc : (e) => {
+            drawTemporaryArc = drawTemporaryArc ? drawTemporaryArc : (e) => {
                 if(temporaryArc) {
                     this.map.removeLayer(temporaryFirstLine);
                     this.map.removeLayer(temporarySecondLine);
@@ -186,12 +179,22 @@ export class MapCanvas {
                 ).addTo(this.map);
             };
 
-            if(arcPoints.length === 1) {
-                pointOnMap.addTo(this.map);
+            if (arcPoints.length === 1) {
+                temporaryFirstPoint = L.circleMarker([arcPoints[0].x, arcPoints[0].y])
+                    .setRadius(3);
+                temporaryFirstPoint.addTo(this.map);
             } else if (arcPoints.length === 2) {
-                pointOnMap.addTo(this.map);
+                temporarySecondPoint = L.circleMarker([arcPoints[1].x, arcPoints[1].y])
+                    .setRadius(3);
+                temporarySecondPoint.addTo(this.map);
                 this.map.on('mousemove', drawTemporaryArc);
             } else {
+                this.map.removeLayer(temporaryFirstLine);
+                this.map.removeLayer(temporarySecondLine);
+                this.map.removeLayer(temporaryArc);
+                this.map.removeLayer(temporaryFirstPoint);
+                this.map.removeLayer(temporarySecondPoint);
+
                 this.map.off('mousemove', drawTemporaryArc);
                 this.floor.addWall('arc', 'black', arcPoints[0], arcPoints[1], arcPoints[2]);
                 arcPoints = [];
@@ -213,22 +216,10 @@ export class MapCanvas {
         };
 
         let onMapClick = (e) => {
-            switch(this.clickAction) {
-                case 1:
-                    attachSeat(e);
-                    break;
-                case 3:
-                    attachPlace(e);
-                    break;
-                case 4:
-                    createLine(e);
-                    break;
-                case 5:
-                    createArc(e);
-                    break;
-                default:
-                    break;
-            }
+            (this.clickAction === 1) && attachSeat(e);
+            (this.clickAction === 3) && attachPlace(e);
+            (this.clickAction === 4) && createLine(e);
+            (this.clickAction === 5) && createArc(e);
         };
 
         this.map.on('click', onMapClick);
@@ -238,17 +229,17 @@ export class MapCanvas {
         let workerSeat = this.floor.seats.filter(seat => seat.worker === this.worker.id)[0],
             newCenter = new L.LatLng(workerSeat.position.x, workerSeat.position.y);
 
-        this.map.setView(newCenter , 10);
+        this.map.setView(newCenter, 10);
     }
 
     locateRoom() {
         let room = this.floor.places.filter(place => place.id === this.room.id)[0],
             newCenter = new L.LatLng(room.position.x, room.position.y);
 
-        this.map.setView(newCenter , 10);
+        this.map.setView(newCenter, 10);
     }
 
-    drawPlace(place) {
+    drawPlace(place: Place) {
         let myIcon = L.icon({iconUrl: 'public/images/' + place.icon});
 
         L.marker([place.position.x, place.position.y], {icon: myIcon})
@@ -280,14 +271,8 @@ export class MapCanvas {
     }
 
     drawWall(wall: Wall) {
-        switch(wall.type) {
-            case 'line':
-                this.drawLine(wall);
-                break;
-            case 'arc':
-                this.drawArc(wall);
-                break;
-        }
+        (wall.type === 'line') && this.drawLine(wall);
+        (wall.type === 'arc') && this.drawArc(wall);
     }
 
     drawLine(line: Wall) {

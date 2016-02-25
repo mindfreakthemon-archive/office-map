@@ -27,14 +27,10 @@ export class Floor {
         } else {
             this.walls.push(new Wall(type, color, start, end));
         }
-
-
-        window.floor = this;
     }
 
     addPlace(latlng, room: IRoom, icon: string) {
         this.places.push(new Place(room.id , room.name, icon, { x: latlng.lat, y: latlng.lng }, room.floor));
-        window.floor = this;
     }
 
     lastPlace() {
