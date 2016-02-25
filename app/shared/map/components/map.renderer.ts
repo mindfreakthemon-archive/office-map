@@ -49,7 +49,6 @@ export class MapRenderer {
                 });
         }
 
-        console.log(routeParams);
         if (routeParams.get('floor')) {
             this.floorNumber = routeParams.get('floor');
         }

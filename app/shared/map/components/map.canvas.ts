@@ -62,6 +62,9 @@ export class MapCanvas {
 
         this.getRoomsSubscription = this.roomService.getAll()
             .subscribe(rooms => this.rooms = rooms);
+
+        window.floor = this.floor;
+        window.myMap = this.map;
     }
 
     ngOnDestroy() {
@@ -76,7 +79,8 @@ export class MapCanvas {
     initMap() {
         let controlZoom = new L.Control.Zoom({ position: 'bottomleft' }),
             tileLayer = L.tileLayer(
-                'http://www.colorcombos.com/images/colors/FFFFFF.png',
+                //'http://www.colorcombos.com/images/colors/FFFFFF.png',
+                'http://www.southworth.com/shop/swatches/popup_white.jpg',
                 {
                     maxZoom: 12,
                     id: 'random'
@@ -85,6 +89,8 @@ export class MapCanvas {
 
         this.map = L.map('map', { zoomControl: false });
         this.map.setView([39.5, -8.5], 7);
+        this.map.setMinZoom(7);
+        this.map.setMaxZoom(10);
 
         controlZoom.addTo(this.map);
         tileLayer.addTo(this.map);
