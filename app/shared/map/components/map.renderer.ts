@@ -40,13 +40,11 @@ export class MapRenderer {
 
         if (routeParams.get('room')){
             this.roomId = routeParams.get('room');
-            this.roomService.searchById(this.roomId)
-                .subscribe(room => {
-                    if (room.floor) {
-                        this.floorNumber = room.floor;
-                        this.room = room;
-                    }
-                });
+            this.floorService.getFloorByRoomId(this.roomId)
+                .subscribe(floor => this.floorNumber = floor.number);
+
+            this.floorNumber && this.roomService.searchById(this.roomId)
+                .subscribe(room => this.room = room);
         }
 
         if (routeParams.get('floor')) {

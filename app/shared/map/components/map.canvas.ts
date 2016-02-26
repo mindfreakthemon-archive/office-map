@@ -79,8 +79,8 @@ export class MapCanvas {
     initMap() {
         let controlZoom = new L.Control.Zoom({ position: 'bottomleft' }),
             tileLayer = L.tileLayer(
-                //'http://www.colorcombos.com/images/colors/FFFFFF.png',
                 'http://www.southworth.com/shop/swatches/popup_white.jpg',
+                //'public/images/{z}/{x}/{y}.png',
                 {
                     maxZoom: 12,
                     id: 'random'
@@ -88,9 +88,15 @@ export class MapCanvas {
             );
 
         this.map = L.map('map', { zoomControl: false });
-        this.map.setView([39.5, -8.5], 7);
-        this.map.setMinZoom(7);
-        this.map.setMaxZoom(10);
+        this.map.setView([68.23682270936281, -40.25390625000001], 3);
+
+        var southWest = L.latLng(85.49962660119635, 149.06250000000003),
+            northEast = L.latLng(24.367113562651276, -209.53125),
+            bounds = L.latLngBounds(southWest, northEast);
+
+        this.map.setMaxBounds(bounds);
+        this.map.setMinZoom(3);
+        this.map.setMaxZoom(5);
 
         controlZoom.addTo(this.map);
         tileLayer.addTo(this.map);
@@ -216,7 +222,7 @@ export class MapCanvas {
         let attachPlace = (e) => {
             this.roomService.searchById(this.roomIdToAttach).subscribe(room => {
                 room['floor'] = this.floor.number;
-                this.floor.addPlace(e.latlng, room, 'meeting.png');
+                this.floor.addPlace(e.latlng, room, 'germany.png');
                 this.drawPlace(this.floor.lastPlace());
             });
         };
@@ -226,6 +232,7 @@ export class MapCanvas {
             (this.clickAction === 3) && attachPlace(e);
             (this.clickAction === 4) && createLine(e);
             (this.clickAction === 5) && createArc(e);
+            console.log(e.latlng);
         };
 
         this.map.on('click', onMapClick);
@@ -235,18 +242,22 @@ export class MapCanvas {
         let workerSeat = this.floor.seats.filter(seat => seat.worker === this.worker.id)[0],
             newCenter = new L.LatLng(workerSeat.position.x, workerSeat.position.y);
 
-        this.map.setView(newCenter, 10);
+        this.map.setView(newCenter, 9);
     }
 
     locateRoom() {
         let room = this.floor.places.filter(place => place.id === this.room.id)[0],
             newCenter = new L.LatLng(room.position.x, room.position.y);
 
-        this.map.setView(newCenter, 10);
+        this.map.setView(newCenter, 5);
     }
 
     drawPlace(place: Place) {
-        let myIcon = L.icon({iconUrl: 'public/images/' + place.icon});
+        let myIcon = L.icon({
+            iconUrl: 'public/images/' + place.icon,
+            iconAnchor: [12, 12],
+            popupAnchor: [0, -5]
+        });
 
         L.marker([place.position.x, place.position.y], {icon: myIcon})
             .bindPopup(`room: ${place.name}`)

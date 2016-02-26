@@ -1,14 +1,26 @@
 [
   {
-	"id": "blabla",
+    "id": "germany",
+    "name": "Germany"
+  },
+  {
+    "id": "cyprus",
+    "name": "Cyprus"
+  },
+  {
+    "id": "latvia",
+    "name": "Latvia"
+  },
+  {
+    "id": "gibraltar",
+    "name": "Gibraltar"
+  },
+  {
+	"id": "ukraine",
 	"name": "Ukraine"
   },
   {
-	"id": "blublu",
+	"id": "estonia",
 	"name": "Estonia"
-  },
-  {
-	"id": "bleble",
-	"name": "France"
   }
 ]
