@@ -26,8 +26,8 @@ export class WorkerSearch implements OnChanges {
     teamFilter = new Set();
     genderFilter = new Set();
 
-    genderMap = Array.from(<any> Worker.GENDER_MAP);
-    teamMap = Array.from(<any> Worker.TEAM_NAMES_MAP);
+    genders = Array.from(<any> Worker.GENDER_MAP);
+    teams = Array.from(<any> Worker.TEAM_NAMES_MAP);
 
     constructor(public workerService: WorkerService) {}
 

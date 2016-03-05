@@ -33,6 +33,10 @@ export enum Team {
     INTERNAL
 }
 
+export enum Gender {
+    FEMALE,
+    MALE
+}
 
 interface IWorker {
     id: string;
@@ -43,23 +47,10 @@ interface IWorker {
     gender: number;
 }
 
+const WORKER_DEFAULT_SKELETON: IWorker = { id: null, firstName: '', lastName: '', photo: '', team: null, gender: Gender.MALE };
+
+
 export class Worker {
-    id: string;
-    firstName: string;
-    lastName: string;
-    photo: string;
-    team: Team;
-    gender: number;
-
-    constructor({ id, firstName, lastName, photo, team, gender }: IWorker) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.photo = photo;
-        this.team = team;
-        this.gender = gender;
-    }
-
     static TEAM_NAMES_MAP = new Map<Team, string>(<Array<any>> [
         [Team.MWS, 'MWS'],
         [Team.EASY_PUSH, 'EASY_PUSH'],
@@ -96,9 +87,45 @@ export class Worker {
     ]);
 
     static GENDER_MAP = new Map<number, string>(<Array<any>> [
-        [0, 'Female'],
-        [1, 'Male']
+        [Gender.FEMALE, 'Female'],
+        [Gender.MALE, 'Male']
     ]);
+
+    id: string;
+    firstName: string;
+    lastName: string;
+    photo: string;
+    _team: Team;
+    _gender: number;
+
+    constructor({ id, firstName, lastName, photo, team, gender }: IWorker = WORKER_DEFAULT_SKELETON) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.photo = photo;
+        this.team = team;
+        this.gender = gender;
+    }
+
+    get gender() {
+        return this._gender;
+    }
+
+    set gender(value) {
+        let gender = parseInt(String(value), 10);
+
+        this._gender = Worker.GENDER_MAP.has(gender) ? gender : Gender.MALE;
+    }
+
+    get team() {
+        return this._team;
+    }
+
+    set team(value) {
+        let team = parseInt(String(value), 10);
+
+        this._team = Worker.TEAM_NAMES_MAP.has(team) ? team : Team.MWS;
+    }
 
     get teamName() {
         return Worker.TEAM_NAMES_MAP.get(this.team);

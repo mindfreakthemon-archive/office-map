@@ -1,0 +1,20 @@
+form('(submit)'='onSubmit()')
+	.form-group('*ngIf'='!create')
+		label ID:
+		input.form-control(type='text', placeholder='ID', '[(ngModel)]'='worker.id', readonly)
+	.form-group
+		label First Name:
+		input.form-control(type='text', placeholder='First Name', '[(ngModel)]'='worker.firstName')
+	.form-group
+		label Last Name:
+		input.form-control(type='text', placeholder='Last Name', '[(ngModel)]'='worker.lastName')
+	.form-group
+		label Gender:
+		select.form-control('[(ngModel)]'='worker.gender')
+			option('*ngFor'='#entry of genders', '[value]'='entry[0]', '[selected]'='worker.gender === entry[0]') {{entry[1]}}
+	.form-group
+		label Team:
+		select.form-control('[(ngModel)]'='worker.team')
+			option('*ngFor'='#entry of teams', '[value]'='entry[0]', '[selected]'='worker.team === entry[0]') {{entry[1]}}
+
+	button.btn.btn-default(type='submit', '[innerText]'='create ? "Add" : "Edit"')

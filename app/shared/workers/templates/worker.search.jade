@@ -14,12 +14,12 @@ h3('*ngIf'='!workers') Loading...
 					h4 Query:
 					input.form-control('(input)'='query = $event.target.value', '[value]'='query')
 				h4 Team:
-				.checkbox('*ngFor'='#entry of teamMap')
+				.checkbox('*ngFor'='#entry of teams')
 					label
-						input(type='checkbox', '[checked]'='teamFilter.has(entry[0])' '(change)'='setTeamFilter(entry[0], $event.target.checked)')
+						input(type='checkbox', '[checked]'='teamFilter.has(entry[0])', '(change)'='setTeamFilter(entry[0], $event.target.checked)')
 						| {{entry[1]}}
 				h4 Gender:
-				.checkbox('*ngFor'='#entry of genderMap')
+				.checkbox('*ngFor'='#entry of genders')
 					label
 						input(type='checkbox', '[checked]'='genderFilter.has(entry[0])', '(change)'='setGenderFilter(entry[0], $event.target.checked)')
 						| {{entry[1]}}

@@ -3,7 +3,6 @@ import { Router, RouteParams, ROUTER_DIRECTIVES } from 'angular2/router';
 
 import { Toolbar } from '../../app/components/toolbar';
 import { AdminToolbar } from '../../admin/components/admin.toolbar';
-import { FloorService } from '../services/floor.service';
 import { Floor } from '../models/floor';
 import { FloorForm } from './floor.form';
 
@@ -18,6 +17,6 @@ export class FloorAdd {
     constructor(private router: Router) {}
 
     onComplete(floor: Floor) {
-        this.router.navigate(['/AdminRouter', 'FloorEdit', { floor: this.floor.number }]);
+        this.router.navigate(['/AdminRouter', 'Floors', 'FloorEdit', { floor: this.floor.number }]);
     }
 }

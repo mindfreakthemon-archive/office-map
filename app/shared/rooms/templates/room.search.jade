@@ -6,7 +6,7 @@ h3('*ngIf'='!rooms') Loading...
 			h4 Nothing was found for "{{query}}"
 		.col-md-8('*ngIf'='rooms.length')
 			room-item.media('*ngFor'='#room of rooms | paginate:itemsPerPage', '[room]'='room')
-				.btn-group(buttons)
+				.btn-group
 					a.btn.btn-danger('[routerLink]'='["/MapRouter", "RoomLocate", { room: room.id }]') Locate
 		.col-md-4
 			form

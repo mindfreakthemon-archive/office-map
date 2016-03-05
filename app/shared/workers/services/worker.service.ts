@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { Worker } from '../models/worker';
 import { DataService } from '../../app/services/data.service';
 
+import uuid = require('node-uuid');
 
 @Injectable()
 export class WorkerService extends DataService<Worker> {
@@ -39,5 +40,13 @@ export class WorkerService extends DataService<Worker> {
             .filter(worker => {
                 return worker.id === id;
             });
+    }
+
+    put(worker: Worker) {
+        if (!worker.id) {
+            worker.id = uuid.v4();
+        }
+
+        super.put(worker);
     }
 }

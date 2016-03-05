@@ -1,18 +1,21 @@
 import { Component } from 'angular2/core';
 import { ROUTER_DIRECTIVES, RouteConfig } from 'angular2/router';
-import { WorkerSearch } from './worker.search';
 
-import { Toolbar } from '../../app/components/toolbar';
+import { WorkersList } from './workers.list';
+import { WorkerEdit } from './worker.edit';
+import { WorkerAdd } from './worker.add';
 
 
 @Component({
     selector: 'worker-route',
-    directives: [ROUTER_DIRECTIVES, Toolbar],
+    directives: [ROUTER_DIRECTIVES],
     templateUrl: 'workers/templates/worker.router.jade'
 })
 @RouteConfig([
-    // @TODO probably edit goes here
+    { path: '/list', as: 'WorkersList', component: WorkersList },
+    { path: '/worker/new', as: 'WorkerAdd', component: WorkerAdd },
+    { path: '/worker/:worker/edit', as: 'WorkerEdit', component: WorkerEdit }
 ])
 export class WorkerRouter {
-    constructor() {}
 }
+

@@ -10,8 +10,8 @@ toolbar.navbar.navbar-default.navbar-fixed-top
 		.media-body
 			h4.media-heading {{floor.number}}
 			.btn-group
-				a.btn.btn-info('[routerLink]'='["/AdminRouter", "FloorConfigure", { floor: floor.number }]') Configure
-				a.btn.btn-warning('[routerLink]'='["/AdminRouter", "FloorEdit", { floor: floor.number }]') Edit
+				a.btn.btn-info('[routerLink]'='["/AdminRouter", "Floors", "FloorConfigure", { floor: floor.number }]') Configure
+				a.btn.btn-warning('[routerLink]'='["/AdminRouter", "Floors", "FloorEdit", { floor: floor.number }]') Edit
 				a.btn.btn-danger('(click)'='deleteFloor(floor)') Delete
-	br
-	a.btn.btn-default('[routerLink]'='["/AdminRouter", "FloorAdd"]') Add
+
+	p: a.btn.btn-default('[routerLink]'='["/AdminRouter", "Floors", "FloorAdd"]') Add

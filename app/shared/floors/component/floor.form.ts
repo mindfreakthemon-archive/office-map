@@ -19,6 +19,6 @@ export class FloorForm {
     onSubmit() {
         this.floorService.put(this.floor);
 
-        this.complete.next(this.floor);
+        this.complete.emit(this.floor);
     }
 }

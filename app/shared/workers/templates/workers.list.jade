@@ -8,8 +8,8 @@ toolbar.navbar.navbar-default.navbar-fixed-top
 
 	div('*ngIf'='workers && workers.length')
 		worker-item.media('*ngFor'='#worker of workers | paginate:10', '[worker]'='worker')
-			.btn-group(buttons)
+			.btn-group
+				a.btn.btn-warning('[routerLink]'='["/AdminRouter", "Workers", "WorkerEdit", { worker: worker.id }]') Edit
 				a.btn.btn-danger('(click)'='deleteWorker(worker)') Delete
-
 		pagination-controls
-	br
+	p: a.btn.btn-default('[routerLink]'='["/AdminRouter", "Workers", "WorkerAdd"]') Add
