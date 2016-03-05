@@ -7,11 +7,11 @@ import { Router, ROUTER_PROVIDERS } from 'angular2/router';
     templateUrl: 'app/templates/quick.search.jade'
 })
 export class QuickSearch {
-    public query: string = '';
+    query = '';
 
     constructor(public router: Router) {}
 
-    onSubmit(e) {
+    onSubmit(event) {
         this.router.navigate(['/Search', { query: this.query }]);
     }
 

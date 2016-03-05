@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChange } from 'angular2/core';
+import { Component, Input, Output, OnChanges, OnInit, SimpleChange, EventEmitter } from 'angular2/core';
 import { Router, RouteParams, ROUTER_DIRECTIVES } from 'angular2/router';
 
 import { PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
@@ -7,6 +7,8 @@ import { Worker, Team } from '../models/worker';
 import { WorkerService } from '../services/worker.service';
 import { WorkerItem } from './worker.item';
 import { FilterUtils } from '../../app/utils/filter.utils';
+import {} from 'angular2/core';
+import {} from 'angular2/core';
 
 
 @Component({
@@ -19,10 +21,20 @@ import { FilterUtils } from '../../app/utils/filter.utils';
 export class WorkerSearch implements OnChanges, OnInit {
     workers: Worker[];
 
+    /**
+     * Toggles Edit and Delete button.
+     */
     @Input() adminMode: boolean = false;
+
+    /**
+     * Toggles small query input field to filter with.
+     */
+    @Input() showQueryField: boolean = false;
+
     @Input() query: string = '';
     @Input() itemsPerPage = 10;
-    @Input() showQueryField: boolean = false;
+
+    @Output() results = new EventEmitter<Worker[]>();
 
     teamFilter = new Set();
     genderFilter = new Set();
@@ -33,7 +45,6 @@ export class WorkerSearch implements OnChanges, OnInit {
     constructor(public workerService: WorkerService) {}
 
     ngOnChanges(changes: {[propName: string]: SimpleChange}) {
-        // in case it's updated externally
         if (changes['query']) {
             this.request();
         }
@@ -92,6 +103,9 @@ export class WorkerSearch implements OnChanges, OnInit {
                 return true;
             })
             .toArray()
-            .subscribe(workers => this.workers = workers);
+            .subscribe(workers => {
+                this.workers = workers;
+                this.results.emit(workers);
+            });
     }
 }

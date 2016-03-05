@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChange } from 'angular2/core';
+import { Component, Input, Output, OnChanges, SimpleChange, EventEmitter } from 'angular2/core';
 import { Router, RouteParams, ROUTER_DIRECTIVES } from 'angular2/router';
 
 import { PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
@@ -22,6 +22,8 @@ export class RoomSearch implements OnChanges {
     @Input() query: string = '';
     @Input() itemsPerPage = 10;
 
+    @Output() results = new EventEmitter<Room[]>();
+
     constructor(public roomService: RoomService) {}
 
     ngOnChanges(changes: {[propName: string]: SimpleChange}) {
@@ -36,6 +38,9 @@ export class RoomSearch implements OnChanges {
         this.roomService.getEach()
             .filter(FilterUtils.searchFilter(this.query, ['name']))
             .toArray()
-            .subscribe(rooms => this.rooms = rooms);
+            .subscribe(rooms => {
+                this.rooms = rooms;
+                this.results.emit(rooms);
+            });
     }
 }

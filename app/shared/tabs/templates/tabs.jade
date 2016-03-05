@@ -1,0 +1,4 @@
+ul.nav.nav-tabs
+	li('*ngFor'='#tab of tabs', '(click)'='selectTab($event, tab)', '[class.active]'='tab.active')
+		a(href='#') {{tab.title}}
+ng-content
