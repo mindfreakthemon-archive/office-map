@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChange } from 'angular2/core';
+import { Component, Input, OnChanges, OnInit, SimpleChange } from 'angular2/core';
 import { Router, RouteParams, ROUTER_DIRECTIVES } from 'angular2/router';
 
 import { PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
@@ -16,9 +16,10 @@ import { FilterUtils } from '../../app/utils/filter.utils';
     pipes: [PaginatePipe],
     providers: [PaginationService]
 })
-export class WorkerSearch implements OnChanges {
+export class WorkerSearch implements OnChanges, OnInit {
     workers: Worker[];
 
+    @Input() adminMode: boolean = false;
     @Input() query: string = '';
     @Input() itemsPerPage = 10;
     @Input() showQueryField: boolean = false;
@@ -32,9 +33,21 @@ export class WorkerSearch implements OnChanges {
     constructor(public workerService: WorkerService) {}
 
     ngOnChanges(changes: {[propName: string]: SimpleChange}) {
+        // in case it's updated externally
         if (changes['query']) {
             this.request();
         }
+    }
+
+    ngOnInit() {
+        this.request();
+    }
+
+    setQuery(query: string) {
+        this.query = query;
+
+        // also makes request on every change
+        this.request();
     }
 
     setTeamFilter(team: Team, show: boolean) {

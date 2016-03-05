@@ -3,4 +3,7 @@
 .media-body
 	h4.media-heading {{worker.firstName}} {{worker.lastName}}
 	p Key person. Team: {{worker.teamName}}. Gender: {{worker.genderName}}
-	ng-content(selector='[buttons]')
+	.btn-group
+		a.btn.btn-primary('[routerLink]'='["/MapRouter", "WorkerLocate", { worker: worker.id }]') Locate
+		a.btn.btn-warning('*ngIf'='adminMode', '[routerLink]'='["/AdminRouter", "Workers", "WorkerEdit", { worker: worker.id }]') Edit
+		a.btn.btn-danger('*ngIf'='adminMode', '(click)'='deleteWorker(worker)') Delete

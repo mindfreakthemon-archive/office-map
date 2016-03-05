@@ -4,12 +4,5 @@ toolbar.navbar.navbar-default.navbar-fixed-top
 			admin-toolbar.btn-group
 
 .container
-	h3('*ngIf'='!workers') Loading...
-
-	div('*ngIf'='workers && workers.length')
-		worker-item.media('*ngFor'='#worker of workers | paginate:10', '[worker]'='worker')
-			.btn-group
-				a.btn.btn-warning('[routerLink]'='["/AdminRouter", "Workers", "WorkerEdit", { worker: worker.id }]') Edit
-				a.btn.btn-danger('(click)'='deleteWorker(worker)') Delete
-		pagination-controls
+	worker-search('[showQueryField]'='true', '[adminMode]'='true')
 	p: a.btn.btn-default('[routerLink]'='["/AdminRouter", "Workers", "WorkerAdd"]') Add

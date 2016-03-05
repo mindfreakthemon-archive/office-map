@@ -5,14 +5,12 @@ h3('*ngIf'='!workers') Loading...
 		.col-md-8('*ngIf'='!workers.length')
 			h4 Nothing was found for "{{query}}"
 		.col-md-8('*ngIf'='workers.length')
-			worker-item.media('*ngFor'='#worker of workers | paginate:itemsPerPage', '[worker]'='worker')
-				.btn-group(buttons)
-					a.btn.btn-danger('[routerLink]'='["/MapRouter", "WorkerLocate", { worker: worker.id }]') Locate
+			worker-item.media('*ngFor'='#worker of workers | paginate:itemsPerPage', '[worker]'='worker', '[adminMode]'='adminMode')
 		.col-md-4
 			form
 				.form-grorup('*ngIf'='showQueryField')
 					h4 Query:
-					input.form-control('(input)'='query = $event.target.value', '[value]'='query')
+					input.form-control('[(ngModel)]'='query', '(input)'='setQuery($event.target.value)')
 				h4 Team:
 				.checkbox('*ngFor'='#entry of teams')
 					label
