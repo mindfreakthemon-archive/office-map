@@ -8,6 +8,7 @@ import { Tabs } from './tabs';
     templateUrl: 'tabs/templates/tab.jade'
 })
 export class Tab {
+    @Input() id: string;
     @Input() title: string;
     @Input() active = false;
 

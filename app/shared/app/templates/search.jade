@@ -1,15 +1,15 @@
-toolbar('[showQuickSearch]'='false').navbar.navbar-default.navbar-fixed-top
+toolbar.navbar.navbar-default.navbar-fixed-top
 
 
 .container
 	.row
 		.col-xs-12
 			form
-				input(type='text', '[(ngModel)]'='query', placeholder='Search Query').form-control
+				input(type='text', '[(ngModel)]'='query', '(blur)'='onBlur($event)', placeholder='Search Query').form-control
 	.row
 		.col-xs-12
-			tabs
-				tab(title='Workers {{workersLength}}')
+			tabs('(select)'='onSelect($event)')
+				tab(id='workers', '[active]'='activeTab === "workers"', title='Workers {{workersLength}}')
 					worker-search('[query]'='query', '(results)'='workersLength = $event.length')
-				tab(title='Rooms {{roomsLength}}')
+				tab(id='rooms', '[active]'='activeTab === "rooms"', title='Rooms {{roomsLength}}')
 					room-search('[query]'='query', '(results)'='roomsLength = $event.length')

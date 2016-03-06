@@ -1,4 +1,4 @@
-import { Component } from 'angular2/core';
+import { Component, Input, Output, EventEmitter } from 'angular2/core';
 
 import { Tab } from './tab';
 
@@ -8,19 +8,16 @@ import { Tab } from './tab';
     templateUrl: 'tabs/templates/tabs.jade'
 })
 export class Tabs {
-    tabs: Tab[];
+    tabs: Tab[] = [];
 
-    constructor() {
-        this.tabs = [];
-    }
+    @Output() select = new EventEmitter<Tab>();
 
-    selectTab(event, tab) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        this.tabs.forEach(tab => tab.active = false);
+    selectTab(tab) {
+        this.hideAll();
 
         tab.active = true;
+
+        this.select.emit(tab);
     }
 
     addTab(tab: Tab) {
@@ -29,5 +26,9 @@ export class Tabs {
         }
 
         this.tabs.push(tab);
+    }
+
+    hideAll() {
+        this.tabs.forEach((tab: Tab) => tab.active = false);
     }
 }

@@ -14,7 +14,8 @@ import { Search } from './search';
     { path: '/', redirectTo: ['/MapRouter', 'Default'] },
     { path: '/admin/...', as: 'AdminRouter', component: AdminRouter},
     { path: '/map/...', as: 'MapRouter', component: MapRouter },
-    { path: '/search', as: 'Search', component: Search }
+    { path: '/search', as: 'Search', component: Search },
+    { path: '/search/:tab', as: 'SearchTab', component: Search }
 ])
 export class App {}
 

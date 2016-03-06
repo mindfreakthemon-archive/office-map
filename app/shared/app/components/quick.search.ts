@@ -12,7 +12,7 @@ export class QuickSearch {
     constructor(public router: Router) {}
 
     onSubmit(event) {
-        this.router.navigate(['/Search', { query: this.query }]);
+        this.router.navigate(['/SearchTab', { tab: 'workers', query: this.query }]);
     }
 
     onInput(e) {
