@@ -5,12 +5,15 @@ h3('*ngIf'='!rooms') Loading...
 		.col-md-8('*ngIf'='!rooms.length')
 			h4 Nothing was found for "{{query}}"
 		.col-md-8('*ngIf'='rooms.length')
-			room-item.media('*ngFor'='#room of rooms | paginate:itemsPerPage', '[room]'='room')
-				.btn-group
-					a.btn.btn-danger('[routerLink]'='["/MapRouter", "RoomLocate", { room: room.id }]') Locate
+			room-item.media('*ngFor'='#room of rooms | paginate:itemsPerPage', '[room]'='room', '[adminMode]'='adminMode')
 		.col-md-4
 			form
-				h4 Floor:
+				.form-grorup('*ngIf'='showQueryField')
+					h4 Query:
+					input.form-control('[(ngModel)]'='query', '(input)'='setQuery($event.target.value)')
+				.form-group
+					h4 Floor:
+						p haha
 
 	.row('*ngIf'='rooms.length')
 		pagination-controls

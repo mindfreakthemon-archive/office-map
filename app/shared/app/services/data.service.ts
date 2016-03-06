@@ -2,13 +2,16 @@ import { Injectable } from 'angular2/core';
 import { Http } from 'angular2/http';
 import { Observable } from 'rxjs/Observable';
 
+import uuid = require('node-uuid');
+
 
 @Injectable()
 export class DataService<T> {
     protected items: T[];
     protected http: Http;
 
-    constructor() {}
+    constructor() {
+    }
 
     protected get KEY() {
         return 'id';
@@ -61,6 +64,10 @@ export class DataService<T> {
     }
 
     put(item: T) {
+        if (!item[this.KEY]) {
+            item[this.KEY] = uuid.v4();
+        }
+
         if (this.has(item)) {
             this.items.splice(this.index(item), 1, item);
 

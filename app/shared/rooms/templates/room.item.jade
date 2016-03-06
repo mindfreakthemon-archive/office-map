@@ -2,5 +2,8 @@
 	img.media-object('[src]'='room.flag')
 .media-body
 	h4.media-heading {{room.name}}
-	p yes
-	ng-content(selector='[buttons]')
+	p Nice Room
+	.btn-group
+		a.btn.btn-primary('[routerLink]'='["/MapRouter", "RoomLocate", { room: room.id }]') Locate
+		a.btn.btn-warning('*ngIf'='adminMode', '[routerLink]'='["/AdminRouter", "Rooms", "RoomEdit", { room: room.id }]') Edit
+		a.btn.btn-danger('*ngIf'='adminMode', '(click)'='deleteRoom(room)') Delete

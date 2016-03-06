@@ -1,0 +1,9 @@
+form('(submit)'='onSubmit()')
+	.form-group('*ngIf'='!create')
+		label ID:
+		input.form-control(type='text', placeholder='ID', '[(ngModel)]'='room.id', readonly)
+	.form-group
+		label Name:
+		input.form-control(type='text', placeholder='Name', '[(ngModel)]'='room.name')
+
+	button.btn.btn-default(type='submit', '[innerText]'='create ? "Add" : "Edit"')

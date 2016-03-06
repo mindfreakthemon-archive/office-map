@@ -5,8 +5,6 @@ import { Observable } from 'rxjs/Observable';
 import { Worker } from '../models/worker';
 import { DataService } from '../../app/services/data.service';
 
-import uuid = require('node-uuid');
-
 @Injectable()
 export class WorkerService extends DataService<Worker> {
     constructor(protected http: Http) {
@@ -32,21 +30,5 @@ export class WorkerService extends DataService<Worker> {
                     .some(string => string.indexOf(query) > -1);
             })
             .toArray();
-    }
-
-    searchById(id: string) {
-        return this.getAll()
-            .flatMap<Worker>(array => Observable.from(array, null, null, null))
-            .filter(worker => {
-                return worker.id === id;
-            });
-    }
-
-    put(worker: Worker) {
-        if (!worker.id) {
-            worker.id = uuid.v4();
-        }
-
-        super.put(worker);
     }
 }

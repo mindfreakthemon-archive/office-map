@@ -63,8 +63,8 @@ export class MapCanvas {
         this.getRoomsSubscription = this.roomService.getAll()
             .subscribe(rooms => this.rooms = rooms);
 
-        window.floor = this.floor;
-        window.myMap = this.map;
+        window['floor'] = this.floor;
+        window['myMap'] = this.map;
     }
 
     ngOnDestroy() {
@@ -220,7 +220,7 @@ export class MapCanvas {
         };
 
         let attachPlace = (e) => {
-            this.roomService.searchById(this.roomIdToAttach).subscribe(room => {
+            this.roomService.get(this.roomIdToAttach).subscribe(room => {
                 room['floor'] = this.floor.number;
                 this.floor.addPlace(e.latlng, room, 'germany.png');
                 this.drawPlace(this.floor.lastPlace());
@@ -269,7 +269,7 @@ export class MapCanvas {
             seatOnMap = L.circleMarker(latlng);
 
         if (seat.worker) {
-            this.workerService.searchById(seat.worker).subscribe(worker => {
+            this.workerService.get(seat.worker).subscribe(worker => {
                 seatOnMap
                     .setStyle({color: 'red'})
                     .bindPopup(`<img src="${worker.photo}" alt=""/>

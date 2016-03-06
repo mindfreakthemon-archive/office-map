@@ -5,19 +5,26 @@ import { Point } from '../../map/models/point';
 import { Worker } from '../../workers/models/worker';
 import { IRoom } from '../../rooms/models/room';
 
-const FLOOR_DEFAULT_SKELETON = { number: null, walls: [], places: [], seats: [] };
+interface IFloor {
+    number: string;
+    walls: Wall[];
+    places: Place[];
+    seats: any[];
+}
 
-export class Floor {
+const FLOOR_DEFAULT_SKELETON: IFloor = { number: null, walls: [], places: [], seats: [] };
+
+export class Floor implements IFloor {
 
     number: string;
     walls: Wall[];
     places: Place[];
     seats: Seat[];
 
-    constructor({ number, walls, places, seats }: { number: string, walls: Wall[], places: Place[], seats: any[] } = FLOOR_DEFAULT_SKELETON) {
+    constructor({ number, walls, places, seats }: IFloor = FLOOR_DEFAULT_SKELETON) {
         this.number = number;
         this.walls = walls;
-        this.places = places|| [];
+        this.places = places || [];
         this.seats = seats || [];
     }
 
@@ -30,7 +37,7 @@ export class Floor {
     }
 
     addPlace(latlng, room: IRoom, icon: string) {
-        this.places.push(new Place(room.id , room.name, icon, { x: latlng.lat, y: latlng.lng }, room.floor));
+        this.places.push(new Place(room.id, room.name, icon, { x: latlng.lat, y: latlng.lng }, room.floor));
     }
 
     lastPlace() {

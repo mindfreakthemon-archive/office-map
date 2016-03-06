@@ -13,12 +13,6 @@ export class RoomService extends DataService<Room> {
         super();
     }
 
-    searchById(id: string) {
-        return this.getAll()
-            .flatMap<Room>(array => Observable.from(array, null, null, null))
-            .filter(room => room.id === id);
-    }
-
     request() {
         return this.http.get('/public/mocks/rooms.json')
             .map(response => response.json())

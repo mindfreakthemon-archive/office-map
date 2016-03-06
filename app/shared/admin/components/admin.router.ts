@@ -5,6 +5,7 @@ import { AdminWelcome } from './admin.welcome';
 
 import { FloorRouter } from '../../floors/component/floor.router';
 import { WorkerRouter } from '../../workers/components/worker.router';
+import { RoomRouter } from '../../rooms/component/room.router';
 
 
 @Component({
@@ -18,7 +19,8 @@ import { WorkerRouter } from '../../workers/components/worker.router';
     { path: '/', as: 'Default', component: AdminWelcome },
 
     { path: '/floors/...', as: 'Floors', component: FloorRouter },
-    { path: '/workers/...', as: 'Workers', component: WorkerRouter }
+    { path: '/workers/...', as: 'Workers', component: WorkerRouter },
+    { path: '/rooms/...', as: 'Rooms', component: RoomRouter }
 ])
 export class AdminRouter {
 }

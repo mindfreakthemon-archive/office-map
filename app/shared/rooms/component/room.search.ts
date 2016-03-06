@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnChanges, SimpleChange, EventEmitter } from 'angular2/core';
+import { Component, Input, Output, OnChanges, OnInit, SimpleChange, EventEmitter } from 'angular2/core';
 import { Router, RouteParams, ROUTER_DIRECTIVES } from 'angular2/router';
 
 import { PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination';
@@ -16,8 +16,18 @@ import { FilterUtils } from '../../app/utils/filter.utils';
     pipes: [PaginatePipe],
     providers: [PaginationService]
 })
-export class RoomSearch implements OnChanges {
+export class RoomSearch implements OnChanges, OnInit {
     rooms: Room[];
+
+    /**
+     * Toggles Edit and Delete button.
+     */
+    @Input() adminMode: boolean = false;
+
+    /**
+     * Toggles small query input field to filter with.
+     */
+    @Input() showQueryField: boolean = false;
 
     @Input() query: string = '';
     @Input() itemsPerPage = 10;
@@ -30,6 +40,17 @@ export class RoomSearch implements OnChanges {
         if (changes['query']) {
             this.request();
         }
+    }
+
+    ngOnInit() {
+        this.request();
+    }
+
+    setQuery(query: string) {
+        this.query = query;
+
+        // also makes request on every change
+        this.request();
     }
 
     request() {

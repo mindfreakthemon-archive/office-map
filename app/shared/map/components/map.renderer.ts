@@ -38,12 +38,12 @@ export class MapRenderer {
                 .subscribe(worker => this.worker = worker);
         }
 
-        if (routeParams.get('room')){
+        if (routeParams.get('room')) {
             this.roomId = routeParams.get('room');
             this.floorService.getFloorByRoomId(this.roomId)
                 .subscribe(floor => this.floorNumber = floor.number);
 
-            this.floorNumber && this.roomService.searchById(this.roomId)
+            this.floorNumber && this.roomService.get(this.roomId)
                 .subscribe(room => this.room = room);
         }
 
