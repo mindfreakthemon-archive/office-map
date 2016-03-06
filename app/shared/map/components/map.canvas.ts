@@ -222,7 +222,7 @@ export class MapCanvas {
         let attachPlace = (e) => {
             this.roomService.get(this.roomIdToAttach).subscribe(room => {
                 room['floor'] = this.floor.number;
-                this.floor.addPlace(e.latlng, room, 'germany.png');
+                //this.floor.addPlace(e.latlng, room, 'markers/germany.png');
                 this.drawPlace(this.floor.lastPlace());
             });
         };

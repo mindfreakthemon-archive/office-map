@@ -4,7 +4,7 @@ var gulp = require('gulp'),
 
 gulp.task('images', function () {
     gulp.src('./assets/images/**/*.png')
-        .pipe(flatten())
+        //.pipe(flatten())
         .pipe(gulp.dest('./public/images'))
         .pipe(livereload());
 });

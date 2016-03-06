@@ -2731,7 +2731,7 @@
       {
         "id": "germany",
         "name": "Germany",
-        "icon": "germany.png",
+        "icon": "markers/germany.png",
         "position": {
           "x": 70.25945200030641,
           "y": -118.65234375000001
