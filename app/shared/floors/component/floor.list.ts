@@ -9,10 +9,10 @@ import { Floor } from '../models/floor';
 
 @Component({
     selector: 'floors-list',
-    templateUrl: '/floors/templates/floors.list.jade',
+    templateUrl: '/floors/templates/floor.list.jade',
     directives: [ROUTER_DIRECTIVES, AdminToolbar, Toolbar]
 })
-export class FloorsList {
+export class FloorList {
     floors: Floor[];
 
     constructor(

@@ -9,8 +9,8 @@ import { WorkerSearch } from './worker.search';
 
 @Component({
     selector: 'workers-list',
-    templateUrl: '/workers/templates/workers.list.jade',
+    templateUrl: '/workers/templates/worker.list.jade',
     directives: [ROUTER_DIRECTIVES, AdminToolbar, Toolbar, WorkerSearch]
 })
-export class WorkersList {
+export class WorkerList {
 }

@@ -1,7 +1,7 @@
 import { Component } from 'angular2/core';
 import { ROUTER_DIRECTIVES, RouteConfig } from 'angular2/router';
 
-import { WorkersList } from './workers.list';
+import { WorkerList } from './worker.list';
 import { WorkerEdit } from './worker.edit';
 import { WorkerAdd } from './worker.add';
 
@@ -12,7 +12,7 @@ import { WorkerAdd } from './worker.add';
     templateUrl: 'workers/templates/worker.router.jade'
 })
 @RouteConfig([
-    { path: '/list', as: 'WorkersList', component: WorkersList },
+    { path: '/list', as: 'WorkerList', component: WorkerList },
     { path: '/worker/new', as: 'WorkerAdd', component: WorkerAdd },
     { path: '/worker/:worker/edit', as: 'WorkerEdit', component: WorkerEdit }
 ])

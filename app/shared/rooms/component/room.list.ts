@@ -9,8 +9,8 @@ import { RoomSearch } from './room.search';
 
 @Component({
     selector: 'rooms-list',
-    templateUrl: '/rooms/templates/rooms.list.jade',
+    templateUrl: '/rooms/templates/room.list.jade',
     directives: [ROUTER_DIRECTIVES, AdminToolbar, Toolbar, RoomSearch]
 })
-export class RoomsList {
+export class RoomList {
 }
