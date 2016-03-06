@@ -3,7 +3,7 @@ export class FilterUtils {
         let queries = query
             .split(' ')
             .filter(q => q.length > 0)
-            .map(q => q.split('').join('.*'))
+            .map(q => q.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&').replace(/\w/gi, '$&.*'))
             .map(q => new RegExp(q, 'i'));
 
         return item => {
