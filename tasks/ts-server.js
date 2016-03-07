@@ -14,6 +14,7 @@ gulp.task('ts-server', function () {
 		.pipe(inlineNG2Template({ base: 'app/shared', jade: true }))
 		.pipe(sourcemaps.init())
 		.pipe(ts({
+			target: 'es5',
 			sortOutput: true,
 			module: 'commonjs',
 			moduleResolution: 'node',
