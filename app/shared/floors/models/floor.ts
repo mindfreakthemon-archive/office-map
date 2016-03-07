@@ -5,7 +5,7 @@ import { Point } from '../../map/models/point';
 import { Worker } from '../../workers/models/worker';
 import { IRoom } from '../../rooms/models/room';
 
-interface IFloor {
+export interface IFloor {
     number: string;
     walls: Wall[];
     places: Place[];
