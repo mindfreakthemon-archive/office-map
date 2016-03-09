@@ -1,4 +1,4 @@
- ```mongodump  --db officeMap --collection floors
+ mongodump  --db officeMap --collection floors
  
  mongorestore --collection floors --db officeMap dump/officeMap/floors.bson
  
@@ -8,4 +8,4 @@
   
  mongodump  --db officeMap --collection workers
  
- mongorestore --collection workers --db officeMap dump/officeMap/workers.bson```
+ mongorestore --collection workers --db officeMap dump/officeMap/workers.bson
