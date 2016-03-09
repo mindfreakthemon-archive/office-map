@@ -29,22 +29,25 @@ export class FloorService extends DataService<Floor> {
             .filter(floor => floor.places.filter(place => place.id === id).length > 0);
     }
 
-    addHero(floor: Floor) {
+    setFloor(floor: Floor) {
         let headers = new Headers(),
             body =  JSON.stringify(floor);
 
         headers.append('Content-Type', 'application/json');
 
-        this.http.post('/send', body, {headers: headers})
+        this.http.post('/setfloor', body, {headers: headers})
             .subscribe();
     }
 
     request() {
+        this.http.get('/getfloors')
+            .subscribe((floors) => console.log('floors', JSON.parse(floors._body)));
+
         return this.http.get('/public/mocks/floors.json')
             .map(response => response.json())
             .flatMap<Floor>(array => Observable.from(array, null, null, null))
             .map(floor => {
-                this.addHero(floor);
+                //this.setFloor(floor);
                 return new Floor(floor)
             })
             .share();

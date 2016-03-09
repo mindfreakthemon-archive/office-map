@@ -1,5 +1,5 @@
 import { Injectable } from 'angular2/core';
-import { Http } from 'angular2/http';
+import { Http, Headers, RequestOptions } from 'angular2/http';
 import { Observable } from 'rxjs/Observable';
 
 import { Room } from '../models/room';
@@ -13,11 +13,27 @@ export class RoomService extends DataService<Room> {
         super();
     }
 
+    setRoom(room: Room) {
+        let headers = new Headers(),
+            body =  JSON.stringify(room);
+
+        headers.append('Content-Type', 'application/json');
+
+        this.http.post('/setroom', body, {headers: headers})
+            .subscribe();
+    }
+
     request() {
+        this.http.get('/getrooms')
+            .subscribe((rooms) => console.log('rooms', JSON.parse(rooms._body)));
+
         return this.http.get('/public/mocks/rooms.json')
             .map(response => response.json())
             .flatMap<Room>(array => Observable.from(array, null, null, null))
-            .map(floor => new Room(floor))
+            .map(room => {
+                //this.setRoom(room);
+                return new Room(room)
+            })
             .share();
     }
 }
