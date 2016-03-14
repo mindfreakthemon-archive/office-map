@@ -260,7 +260,7 @@ export class MapCanvas {
         let myIcon = L.icon({
             iconUrl: place.icon,
             iconAnchor: [12, 12],
-            popupAnchor: [0, -5]
+            popupAnchor: [3, -5]
         });
 
         L.marker([place.position.x, place.position.y], {icon: myIcon})

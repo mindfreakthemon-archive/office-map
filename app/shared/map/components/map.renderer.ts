@@ -15,10 +15,6 @@ import { Room } from '../../rooms/models/room';
     directives: [MapCanvas]
 })
 export class MapRenderer {
-    workerId: string;
-    roomId: string;
-    floorNumber: string;
-
     worker: Worker;
     room: Room;
     floor: Floor;
@@ -29,38 +25,36 @@ export class MapRenderer {
                 private roomService: RoomService) {
 
         if (routeParams.get('worker')) {
-            this.workerId = routeParams.get('worker');
-
-            this.floorService.getFloorByWorkerId(this.workerId)
-                .subscribe(floor => this.floorNumber = floor.number);
-
-            this.floorNumber && this.workerService.get(this.workerId)
-                .subscribe(worker => this.worker = worker);
+            this.floorService
+                .getFloorByWorkerId(routeParams.get('worker'))
+                .subscribe(floor => {
+                    this.workerService
+                        .get(routeParams.get('worker'))
+                        .subscribe(worker => {
+                            this.worker = worker;
+                            this.floor = floor;
+                        });
+                });
+        } else if (routeParams.get('room')) {
+            this.floorService
+                .getFloorByRoomId(routeParams.get('room'))
+                .subscribe(floor => {
+                    this.roomService
+                        .get(routeParams.get('room'))
+                        .subscribe(room => {
+                            this.room = room;
+                            this.floor = floor;
+                        });
+                });
+        } else if (routeParams.get('floor')) {
+            this.floorService
+                .get(routeParams.get('floor'))
+                .subscribe(floor => this.floor = floor);
+        } else {
+            this.floorService
+                .first()
+                .subscribe(floor => this.floor = floor);
         }
 
-        if (routeParams.get('room')) {
-            this.roomId = routeParams.get('room');
-            this.floorService.getFloorByRoomId(this.roomId)
-                .subscribe(floor => this.floorNumber = floor.number);
-
-            this.floorNumber && this.roomService.get(this.roomId)
-                .subscribe(room => this.room = room);
-        }
-
-        if (routeParams.get('floor')) {
-            this.floorNumber = routeParams.get('floor');
-        }
-
-        this.floorService.get(this.floorNumber)
-            .subscribe(
-                floor => this.floor = floor,
-                error => error,
-                () => {
-                    if (!this.floor) {
-                        this.floorService.first()
-                            .subscribe(floor => this.floor = floor);
-                    }
-                }
-            );
     }
 }

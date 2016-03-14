@@ -6,16 +6,16 @@
   "bundle": "typings/tsd.d.ts",
   "installed": {
     "express/express.d.ts": {
-      "commit": "40c60850ad6c8175a62d5ab48c4e016ea5b3dffe"
+      "commit": "0cd5f0a1482dc3149f5446b1d885ef6ac7c57720"
     },
     "node/node.d.ts": {
-      "commit": "9f0f926a12026287b5a4a229e5672c01e7549313"
+      "commit": "0cd5f0a1482dc3149f5446b1d885ef6ac7c57720"
     },
     "serve-static/serve-static.d.ts": {
-      "commit": "40c60850ad6c8175a62d5ab48c4e016ea5b3dffe"
+      "commit": "0cd5f0a1482dc3149f5446b1d885ef6ac7c57720"
     },
     "mime/mime.d.ts": {
-      "commit": "40c60850ad6c8175a62d5ab48c4e016ea5b3dffe"
+      "commit": "0cd5f0a1482dc3149f5446b1d885ef6ac7c57720"
     },
     "mongodb/mongodb.d.ts": {
       "commit": "dc9dabe74a5be62613b17a3605309783a12ff28a"
@@ -37,6 +37,9 @@
     },
     "node-uuid/node-uuid-cjs.d.ts": {
       "commit": "9f0f926a12026287b5a4a229e5672c01e7549313"
+    },
+    "body-parser/body-parser.d.ts": {
+      "commit": "0cd5f0a1482dc3149f5446b1d885ef6ac7c57720"
     }
   }
 }
