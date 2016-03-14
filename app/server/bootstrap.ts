@@ -23,7 +23,8 @@ app.get('/getfloors', (req, res) => db.getFloors(res));
 
 app.post('/setfloor', jsonParser, function (req, res) {
     if (!req.body) return res.sendStatus(400);
-    return db.setFloor(req.body);
+    db.setFloor(req.body);
+    res.sendStatus(200);
 });
 
 app.get('/getrooms', (req, res) => db.getRooms(res));

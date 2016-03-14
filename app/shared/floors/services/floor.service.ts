@@ -5,6 +5,9 @@ import { Observable } from 'rxjs/Observable';
 import { Floor } from '../models/floor';
 import { DataService } from '../../app/services/data.service';
 
+import { IRoom } from '../../rooms/models/room';
+import { Place } from '../../map/models/place';
+
 
 @Injectable()
 export class FloorService extends DataService<Floor> {
@@ -35,21 +38,14 @@ export class FloorService extends DataService<Floor> {
 
         headers.append('Content-Type', 'application/json');
 
-        this.http.post('/setfloor', body, {headers: headers})
-            .subscribe();
+        return this.http.post('/setfloor', body, {headers: headers});
     }
 
     request() {
-        this.http.get('/getfloors')
-            .subscribe((floors) => console.log('floors', JSON.parse(floors._body)));
-
-        return this.http.get('/public/mocks/floors.json')
+        return this.http.get('/getfloors')
             .map(response => response.json())
             .flatMap<Floor>(array => Observable.from(array, null, null, null))
-            .map(floor => {
-                //this.setFloor(floor);
-                return new Floor(floor)
-            })
+            .map(floor => new Floor(floor))
             .share();
     }
 }

@@ -17,21 +17,14 @@ export class WorkerService extends DataService<Worker> {
 
         headers.append('Content-Type', 'application/json');
 
-        this.http.post('/setworker', body, {headers: headers})
-            .subscribe();
+        return this.http.post('/setworker', body, {headers: headers});
     }
 
     request() {
-        this.http.get('/getworkers')
-            .subscribe((workers) => console.log('workers', JSON.parse(workers._body)));
-
-        return this.http.get('/public/mocks/workers.json')
+        return this.http.get('/getworkers')
             .map(response => response.json())
             .flatMap<Worker>(array => Observable.from(array, null, null, null))
-            .map(worker => {
-                //this.setWorker(worker);
-                new Worker(worker);
-            })
+            .map(worker => new Worker(worker))
             .share();
     }
 

@@ -28,7 +28,7 @@ export function setFloor(floor: IFloor) {
         if(err) { return console.dir(err); }
         db.collection('floors').find({number: floor.number}).toArray(function(err, floors){
             if(floors.length) {
-                updateFloor(floor, db)
+                updateFloor(floor, db);
             } else {
                 insertFloor(floor, db);
             }

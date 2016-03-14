@@ -40,9 +40,12 @@ export class MapCanvas {
 
     private map;
 
-    constructor(private adminActionService: AdminActionService,
+    constructor(
+        private adminActionService: AdminActionService,
         private workerService: WorkerService,
-        private roomService: RoomService) {}
+        private floorService: FloorService,
+        private roomService: RoomService
+    ) {}
 
     ngOnInit() {
         this.initMap();
@@ -216,14 +219,16 @@ export class MapCanvas {
 
         let attachSeat = (e) => {
             this.floor.addSeat(e.latlng);
-            this.drawSeat(this.floor.lastSeat());
+            this.floorService.setFloor(this.floor)
+                .subscribe(() => this.drawSeat(this.floor.lastSeat()));
         };
 
         let attachPlace = (e) => {
             this.roomService.get(this.roomIdToAttach).subscribe(room => {
                 room['floor'] = this.floor.number;
-                //this.floor.addPlace(e.latlng, room, 'markers/germany.png');
-                this.drawPlace(this.floor.lastPlace());
+                this.floor.addPlace(e.latlng, room);
+                this.floorService.setFloor(this.floor)
+                    .subscribe(() => this.drawPlace(this.floor.lastPlace()));
             });
         };
 
@@ -232,7 +237,6 @@ export class MapCanvas {
             (this.clickAction === 3) && attachPlace(e);
             (this.clickAction === 4) && createLine(e);
             (this.clickAction === 5) && createArc(e);
-            console.log(e.latlng);
         };
 
         this.map.on('click', onMapClick);
@@ -254,7 +258,7 @@ export class MapCanvas {
 
     drawPlace(place: Place) {
         let myIcon = L.icon({
-            iconUrl: 'public/images/' + place.icon,
+            iconUrl: place.icon,
             iconAnchor: [12, 12],
             popupAnchor: [0, -5]
         });
@@ -279,8 +283,12 @@ export class MapCanvas {
         } else seatOnMap.on('click', (e) => {
             if (this.clickAction === 2) {
                 this.floor.setWorkerOnSeat(seat, this.workerIdToAttach);
-                this.map.removeLayer(seatOnMap);
-                this.drawSeat(seat);
+                this.floorService
+                    .setFloor(this.floor)
+                    .subscribe(() => {
+                        this.map.removeLayer(seatOnMap);
+                        this.drawSeat(seat);
+                    });
             }
         });
 

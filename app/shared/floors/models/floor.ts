@@ -36,8 +36,8 @@ export class Floor implements IFloor {
         }
     }
 
-    addPlace(latlng, room: IRoom, icon: string) {
-        this.places.push(new Place(room.id, room.name, icon, { x: latlng.lat, y: latlng.lng }, room.floor));
+    addPlace(latlng, room: IRoom) {
+        this.places.push(new Place(room.id, room.name, room.icon, { x: latlng.lat, y: latlng.lng }, room.floor));
     }
 
     lastPlace() {

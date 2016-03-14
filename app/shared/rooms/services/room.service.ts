@@ -19,21 +19,14 @@ export class RoomService extends DataService<Room> {
 
         headers.append('Content-Type', 'application/json');
 
-        this.http.post('/setroom', body, {headers: headers})
-            .subscribe();
+        return this.http.post('/setroom', body, {headers: headers});
     }
 
     request() {
-        this.http.get('/getrooms')
-            .subscribe((rooms) => console.log('rooms', JSON.parse(rooms._body)));
-
-        return this.http.get('/public/mocks/rooms.json')
+        return this.http.get('/getrooms')
             .map(response => response.json())
             .flatMap<Room>(array => Observable.from(array, null, null, null))
-            .map(room => {
-                //this.setRoom(room);
-                return new Room(room)
-            })
+            .map(room => new Room(room))
             .share();
     }
 }
