@@ -159,7 +159,9 @@ export class MapCanvas {
                 this.map.off('mousemove', drawTemporaryLine);
                 this.floor.addWall('line', 'black', linePoints[0], linePoints[1]);
                 linePoints = [];
-                this.drawWall(this.floor.lastWall());
+                this.floorService
+                    .setFloor(this.floor)
+                    .subscribe(() => this.drawWall(this.floor.lastWall()));
             }
         };
 
@@ -213,7 +215,9 @@ export class MapCanvas {
                 this.map.off('mousemove', drawTemporaryArc);
                 this.floor.addWall('arc', 'black', arcPoints[0], arcPoints[1], arcPoints[2]);
                 arcPoints = [];
-                this.drawWall(this.floor.lastWall());
+                this.floorService
+                    .setFloor(this.floor)
+                    .subscribe(() => this.drawWall(this.floor.lastWall()));
             }
         };
 
