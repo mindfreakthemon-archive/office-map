@@ -7,7 +7,7 @@ import { IWorker } from '../shared/workers/models/worker';
 
 
 let MongoClient = mongodb.MongoClient;
-var url = 'mongodb://127.0.0.1:27017/officeMap';
+var url = 'mongodb://82.196.2.52:27017/officeMap';
 
 let insertFloor = (floor, db) => {
     db.collection('floors').insertOne(floor, (err, result) => {
