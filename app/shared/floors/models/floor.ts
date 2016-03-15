@@ -36,8 +36,18 @@ export class Floor implements IFloor {
         }
     }
 
+    deleteWall(wall: Wall) {
+        this.walls = this.walls
+            .filter((nextWall) => !Object.is(nextWall, wall));
+    }
+
     addPlace(latlng, room: IRoom) {
         this.places.push(new Place(room.id, room.name, room.icon, { x: latlng.lat, y: latlng.lng }, room.floor));
+    }
+
+    deletePlace(place: Place) {
+        this.places = this.places
+            .filter((nextPlace) => !Object.is(nextPlace, place));
     }
 
     lastPlace() {
@@ -50,6 +60,11 @@ export class Floor implements IFloor {
 
     addSeat(latlng: L.LatLng) {
         this.seats.push(new Seat({ x: latlng.lat, y: latlng.lng }));
+    }
+
+    deleteSeat(seat: Seat) {
+        this.seats = this.seats
+            .filter((nextSeat) => !Object.is(nextSeat, seat));
     }
 
     lastSeat() {

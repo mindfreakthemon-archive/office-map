@@ -267,14 +267,40 @@ export class MapCanvas {
             popupAnchor: [3, -5]
         });
 
-        L.marker([place.position.x, place.position.y], {icon: myIcon})
+        let placeOnMap = L.marker([place.position.x, place.position.y], {icon: myIcon})
             .bindPopup(`room: ${place.name}`)
             .addTo(this.map);
+
+        let deletePlace = () => {
+            this.floor.deletePlace(place);
+            this.floorService
+                .setFloor(this.floor)
+                .subscribe(() => {
+                    this.map.removeLayer(placeOnMap);
+                });
+        };
+
+        placeOnMap.on('click', (e) => {
+            (this.clickAction === 6) && deletePlace();
+        });
     }
 
     drawSeat(seat: Seat) {
         let latlng = new L.LatLng(seat.position.x, seat.position.y),
             seatOnMap = L.circleMarker(latlng);
+
+        let deleteSeat = () => {
+            this.floor.deleteSeat(seat);
+            this.floorService
+                .setFloor(this.floor)
+                .subscribe(() => {
+                    this.map.removeLayer(seatOnMap);
+                });
+        };
+
+        seatOnMap.on('click', (e) => {
+            (this.clickAction === 6) && deleteSeat();
+        });
 
         if (seat.worker) {
             this.workerService.get(seat.worker).subscribe(worker => {
@@ -308,14 +334,27 @@ export class MapCanvas {
         let start = new L.LatLng(line.start.x, line.start.y),
             end = new L.LatLng(line.end.x, line.end.y);
 
-        L.polyline(
+        let lineOnmap = L.polyline(
             [start, end],
             {color: line.color}
         ).addTo(this.map);
+
+        let deleteLine = () => {
+            this.floor.deleteWall(line);
+            this.floorService
+                .setFloor(this.floor)
+                .subscribe(() => {
+                    this.map.removeLayer(lineOnmap);
+                });
+        };
+
+        lineOnmap.on('click', (e) => {
+            (this.clickAction === 6) && deleteLine();
+        });
     }
 
     drawArc(arc: Wall) {
-        L.curve(
+        let arcOnMap = L.curve(
             [
                 'M', [arc.start.x, arc.start.y],
                 'C', [arc.start.x, arc.start.y], [arc.vertex.x, arc.vertex.y], [arc.end.x, arc.end.y],
@@ -323,5 +362,18 @@ export class MapCanvas {
             ],
             {color: arc.color}
         ).addTo(this.map);
+
+        let deleteArc = () => {
+            this.floor.deleteWall(arc);
+            this.floorService
+                .setFloor(this.floor)
+                .subscribe(() => {
+                    this.map.removeLayer(arcOnMap);
+                });
+        };
+
+        arcOnMap.on('click', (e) => {
+            (this.clickAction === 6) && deleteArc();
+        });
     }
 }
