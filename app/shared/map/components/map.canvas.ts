@@ -112,6 +112,7 @@ export class MapCanvas {
         floor.walls.map(wall => this.drawWall(wall));
         floor.places.map(place => this.drawPlace(place));
         this.allMapLayers.addTo(this.map);
+        window['gorup'] =this.allMapLayers;
         this.worker && this.locateWorker();
         this.room && this.locateRoom();
     }
@@ -276,7 +277,7 @@ export class MapCanvas {
 
     openPopupforLocated(layerPosition) {
         for(id in this.allMapLayers._layers) {
-            if ((this.allMapLayers._layers[id]._latlng.lat === layerPosition.x) && (this.allMapLayers._layers[id]._latlng.lng === layerPosition.y)) {
+            if (this.allMapLayers._layers[id]._latlng && (this.allMapLayers._layers[id]._latlng.lat === layerPosition.x) && (this.allMapLayers._layers[id]._latlng.lng === layerPosition.y)) {
                 this.allMapLayers._layers[id].openPopup();
             }
         }
