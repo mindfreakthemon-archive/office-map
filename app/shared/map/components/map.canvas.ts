@@ -38,6 +38,8 @@ export class MapCanvas {
     roomIdToAttach: string;
     clickAction: AdminAction = AdminAction.NONE;
 
+    private allMapLayers;
+
     private map;
 
     constructor(
@@ -65,9 +67,6 @@ export class MapCanvas {
 
         this.getRoomsSubscription = this.roomService.getAll()
             .subscribe(rooms => this.rooms = rooms);
-
-        window['floor'] = this.floor;
-        window['myMap'] = this.map;
     }
 
     ngOnDestroy() {
@@ -108,9 +107,11 @@ export class MapCanvas {
     }
 
     buildMap(floor: Floor) {
+        this.allMapLayers = new L.layerGroup();
         floor.seats.map((seat) => this.drawSeat(seat));
         floor.walls.map(wall => this.drawWall(wall));
         floor.places.map(place => this.drawPlace(place));
+        this.allMapLayers.addTo(this.map);
         this.worker && this.locateWorker();
         this.room && this.locateRoom();
     }
@@ -139,22 +140,23 @@ export class MapCanvas {
             linePoints.push(point);
 
             drawTemporaryLine = drawTemporaryLine ? drawTemporaryLine : (e) => {
-                temporaryFirstLine && this.map.removeLayer(temporaryFirstLine);
+                temporaryFirstLine && this.allMapLayers.removeLayer(temporaryFirstLine);
 
                 let start = new L.LatLng(linePoints[0].x, linePoints[0].y),
                     end = new L.LatLng(e.latlng.lat,  e.latlng.lng);
 
-                temporaryFirstLine = L.polyline([start, end]).addTo(this.map);
+                temporaryFirstLine = L.polyline([start, end]);
+                this.allMapLayers.addLayer(temporaryFirstLine);
             };
 
             if(linePoints.length === 1) {
                 temporaryFirstPoint = L.circleMarker([linePoints[0].x, linePoints[0].y])
                     .setRadius(3);
-                temporaryFirstPoint.addTo(this.map);
+                this.allMapLayers.addLayer(temporaryFirstPoint);
                 this.map.on('mousemove', drawTemporaryLine);
             } else {
-                this.map.removeLayer(temporaryFirstPoint);
-                this.map.removeLayer(temporaryFirstLine);
+                this.allMapLayers.removeLayer(temporaryFirstPoint);
+                this.allMapLayers.removeLayer(temporaryFirstLine);
 
                 this.map.off('mousemove', drawTemporaryLine);
                 this.floor.addWall('line', 'black', linePoints[0], linePoints[1]);
@@ -172,20 +174,24 @@ export class MapCanvas {
 
             drawTemporaryArc = drawTemporaryArc ? drawTemporaryArc : (e) => {
                 if(temporaryArc) {
-                    this.map.removeLayer(temporaryFirstLine);
-                    this.map.removeLayer(temporarySecondLine);
-                    this.map.removeLayer(temporaryArc);
+                    this.allMapLayers.removeLayer(temporaryFirstLine);
+                    this.allMapLayers.removeLayer(temporarySecondLine);
+                    this.allMapLayers.removeLayer(temporaryArc);
                 }
 
                 temporaryFirstLine = L.polyline([
                     new L.LatLng(arcPoints[0].x, arcPoints[0].y),
                     new L.LatLng(e.latlng.lat, e.latlng.lng)
-                ]).addTo(this.map);
+                ]);
+
+                this.allMapLayers.addLayer(temporaryFirstLine);
 
                 temporarySecondLine = L.polyline([
                     new L.LatLng(arcPoints[1].x, arcPoints[1].y),
                     new L.LatLng(e.latlng.lat, e.latlng.lng)
-                ]).addTo(this.map);
+                ]);
+
+                this.allMapLayers.addLayer(temporarySecondLine);
 
                 temporaryArc = L.curve(
                     [
@@ -193,24 +199,28 @@ export class MapCanvas {
                         'C', [arcPoints[0].x, arcPoints[0].y], [e.latlng.lat, e.latlng.lng], [arcPoints[1].x, arcPoints[1].y],
                         'T', [arcPoints[1].x, arcPoints[1].y]
                     ]
-                ).addTo(this.map);
+                );
+
+                this.allMapLayers.addLayer(temporaryArc);
             };
 
             if (arcPoints.length === 1) {
                 temporaryFirstPoint = L.circleMarker([arcPoints[0].x, arcPoints[0].y])
                     .setRadius(3);
-                temporaryFirstPoint.addTo(this.map);
+
+                this.allMapLayers.addLayer(temporaryFirstPoint);
             } else if (arcPoints.length === 2) {
                 temporarySecondPoint = L.circleMarker([arcPoints[1].x, arcPoints[1].y])
                     .setRadius(3);
-                temporarySecondPoint.addTo(this.map);
+
+                this.allMapLayers.addLayer(temporarySecondPoint);
                 this.map.on('mousemove', drawTemporaryArc);
             } else {
-                this.map.removeLayer(temporaryFirstLine);
-                this.map.removeLayer(temporarySecondLine);
-                this.map.removeLayer(temporaryArc);
-                this.map.removeLayer(temporaryFirstPoint);
-                this.map.removeLayer(temporarySecondPoint);
+                this.allMapLayers.removeLayer(temporaryFirstLine);
+                this.allMapLayers.removeLayer(temporarySecondLine);
+                this.allMapLayers.removeLayer(temporaryArc);
+                this.allMapLayers.removeLayer(temporaryFirstPoint);
+                this.allMapLayers.removeLayer(temporarySecondPoint);
 
                 this.map.off('mousemove', drawTemporaryArc);
                 this.floor.addWall('arc', 'black', arcPoints[0], arcPoints[1], arcPoints[2]);
@@ -251,6 +261,8 @@ export class MapCanvas {
             newCenter = new L.LatLng(workerSeat.position.x, workerSeat.position.y);
 
         this.map.setView(newCenter, 9);
+
+        this.openPopupforLocated(workerSeat.position);
     }
 
     locateRoom() {
@@ -258,6 +270,16 @@ export class MapCanvas {
             newCenter = new L.LatLng(room.position.x, room.position.y);
 
         this.map.setView(newCenter, 5);
+
+        this.openPopupforLocated(room.position);
+    }
+
+    openPopupforLocated(layerPosition) {
+        for(id in this.allMapLayers._layers) {
+            if ((this.allMapLayers._layers[id]._latlng.lat === layerPosition.x) && (this.allMapLayers._layers[id]._latlng.lng === layerPosition.y)) {
+                this.allMapLayers._layers[id].openPopup();
+            }
+        }
     }
 
     drawPlace(place: Place) {
@@ -268,15 +290,16 @@ export class MapCanvas {
         });
 
         let placeOnMap = L.marker([place.position.x, place.position.y], {icon: myIcon})
-            .bindPopup(`room: ${place.name}`)
-            .addTo(this.map);
+            .bindPopup(`room: ${place.name}`);
+
+        this.allMapLayers.addLayer(placeOnMap);
 
         let deletePlace = () => {
             this.floor.deletePlace(place);
             this.floorService
                 .setFloor(this.floor)
                 .subscribe(() => {
-                    this.map.removeLayer(placeOnMap);
+                    this.allMapLayers.removeLayer(placeOnMap);
                 });
         };
 
@@ -289,12 +312,14 @@ export class MapCanvas {
         let latlng = new L.LatLng(seat.position.x, seat.position.y),
             seatOnMap = L.circleMarker(latlng);
 
+        this.allMapLayers.addLayer(seatOnMap);
+
         let deleteSeat = () => {
             this.floor.deleteSeat(seat);
             this.floorService
                 .setFloor(this.floor)
                 .subscribe(() => {
-                    this.map.removeLayer(seatOnMap);
+                    this.allMapLayers.removeLayer(seatOnMap);
                 });
         };
 
@@ -316,13 +341,11 @@ export class MapCanvas {
                 this.floorService
                     .setFloor(this.floor)
                     .subscribe(() => {
-                        this.map.removeLayer(seatOnMap);
+                        this.allMapLayers.removeLayer(seatOnMap);
                         this.drawSeat(seat);
                     });
             }
         });
-
-        seatOnMap.addTo(this.map);
     }
 
     drawWall(wall: Wall) {
@@ -337,15 +360,15 @@ export class MapCanvas {
         let lineOnmap = L.polyline(
             [start, end],
             {color: line.color}
-        ).addTo(this.map);
+        );
+
+        this.allMapLayers.addLayer(lineOnmap);
 
         let deleteLine = () => {
             this.floor.deleteWall(line);
             this.floorService
                 .setFloor(this.floor)
-                .subscribe(() => {
-                    this.map.removeLayer(lineOnmap);
-                });
+                .subscribe(() => this.allMapLayers.removeLayer(lineOnmap));
         };
 
         lineOnmap.on('click', (e) => {
@@ -361,15 +384,15 @@ export class MapCanvas {
                 'T', [arc.end.x, arc.end.y]
             ],
             {color: arc.color}
-        ).addTo(this.map);
+        );
+
+        this.allMapLayers.addLayer(arcOnMap);
 
         let deleteArc = () => {
             this.floor.deleteWall(arc);
             this.floorService
                 .setFloor(this.floor)
-                .subscribe(() => {
-                    this.map.removeLayer(arcOnMap);
-                });
+                .subscribe(() => this.allMapLayers.removeLayer(arcOnMap));
         };
 
         arcOnMap.on('click', (e) => {
