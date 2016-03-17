@@ -9,7 +9,7 @@
       "commit": "0cd5f0a1482dc3149f5446b1d885ef6ac7c57720"
     },
     "node/node.d.ts": {
-      "commit": "0cd5f0a1482dc3149f5446b1d885ef6ac7c57720"
+      "commit": "926711691d213f76a483b36dd728e80be1257717"
     },
     "serve-static/serve-static.d.ts": {
       "commit": "0cd5f0a1482dc3149f5446b1d885ef6ac7c57720"
@@ -40,6 +40,9 @@
     },
     "body-parser/body-parser.d.ts": {
       "commit": "0cd5f0a1482dc3149f5446b1d885ef6ac7c57720"
+    },
+    "express-serve-static-core/express-serve-static-core.d.ts": {
+      "commit": "926711691d213f76a483b36dd728e80be1257717"
     }
   }
 }

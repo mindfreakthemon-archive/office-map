@@ -4,7 +4,7 @@ import * as  mongodb  from 'mongodb';
 import { IFloor } from '../shared/floors/models/floor';
 import { IRoom } from '../shared/rooms/models/room';
 import { IWorker } from '../shared/workers/models/worker';
-
+import { IAdmin } from '../shared/admin/models/admin';
 
 let MongoClient = mongodb.MongoClient;
 var url = 'mongodb://82.196.2.52:27017/officeMap';
@@ -39,7 +39,7 @@ export function setFloor(floor: IFloor) {
 export function getFloors(res) {
     MongoClient.connect(url, function(err, db) {
         if(err) { return console.dir(err); }
-        db.collection('floors').find({}, { _id: 0 }).toArray((err, floors) => {
+        db.collection('floors').find({}).toArray((err, floors) => {
             res.json(floors);
             db.close();
         });
@@ -78,7 +78,7 @@ export function setRoom(room: IRoom) {
 export function getRooms(res) {
     MongoClient.connect(url, function(err, db) {
         if(err) { return console.dir(err); }
-        db.collection('rooms').find({}, { _id: 0 }).toArray((err, rooms) => {
+        db.collection('rooms').find({}).toArray((err, rooms) => {
             res.json(rooms);
             db.close();
         });
@@ -99,6 +99,19 @@ let updateWorker = (worker, db) => {
     });
 };
 
+
+export function authenticate(admin: IAdmin) {
+    return MongoClient.connect(url)
+        .then(db => {
+            return db.collection('admins')
+                .find({ username: admin.username })
+                .toArray();
+        })
+        .then(admins => {
+            return admins.some(_admin => _admin.password === admin.password);
+        });
+}
+
 export function setWorker(worker: IWorker) {
     MongoClient.connect(url, function(err, db) {
         if(err) { return console.dir(err); }
@@ -117,7 +130,7 @@ export function setWorker(worker: IWorker) {
 export function getWorkers(res) {
     MongoClient.connect(url, function(err, db) {
         if(err) { return console.dir(err); }
-        db.collection('workers').find({}, { _id: 0 }).toArray((err, workers) => {
+        db.collection('workers').find({}).toArray((err, workers) => {
             res.json(workers);
             db.close();
         });

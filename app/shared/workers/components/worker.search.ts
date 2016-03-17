@@ -7,8 +7,6 @@ import { Worker, Team } from '../models/worker';
 import { WorkerService } from '../services/worker.service';
 import { WorkerItem } from './worker.item';
 import { FilterUtils } from '../../app/utils/filter.utils';
-import {} from 'angular2/core';
-import {} from 'angular2/core';
 
 
 @Component({

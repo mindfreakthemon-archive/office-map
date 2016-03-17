@@ -41,6 +41,20 @@ app.post('/setworker', jsonParser, function (req, res) {
     return db.setWorker(req.body);
 });
 
+app.post('/authenticate', jsonParser, (req, res) => {
+    if (!req.body) {
+        return res.sendStatus(400);
+    }
+
+    db.authenticate(req.body)
+        .then(success => {
+            res.sendStatus(success ? 200 : 403);
+        })
+        .catch(() => {
+            res.sendStatus(400);
+        });
+});
+
 app.listen(3000, () => {
     console.log('Listen on http://localhost:3000');
 });

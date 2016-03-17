@@ -1,0 +1,13 @@
+toolbar.navbar.navbar-default.navbar-fixed-top
+
+.container
+	.jumbotron
+		h1 PLS Login, yo
+		form('(ngSubmit)'='onSubmit($event)')
+			.form-group
+				label(for='username') Logina
+				input#username.form-control(type='text', '[(ngModel)]'='username', placeholder='Username')
+			.form-group
+				label(for='password') Parola
+				input#password.form-control(type='password', '[(ngModel)]'='password', placeholder='Password')
+			button.btn.btn-default(type='submit') Letsgoo

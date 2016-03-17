@@ -38,7 +38,7 @@ export enum Gender {
     MALE
 }
 
-interface IWorker {
+export interface IWorker {
     id: string;
     firstName: string;
     lastName: string;
