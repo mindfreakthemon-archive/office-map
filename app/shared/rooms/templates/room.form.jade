@@ -5,5 +5,11 @@ form('(ngSubmit)'='onSubmit()')
 	.form-group
 		label Name:
 		input.form-control(type='text', placeholder='Name', '[(ngModel)]'='room.name')
+	.form-group
+		label Flag URL:
+		input.form-control(type='text', placeholder='Flag URL', '[(ngModel)]'='room.flag')
+	.form-group
+		label Map Icon URL:
+		input.form-control(type='text', placeholder='Map Icon URL', '[(ngModel)]'='room.icon')
 
 	button.btn.btn-default(type='submit', '[innerText]'='create ? "Add" : "Edit"')
