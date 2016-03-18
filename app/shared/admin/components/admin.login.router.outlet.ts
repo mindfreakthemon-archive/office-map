@@ -27,7 +27,6 @@ export class AdminLoginRouterOutlet extends RouterOutlet {
     }
 
     isLoggedIn() {
-        //return !!window['OK'];
-        return localStorage['you-shall-pass'] === 'ok'
+        return window['AUTHENTICATED'];
     }
 }

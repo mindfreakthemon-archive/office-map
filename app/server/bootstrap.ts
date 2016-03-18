@@ -1,59 +1,53 @@
 import * as express from 'express';
-import * as db from "./db";
-import * as bodyParser from 'body-parser';
+import * as parser from 'body-parser';
+import * as passport from 'passport';
 
+import cookieParser = require('cookie-parser');
+import session = require('express-session');
+
+import { initializePassport } from './passport';
+import { roAPI } from './ro.api';
+import { rwAPI } from './rw.api';
 
 let app = express();
-let jsonParser = bodyParser.json();
+
+initializePassport();
 
 app.set('views', `${process.cwd()}/app/shared/`);
 app.set('view engine', 'jade');
 
+app.use(cookieParser());
+app.use(parser.json());
+app.use(parser.urlencoded({ extended: true }));
+app.use(session({
+    secret: 'weshouldchangethissometimesoon',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { path: '/', httpOnly: false, secure: false, maxAge: 864000000 }
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(express.static(process.cwd()));
 
 app.get('/', (req, res) => {
-    res.render('index');
+    res.render('index', { user: req.user });
 });
 
-//app.get('/floor/:floorNumber', (req, res) => {
-//    console.log(req.params.floorNumber);
-//});
+app.use('/api', roAPI);
+app.use('/api', rwAPI);
 
-app.get('/getfloors', (req, res) => db.getFloors(res));
-
-app.post('/setfloor', jsonParser, function (req, res) {
-    if (!req.body) return res.sendStatus(400);
-    db.setFloor(req.body);
+app.post('/authenticate', passport.authenticate('local'), (req, res) => {
     res.sendStatus(200);
 });
 
-app.get('/getrooms', (req, res) => db.getRooms(res));
-
-app.post('/setroom', jsonParser, function (req, res) {
-    if (!req.body) return res.sendStatus(400);
-    return db.setRoom(req.body);
+app.get('/logout', (req, res) => {
+    req.logout();
+    
+    res.redirect('/');
 });
 
-app.get('/getworkers', (req, res) => db.getWorkers(res));
-
-app.post('/setworker', jsonParser, function (req, res) {
-    if (!req.body) return res.sendStatus(400);
-    return db.setWorker(req.body);
-});
-
-app.post('/authenticate', jsonParser, (req, res) => {
-    if (!req.body) {
-        return res.sendStatus(400);
-    }
-
-    db.authenticate(req.body)
-        .then(success => {
-            res.sendStatus(success ? 200 : 403);
-        })
-        .catch(() => {
-            res.sendStatus(400);
-        });
-});
+app.all('*', (req, res) => res.sendStatus(404));
 
 app.listen(3000, () => {
     console.log('Listen on http://localhost:3000');

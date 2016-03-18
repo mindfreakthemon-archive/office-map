@@ -1,8 +1,5 @@
 import { Component } from 'angular2/core';
-import { Router, RouteData, ROUTER_DIRECTIVES } from 'angular2/router';
-import { ResolvedInstruction } from 'angular2/src/router/instruction';
-import { SyncRouteHandler} from 'angular2/src/router/sync_route_handler';
-import { RouteRecognizer } from 'angular2/src/router/route_recognizer';
+import { Router, ROUTER_DIRECTIVES } from 'angular2/router';
 import { Http, Headers } from 'angular2/http';
 
 import { Toolbar } from '../../app/components/toolbar';
@@ -15,7 +12,7 @@ export class AdminLogin {
     username: string;
     password: string;
 
-    constructor(private router: Router, private http: Http, private routeData: RouteData) {}
+    constructor(private router: Router, private http: Http) {}
 
     onSubmit(e) {
         this.authenticate()
@@ -40,6 +37,6 @@ export class AdminLogin {
     }
 
     authorize() {
-        localStorage['you-shall-pass'] = 'ok';
+        window['AUTHENTICATED'] = true;
     }
 }

@@ -17,16 +17,25 @@ export class DataService<T> {
         return 'id';
     }
 
-    protected request(): Observable<T> {
+    protected _load(): Observable<T> {
         throw new Error('not implemented');
     }
+
+    protected _put(item: T): Observable<any> {
+        throw new Error('not implemented');
+    }
+
+    protected _remove(item: T): Observable<any> {
+        throw new Error('not implemented');
+    }
+
 
     protected load(): Observable<T[]> {
         if (this.items) {
             return Observable.of(this.items);
         }
 
-        return this.request()
+        return this._load()
             .toArray()
             .do(items => this.items = items)
             .share();
@@ -71,11 +80,11 @@ export class DataService<T> {
         if (this.has(item)) {
             this.items.splice(this.index(item), 1, item);
 
-            // do post
+            return this._put(item);
         } else {
             this.items.push(item);
 
-            // do put
+            return this._put(item);
         }
     }
 
@@ -83,7 +92,9 @@ export class DataService<T> {
         if (this.has(item)) {
             this.items.splice(this.index(item), 1);
 
-            // do delete
+            return this._remove(item);
         }
+
+        return Observable.of(false);
     }
 }

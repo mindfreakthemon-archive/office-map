@@ -10,6 +10,7 @@ html
 		link(rel='stylesheet', href='/node_modules/leaflet/dist/leaflet.css')
 		base(href='/')
 	body
+		h1= session
 		app
 			| Loading...
 		script(src='/node_modules/systemjs/dist/system.js')
@@ -18,6 +19,7 @@ html
 		script(src='/node_modules/angular2/bundles/angular2-polyfills.min.js')
 		script(src='/node_modules/angular2/bundles/http.min.js')
 		script(src='/node_modules/angular2/bundles/router.js')
+		script window['AUTHENTICATED'] = #{!!user};
 		script.
 			System.config({
 				map: {

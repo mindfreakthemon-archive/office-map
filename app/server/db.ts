@@ -1,138 +1,124 @@
-// Mongo
 import * as  mongodb  from 'mongodb';
 
-import { IFloor } from '../shared/floors/models/floor';
-import { IRoom } from '../shared/rooms/models/room';
-import { IWorker } from '../shared/workers/models/worker';
-import { IAdmin } from '../shared/admin/models/admin';
+import {IFloor} from '../shared/floors/models/floor';
+import {IRoom} from '../shared/rooms/models/room';
+import {IWorker} from '../shared/workers/models/worker';
+import {IAdmin} from '../shared/admin/models/admin';
 
-let MongoClient = mongodb.MongoClient;
-var url = 'mongodb://82.196.2.52:27017/officeMap';
+const MONGODB_ENDPOINT = 'mongodb://82.196.2.52:27017/officeMap';
+
+export function db() {
+    return db['instance'] || (db['instance'] = mongodb.MongoClient.connect(MONGODB_ENDPOINT));
+}
 
 let insertFloor = (floor, db) => {
-    db.collection('floors').insertOne(floor, (err, result) => {
-        if(err) { return console.dir(err); }
-        db.close();
-    });
+    return db
+        .collection('floors')
+        .insertOne(floor);
 };
 
 let updateFloor = (floor, db) => {
-    db.collection('floors').replaceOne({'number': floor.number}, floor, (err, result) => {
-        if(err) { return console.dir(err); }
-        db.close();
-    });
+    return db
+        .collection('floors')
+        .replaceOne({ number: floor.number }, floor);
 };
 
 export function setFloor(floor: IFloor) {
-    MongoClient.connect(url, function(err, db) {
-        if(err) { return console.dir(err); }
-        db.collection('floors').find({number: floor.number}).toArray(function(err, floors){
-            if(floors.length) {
-                updateFloor(floor, db);
-            } else {
-                insertFloor(floor, db);
-            }
-        });
-    });
+    return db()
+        .then(db => db.collection('floors').find({ number: floor.number })
+            .toArray()
+            .then(floors => {
+                if (floors.length) {
+                    updateFloor(floor, db);
+                } else {
+                    insertFloor(floor, db);
+                }
+            }));
 }
 
-export function getFloors(res) {
-    MongoClient.connect(url, function(err, db) {
-        if(err) { return console.dir(err); }
-        db.collection('floors').find({}).toArray((err, floors) => {
-            res.json(floors);
-            db.close();
-        });
-    });
+export function getFloors() {
+    return db()
+        .then(db => db.collection('floors').find({}).toArray());
 }
 
 let insertRoom = (room, db) => {
-    db.collection('rooms').insertOne(room, (err, result) => {
-        if(err) { return console.dir(err); }
-        db.close();
-    });
+    return db
+        .collection('rooms')
+        .insertOne(room);
 };
 
 let updateRoom = (room, db) => {
-    db.collection('rooms').replaceOne({'id': room.id}, room, (err, result) => {
-        if(err) { return console.dir(err); }
-        db.close();
-    });
+    return db
+        .collection('rooms')
+        .replaceOne({ id: room.id }, room);
 };
 
 export function setRoom(room: IRoom) {
-    MongoClient.connect(url, function(err, db) {
-        if(err) { return console.dir(err); }
-        db.collection('rooms').find({id: room.id}).toArray(function(err, rooms){
-            if(err) { return console.dir(err); }
-
-            if(rooms.length) {
-                updateRoom(room, db)
-            } else {
-                insertRoom(room, db);
-            }
-        });
-    });
+    return db()
+        .then(db => db.collection('rooms').find({ id: room.id })
+            .toArray()
+            .then(rooms => {
+                if (rooms.length) {
+                    updateRoom(room, db)
+                } else {
+                    insertRoom(room, db);
+                }
+            }));
 }
 
-export function getRooms(res) {
-    MongoClient.connect(url, function(err, db) {
-        if(err) { return console.dir(err); }
-        db.collection('rooms').find({}).toArray((err, rooms) => {
-            res.json(rooms);
-            db.close();
-        });
-    });
+export function getRooms() {
+    return db()
+        .then(db => db.collection('rooms').find({}).toArray());
 }
 
 let insertWorker = (worker, db) => {
-    db.collection('workers').insertOne(worker, (err, result) => {
-        if(err) { return console.dir(err); }
-        db.close();
-    });
+    return db
+        .collection('workers')
+        .insertOne(worker);
 };
 
 let updateWorker = (worker, db) => {
-    db.collection('workers').replaceOne({'id': worker.id}, worker, (err, result) => {
-        if(err) { return console.dir(err); }
-        db.close();
-    });
+    return db
+        .collection('workers')
+        .replaceOne({ id: worker.id }, worker);
 };
 
+export function getAdmin(username) {
+    return db()
+        .then(db => {
+            return db
+                .collection('admins')
+                .find({ username: username })
+                .next();
+        });
+}
 
 export function authenticate(admin: IAdmin) {
-    return MongoClient.connect(url)
+    return db()
         .then(db => {
             return db.collection('admins')
                 .find({ username: admin.username })
                 .toArray();
         })
         .then(admins => {
-            return admins.some(_admin => _admin.password === admin.password);
+            return admins.find((_admin: IAdmin) => _admin.password === admin.password);
         });
 }
 
 export function setWorker(worker: IWorker) {
-    MongoClient.connect(url, function(err, db) {
-        if(err) { return console.dir(err); }
-        db.collection('workers').find({id: worker.id}).toArray(function(err, workers){
-            if(err) { return console.dir(err); }
-
-            if(workers.length) {
-                updateWorker(worker, db)
-            } else {
-                insertWorker(worker, db);
-            }
-        });
-    });
+    return db()
+        .then(db => db.collection('workers').find({ id: worker.id })
+            .toArray()
+            .then(workers => {
+                if (workers.length) {
+                    updateWorker(worker, db)
+                } else {
+                    insertWorker(worker, db);
+                }
+            }));
 }
 
-export function getWorkers(res) {
-    MongoClient.connect(url, function(err, db) {
-        if(err) { return console.dir(err); }
-        db.collection('workers').find({}).toArray((err, workers) => {
-            res.json(workers);
-            db.close();
-        });
-    });
+export function getWorkers() {
+    return db()
+        .then(db => db.collection('workers').find({}).toArray());
 }

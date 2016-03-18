@@ -9,19 +9,22 @@ import { WorkerService } from '../services/worker.service';
     templateUrl: 'workers/templates/worker.form.jade'
 })
 export class WorkerForm {
-    @Input() worker: Worker;
-    @Input() create: boolean = false;
+    @Input()
+    worker: Worker;
+    @Input()
+    create: boolean = false;
 
-    @Output() complete = new EventEmitter<Worker>();
+    @Output()
+    complete = new EventEmitter<Worker>();
 
     genders = Array.from(<any> Worker.GENDER_MAP);
     teams = Array.from(<any> Worker.TEAM_NAMES_MAP);
 
-    constructor(private workerService: WorkerService) {}
+    constructor(private workerService: WorkerService) {
+    }
 
     onSubmit() {
-        this.workerService.put(this.worker);
-
-        this.complete.emit(this.worker);
+        this.workerService.put(this.worker)
+            .subscribe(() => this.complete.emit(this.worker));
     }
 }

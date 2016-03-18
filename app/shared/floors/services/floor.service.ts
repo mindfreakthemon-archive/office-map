@@ -41,8 +41,8 @@ export class FloorService extends DataService<Floor> {
         return this.http.post('/setfloor', body, {headers: headers});
     }
 
-    request() {
-        return this.http.get('/getfloors')
+    protected _load() {
+        return this.http.get('/api/getfloors')
             .map(response => response.json())
             .flatMap<Floor>(array => Observable.from(array, null, null, null))
             .map(floor => new Floor(floor))

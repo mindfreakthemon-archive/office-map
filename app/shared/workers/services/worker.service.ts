@@ -13,15 +13,15 @@ export class WorkerService extends DataService<Worker> {
 
     setWorker(worker: Worker) {
         let headers = new Headers(),
-            body =  JSON.stringify(worker);
+            body = JSON.stringify(worker);
 
         headers.append('Content-Type', 'application/json');
 
-        return this.http.post('/setworker', body, {headers: headers});
+        return this.http.post('/setworker', body, { headers: headers });
     }
 
-    request() {
-        return this.http.get('/getworkers')
+    protected _load() {
+        return this.http.get('/api/getworkers')
             .map(response => response.json())
             .flatMap<Worker>(array => Observable.from(array, null, null, null))
             .map(worker => new Worker(worker))

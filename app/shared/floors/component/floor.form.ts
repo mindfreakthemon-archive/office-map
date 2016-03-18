@@ -9,16 +9,19 @@ import { FloorService } from '../services/floor.service';
     templateUrl: 'floors/templates/floor.form.jade'
 })
 export class FloorForm {
-    @Input() floor: Floor;
-    @Input() create: boolean = false;
+    @Input()
+    floor: Floor;
+    @Input()
+    create: boolean = false;
 
-    @Output() complete = new EventEmitter<Floor>();
+    @Output()
+    complete = new EventEmitter<Floor>();
 
-    constructor(private floorService: FloorService) {}
+    constructor(private floorService: FloorService) {
+    }
 
     onSubmit() {
-        this.floorService.put(this.floor);
-
-        this.complete.emit(this.floor);
+        this.floorService.put(this.floor)
+            .subscribe(() => this.complete.emit(this.floor));
     }
 }
