@@ -17,7 +17,19 @@ export class FloorService extends DataService<Floor> {
     }
 
     constructor(protected http: Http) {
-        super();
+        super(http);
+    }
+
+    protected create(data) {
+        return new Floor(data);
+    }
+
+    protected get PUT_ENDPOINT() {
+        return '/api/setfloor';
+    }
+
+    protected get LOAD_ENDPOINT() {
+        return '/api/getfloors';
     }
 
     getFloorByWorkerId(id: string) {
@@ -30,22 +42,5 @@ export class FloorService extends DataService<Floor> {
         return this.getAll()
             .flatMap<Floor>(array => Observable.from(array, null, null, null))
             .filter(floor => floor.places.filter(place => place.id === id).length > 0);
-    }
-
-    setFloor(floor: Floor) {
-        let headers = new Headers(),
-            body =  JSON.stringify(floor);
-
-        headers.append('Content-Type', 'application/json');
-
-        return this.http.post('/setfloor', body, {headers: headers});
-    }
-
-    protected _load() {
-        return this.http.get('/api/getfloors')
-            .map(response => response.json())
-            .flatMap<Floor>(array => Observable.from(array, null, null, null))
-            .map(floor => new Floor(floor))
-            .share();
     }
 }

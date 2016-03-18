@@ -17,15 +17,15 @@ export class AdminActionService {
     public static roomEmitter = new EventEmitter();
 
     setAction(action: AdminAction) {
-        AdminActionService.actionEmitter.next(action);
+        AdminActionService.actionEmitter.emit(action);
     }
 
     setWorker(workerId: string) {
-        AdminActionService.workerEmitter.next(workerId);
+        AdminActionService.workerEmitter.emit(workerId);
     }
 
     setRoom(roomId: string) {
-        AdminActionService.roomEmitter.next(roomId);
+        AdminActionService.roomEmitter.emit(roomId);
     }
 
     getWorkerEmitter() {

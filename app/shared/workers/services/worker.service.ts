@@ -8,24 +8,19 @@ import { DataService } from '../../app/services/data.service';
 @Injectable()
 export class WorkerService extends DataService<Worker> {
     constructor(protected http: Http) {
-        super();
+        super(http);
     }
 
-    setWorker(worker: Worker) {
-        let headers = new Headers(),
-            body = JSON.stringify(worker);
-
-        headers.append('Content-Type', 'application/json');
-
-        return this.http.post('/setworker', body, { headers: headers });
+    protected create(data) {
+        return new Worker(data);
     }
 
-    protected _load() {
-        return this.http.get('/api/getworkers')
-            .map(response => response.json())
-            .flatMap<Worker>(array => Observable.from(array, null, null, null))
-            .map(worker => new Worker(worker))
-            .share();
+    protected get PUT_ENDPOINT() {
+        return '/api/setworker';
+    }
+
+    protected get LOAD_ENDPOINT() {
+        return '/api/getworkers';
     }
 
     search(query: string) {

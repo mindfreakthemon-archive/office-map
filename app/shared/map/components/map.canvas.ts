@@ -163,7 +163,7 @@ export class MapCanvas {
                 this.floor.addWall('line', 'black', linePoints[0], linePoints[1]);
                 linePoints = [];
                 this.floorService
-                    .setFloor(this.floor)
+                    .put(this.floor)
                     .subscribe(() => this.drawWall(this.floor.lastWall()));
             }
         };
@@ -227,14 +227,14 @@ export class MapCanvas {
                 this.floor.addWall('arc', 'black', arcPoints[0], arcPoints[1], arcPoints[2]);
                 arcPoints = [];
                 this.floorService
-                    .setFloor(this.floor)
+                    .put(this.floor)
                     .subscribe(() => this.drawWall(this.floor.lastWall()));
             }
         };
 
         let attachSeat = (e) => {
             this.floor.addSeat(e.latlng);
-            this.floorService.setFloor(this.floor)
+            this.floorService.put(this.floor)
                 .subscribe(() => this.drawSeat(this.floor.lastSeat()));
         };
 
@@ -242,7 +242,7 @@ export class MapCanvas {
             this.roomService.get(this.roomIdToAttach).subscribe(room => {
                 room['floor'] = this.floor.number;
                 this.floor.addPlace(e.latlng, room);
-                this.floorService.setFloor(this.floor)
+                this.floorService.put(this.floor)
                     .subscribe(() => this.drawPlace(this.floor.lastPlace()));
             });
         };
@@ -276,7 +276,7 @@ export class MapCanvas {
     }
 
     openPopupforLocated(layerPosition) {
-        for(id in this.allMapLayers._layers) {
+        for(let id in this.allMapLayers._layers) {
             if (this.allMapLayers._layers[id]._latlng && (this.allMapLayers._layers[id]._latlng.lat === layerPosition.x) && (this.allMapLayers._layers[id]._latlng.lng === layerPosition.y)) {
                 this.allMapLayers._layers[id].openPopup();
             }
@@ -298,7 +298,7 @@ export class MapCanvas {
         let deletePlace = () => {
             this.floor.deletePlace(place);
             this.floorService
-                .setFloor(this.floor)
+                .put(this.floor)
                 .subscribe(() => {
                     this.allMapLayers.removeLayer(placeOnMap);
                 });
@@ -318,7 +318,7 @@ export class MapCanvas {
         let deleteSeat = () => {
             this.floor.deleteSeat(seat);
             this.floorService
-                .setFloor(this.floor)
+                .put(this.floor)
                 .subscribe(() => {
                     this.allMapLayers.removeLayer(seatOnMap);
                 });
@@ -340,7 +340,7 @@ export class MapCanvas {
             if (this.clickAction === 2) {
                 this.floor.setWorkerOnSeat(seat, this.workerIdToAttach);
                 this.floorService
-                    .setFloor(this.floor)
+                    .put(this.floor)
                     .subscribe(() => {
                         this.allMapLayers.removeLayer(seatOnMap);
                         this.drawSeat(seat);
@@ -368,7 +368,7 @@ export class MapCanvas {
         let deleteLine = () => {
             this.floor.deleteWall(line);
             this.floorService
-                .setFloor(this.floor)
+                .put(this.floor)
                 .subscribe(() => this.allMapLayers.removeLayer(lineOnmap));
         };
 
@@ -392,7 +392,7 @@ export class MapCanvas {
         let deleteArc = () => {
             this.floor.deleteWall(arc);
             this.floorService
-                .setFloor(this.floor)
+                .put(this.floor)
                 .subscribe(() => this.allMapLayers.removeLayer(arcOnMap));
         };
 

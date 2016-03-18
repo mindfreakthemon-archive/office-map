@@ -8,25 +8,19 @@ import { DataService } from '../../app/services/data.service';
 
 @Injectable()
 export class RoomService extends DataService<Room> {
-
     constructor(protected http: Http) {
-        super();
+        super(http);
+    }
+    
+    protected create(data) {
+        return new Room(data);
     }
 
-    protected _put(room: Room) {
-        let headers = new Headers(),
-            body =  JSON.stringify(room);
-
-        headers.append('Content-Type', 'application/json');
-
-        return this.http.post('/api/setroom', body, { headers: headers });
+    protected get PUT_ENDPOINT() {
+        return '/api/setroom';
     }
 
-    protected _load() {
-        return this.http.get('/api/getrooms')
-            .map(response => response.json())
-            .flatMap<Room>(array => Observable.from(array, null, null, null))
-            .map(room => new Room(room))
-            .share();
+    protected get LOAD_ENDPOINT() {
+        return '/api/getrooms';
     }
 }
