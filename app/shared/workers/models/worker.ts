@@ -1,3 +1,5 @@
+import { Serializable } from '../../app/common/serializable';
+
 export enum Team {
     MWS,
     EASY_PUSH,
@@ -59,7 +61,7 @@ const WORKER_DEFAULT_SKELETON: IWorker = {
 };
 
 
-export class Worker {
+export class Worker implements Serializable, IWorker {
     static TEAM_NAMES_MAP = new Map<Team, string>(<Array<any>> [
         [Team.MWS, 'Mobile & Web Services'],
         [Team.EASY_PUSH, 'Easy Push'],
@@ -69,7 +71,7 @@ export class Worker {
         [Team.IT, 'IT'],
         [Team.VIDEOBET, 'Videobet'],
         [Team.IMS, 'IMS'],
-        [Team.GLOBAL, 'GLOBAL'],
+        [Team.GLOBAL, 'Global'],
         [Team.SKYWIND, 'Skywing'],
         [Team.CASINO, 'Casino'],
         [Team.CROSSRIDER, 'Crossrider'],
@@ -77,11 +79,11 @@ export class Worker {
         [Team.OAPI, 'OAPI'],
         [Team.FINANCE, 'Finance'],
         [Team.HR, 'HR'],
-        [Team.MEXOS, 'MEXOS'],
+        [Team.MEXOS, 'Mexos'],
         [Team.POKER, 'Poker'],
         [Team.PLAMEE, 'Plamee'],
         [Team.FABRIC, 'FABRIC'],
-        [Team.BET365, 'BET365'],
+        [Team.BET365, 'Bet 365'],
         [Team.MOBENGA, 'Mobenga'],
         [Team.BIG_DATA, 'Big Data'],
         [Team.KIOSK, 'Kiosk'],
@@ -148,5 +150,17 @@ export class Worker {
 
     get genderName() {
         return Worker.GENDER_MAP.get(this.gender);
+    }
+
+    toJSON(): IWorker {
+        return {
+            id: this.id,
+            firstName: this.firstName,
+            lastName: this.lastName,
+            photo: this.photo,
+            email: this.email,
+            team: this.team,
+            gender: this.gender
+        }
     }
 }

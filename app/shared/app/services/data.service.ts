@@ -4,9 +4,11 @@ import { Observable } from 'rxjs/Observable';
 
 import uuid = require('node-uuid');
 
+import { Serializable } from '../common/serializable';
+
 
 @Injectable()
-export class DataService<T> {
+export class DataService<T extends Serializable> {
     protected items: T[];
 
     constructor(protected http: Http) {
@@ -32,30 +34,13 @@ export class DataService<T> {
         throw new Error('not implemented');
     }
 
-    protected _load(): Observable<T> {
-        return this.http.get(this.LOAD_ENDPOINT)
-            .map(response => response.json())
-            .flatMap<T>(array => Observable.from(array, null, null, null))
-            .map(item => this.create(item))
-            .share();
-    }
-
-    protected _put(item: T): Observable<any> {
+    protected _post(enpoint: string, item: T): Observable<any> {
         let headers = new Headers(),
-            body = JSON.stringify(item);
+            body = JSON.stringify(item.toJSON());
 
         headers.append('Content-Type', 'application/json');
 
-        return this.http.post(this.PUT_ENDPOINT, body, { headers: headers });
-    }
-
-    protected _remove(item: T): Observable<any> {
-        let headers = new Headers(),
-            body = JSON.stringify(item);
-
-        headers.append('Content-Type', 'application/json');
-
-        return this.http.post(this.REMOVE_ENDPOINT, body, { headers: headers });
+        return this.http.post(enpoint, body, { headers: headers });
     }
 
     protected load(): Observable<T[]> {
@@ -63,7 +48,11 @@ export class DataService<T> {
             return Observable.of(this.items);
         }
 
-        return this._load()
+        //noinspection TypeScriptValidateTypes
+        return this.http.get(this.LOAD_ENDPOINT)
+            .map(response => response.json())
+            .flatMap<T>(array => Observable.from(array, null, null, null))
+            .map(item => this.create(item))
             .toArray()
             .do(items => this.items = items)
             .share();
@@ -111,14 +100,14 @@ export class DataService<T> {
             this.items.push(item);
         }
 
-        return this._put(item);
+        return this._post(this.PUT_ENDPOINT, item);
     }
 
     remove(item: T) {
         if (this.has(item)) {
             this.items.splice(this.index(item), 1);
 
-            return this._remove(item);
+            return this._post(this.REMOVE_ENDPOINT, item);
         }
 
         return Observable.of(false);

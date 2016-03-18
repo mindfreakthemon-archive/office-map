@@ -2,8 +2,8 @@ import { Wall } from '../../map/models/wall';
 import { Place } from '../../map/models/place';
 import { Seat } from '../../map/models/seat';
 import { Point } from '../../map/models/point';
-import { Worker } from '../../workers/models/worker';
 import { IRoom } from '../../rooms/models/room';
+import { Serializable } from '../../app/common/serializable';
 
 export interface IFloor {
     number: string;
@@ -14,7 +14,7 @@ export interface IFloor {
 
 const FLOOR_DEFAULT_SKELETON: IFloor = { number: null, walls: [], places: [], seats: [] };
 
-export class Floor implements IFloor {
+export class Floor implements Serializable, IFloor {
 
     number: string;
     walls: Wall[];
@@ -73,5 +73,14 @@ export class Floor implements IFloor {
 
     setWorkerOnSeat(seat: Seat, worker: string) {
         seat.worker = worker;
+    }
+
+    toJSON(): IFloor {
+        return {
+            number: this.number,
+            walls: this.walls,
+            places: this.places,
+            seats: this.seats
+        };
     }
 }
