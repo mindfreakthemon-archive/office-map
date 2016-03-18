@@ -9,9 +9,15 @@ form('(ngSubmit)'='onSubmit()')
 		label Last Name:
 		input.form-control(type='text', placeholder='Last Name', '[(ngModel)]'='worker.lastName')
 	.form-group
+		label Photo URL:
+		input.form-control(type='text', placeholder='Photo URL', '[(ngModel)]'='worker.photo')
+	.form-group
 		label Gender:
 		select.form-control('[(ngModel)]'='worker.gender')
 			option('*ngFor'='#entry of genders', '[value]'='entry[0]', '[selected]'='worker.gender === entry[0]') {{entry[1]}}
+	.form-group
+		label Email:
+		input.form-control(type='email', placeholder='Email', '[(ngModel)]'='worker.email')
 	.form-group
 		label Team:
 		select.form-control('[(ngModel)]'='worker.team')

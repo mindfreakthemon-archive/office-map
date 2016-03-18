@@ -43,47 +43,56 @@ export interface IWorker {
     firstName: string;
     lastName: string;
     photo: string;
+    email: string;
     team: Team;
     gender: number;
 }
 
-const WORKER_DEFAULT_SKELETON: IWorker = { id: null, firstName: '', lastName: '', photo: '', team: null, gender: Gender.MALE };
+const WORKER_DEFAULT_SKELETON: IWorker = {
+    id: null,
+    firstName: '',
+    lastName: '',
+    photo: '',
+    email: null,
+    team: null,
+    gender: Gender.MALE
+};
 
 
 export class Worker {
     static TEAM_NAMES_MAP = new Map<Team, string>(<Array<any>> [
-        [Team.MWS, 'MWS'],
-        [Team.EASY_PUSH, 'EASY_PUSH'],
-        [Team.CASINO_MOBILE, 'CASINO_MOBILE'],
+        [Team.MWS, 'Mobile & Web Services'],
+        [Team.EASY_PUSH, 'Easy Push'],
+        [Team.CASINO_MOBILE, 'Casino Mobile'],
         [Team.STG, 'STG'],
         [Team.PTV, 'PTV'],
         [Team.IT, 'IT'],
-        [Team.VIDEOBET, 'VIDEOBET'],
+        [Team.VIDEOBET, 'Videobet'],
         [Team.IMS, 'IMS'],
         [Team.GLOBAL, 'GLOBAL'],
-        [Team.SKYWIND, 'SKYWIND'],
-        [Team.CASINO, 'CASINO'],
-        [Team.CROSSRIDER, 'CROSSRIDER'],
+        [Team.SKYWIND, 'Skywing'],
+        [Team.CASINO, 'Casino'],
+        [Team.CROSSRIDER, 'Crossrider'],
         [Team.LIVE, 'LIVE'],
         [Team.OAPI, 'OAPI'],
-        [Team.FINANCE, 'FINANCE'],
+        [Team.FINANCE, 'Finance'],
         [Team.HR, 'HR'],
         [Team.MEXOS, 'MEXOS'],
-        [Team.POKER, 'POKER'],
-        [Team.PLAMEE, 'PLAMEE'],
+        [Team.POKER, 'Poker'],
+        [Team.PLAMEE, 'Plamee'],
         [Team.FABRIC, 'FABRIC'],
         [Team.BET365, 'BET365'],
-        [Team.MOBENGA, 'MOBENGA'],
-        [Team.BIG_DATA, 'BIG_DATA'],
-        [Team.KIOSK, 'KIOSK'],
-        [Team.HTML5_LIVE, 'HTML5_LIVE'],
-        [Team.ADMINISTRATION, 'ADMINISTRATION'],
-        [Team.ASIAN_PACIFIC, 'ASIAN_PACIFIC'],
-        [Team.CASUAL_GAMES, 'CASUAL_GAMES'],
-        [Team.SPORTSBOOK, 'SPORTSBOOK'],
-        [Team.HTML_INSTALLER, 'HTML_INSTALLER'],
-        [Team.OPERATIONS, 'OPERATIONS'],
-        [Team.INTERNAL, 'INTERNAL']
+        [Team.MOBENGA, 'Mobenga'],
+        [Team.BIG_DATA, 'Big Data'],
+        [Team.KIOSK, 'Kiosk'],
+        [Team.HTML5_LIVE, 'HTML5 Live'],
+        [Team.ADMINISTRATION, 'Administration'],
+        [Team.ASIAN_PACIFIC, 'Asian Pacific'],
+        [Team.CASUAL_GAMES, 'Casual Games'],
+        [Team.SPORTSBOOK, 'Sportsbook'],
+        [Team.HTML_INSTALLER, 'HTML Installer'],
+        [Team.OPERATIONS, 'Operations'],
+        [Team.INTERNAL, 'Internal']
     ]);
 
     static GENDER_MAP = new Map<number, string>(<Array<any>> [
@@ -95,14 +104,16 @@ export class Worker {
     firstName: string;
     lastName: string;
     photo: string;
+    email: string;
     _team: Team;
     _gender: number;
 
-    constructor({ id, firstName, lastName, photo, team, gender }: IWorker = WORKER_DEFAULT_SKELETON) {
+    constructor({ id, firstName, lastName, email, photo, team, gender }: IWorker = WORKER_DEFAULT_SKELETON) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.photo = photo;
+        this.email = email;
         this.team = team;
         this.gender = gender;
     }
