@@ -23,6 +23,10 @@ export class FloorToolbar {
     currentWorker: string;
     currentRoom: string;
 
+    workerToggle: boolean = false;
+    roomToggle: boolean = false;
+
+
     constructor(public adminActionService: AdminActionService, private workerService: WorkerService, private roomService: RoomService) {}
 
     ngOnInit() {
@@ -36,10 +40,6 @@ export class FloorToolbar {
     ngOnDestroy() {
         this.getRoomsSubscription.unsubscribe();
         this.getWorkersSubscription.unsubscribe();
-    }
-
-    toggleDropdown() {
-        document.getElementsByTagName('floor-toolbar')[0].classList.toggle('open');
     }
 
     changeCurrentWorker(event) {
