@@ -22,17 +22,22 @@ export class WorkerSearch implements OnChanges, OnInit {
     /**
      * Toggles Edit and Delete button.
      */
-    @Input() adminMode: boolean = false;
+    @Input()
+    adminMode: boolean = false;
 
     /**
      * Toggles small query input field to filter with.
      */
-    @Input() showQueryField: boolean = false;
+    @Input()
+    showQueryField: boolean = false;
 
-    @Input() query: string = '';
-    @Input() itemsPerPage = 10;
+    @Input()
+    query: string = '';
+    @Input()
+    itemsPerPage = 10;
 
-    @Output() results = new EventEmitter<Worker[]>();
+    @Output()
+    results = new EventEmitter<Worker[]>();
 
     teamFilter = new Set();
     genderFilter = new Set();
@@ -40,7 +45,8 @@ export class WorkerSearch implements OnChanges, OnInit {
     genders = Array.from(<any> Worker.GENDER_MAP);
     teams = Array.from(<any> Worker.TEAM_NAMES_MAP);
 
-    constructor(public workerService: WorkerService) {}
+    constructor(public workerService: WorkerService, private paginationService: PaginationService) {
+    }
 
     ngOnChanges(changes: {[propName: string]: SimpleChange}) {
         if (changes['query']) {
@@ -83,6 +89,9 @@ export class WorkerSearch implements OnChanges, OnInit {
 
     request() {
         this.workers = null;
+
+        this.paginationService
+            .setCurrentPage(this.paginationService.defaultId, 1);
 
         this.workerService.getEach()
             .filter(FilterUtils.searchFilter(this.query, ['firstName', 'lastName']))

@@ -34,7 +34,7 @@ export class RoomSearch implements OnChanges, OnInit {
 
     @Output() results = new EventEmitter<Room[]>();
 
-    constructor(public roomService: RoomService) {}
+    constructor(public roomService: RoomService, private paginationService: PaginationService) {}
 
     ngOnChanges(changes: {[propName: string]: SimpleChange}) {
         if (changes['query']) {
@@ -55,6 +55,9 @@ export class RoomSearch implements OnChanges, OnInit {
 
     request() {
         this.rooms = null;
+
+        this.paginationService
+            .setCurrentPage(this.paginationService.defaultId, 1);
 
         this.roomService.getEach()
             .filter(FilterUtils.searchFilter(this.query, ['name']))
