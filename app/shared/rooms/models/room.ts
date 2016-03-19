@@ -8,10 +8,20 @@ export interface IRoom {
     flag: string;
     floor?: string;
     position: Point;
+    capacity: number;
+    description: string;
 }
 
-const ROOM_DEFAULT_SKELETON: IRoom = { id: null, icon: null, flag: null, name: '', floor: null, position: null };
-
+const ROOM_DEFAULT_SKELETON: IRoom = {
+    id: null,
+    icon: null,
+    flag: null,
+    name: '',
+    floor: null,
+    position: null,
+    capacity: null,
+    description: ''
+};
 
 export class Room implements Serializable, IRoom {
 
@@ -21,14 +31,18 @@ export class Room implements Serializable, IRoom {
     flag: string;
     floor: string;
     position: Point;
+    capacity: number;
+    description: string;
 
-    constructor({ id, name, icon, flag, floor, position }: IRoom = ROOM_DEFAULT_SKELETON) {
+    constructor({ id, name, icon, flag, floor, position, capacity, description }: IRoom = ROOM_DEFAULT_SKELETON) {
         this.id = id;
         this.name = name;
         this.icon = icon;
         this.flag = flag;
         this.floor = floor;
         this.position = position;
+        this.capacity = capacity;
+        this.description = description;
     }
 
     toJSON(): IRoom {
@@ -38,7 +52,9 @@ export class Room implements Serializable, IRoom {
             icon: this.icon,
             flag: this.flag,
             floor: this.floor,
-            position: this.position
+            position: this.position,
+            capacity: this.capacity,
+            description: this.description
         };
     }
 }

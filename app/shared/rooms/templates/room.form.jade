@@ -11,5 +11,11 @@ form('(ngSubmit)'='onSubmit()')
 	.form-group
 		label Map Icon URL:
 		input.form-control(type='text', placeholder='Map Icon URL', '[(ngModel)]'='room.icon')
+	.form-group
+		label Capacity:
+		input.form-control(text='number', placeholder='Room Capacity', '[(ngModel)]'='room.capacity')
+	.form-group
+		label Description:
+		textarea.form-control(placeholder='Room Description', '[(ngModel)]'='room.description')
 
 	button.btn.btn-default(type='submit', '[innerText]'='create ? "Add" : "Edit"')

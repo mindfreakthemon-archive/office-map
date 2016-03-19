@@ -2,7 +2,8 @@
 	img.media-object('[src]'='room.flag')
 .media-body
 	h4.media-heading {{room.name}}
-	p Nice Room
+	h6 Capacity: {{room.capacity}}
+	p {{room.description}}
 	.btn-group
 		a.btn.btn-primary('[routerLink]'='["/MapRouter", "RoomLocate", { room: room.id }]') Locate
 		a.btn.btn-warning('*ngIf'='adminMode', '[routerLink]'='["/AdminRouter", "Rooms", "RoomEdit", { room: room.id }]') Edit
