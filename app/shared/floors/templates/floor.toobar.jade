@@ -11,7 +11,7 @@
       span.caret
       ul.dropdown-menu
          li('*ngFor'='#worker of workers')
-            a(class='{{worker.id}}', '(click)'='changeCurrentWorker($event); toggleDropdown(); changeAction(actions.ADD_WORKER);')
+            a(class='{{worker.id}}', '(click)'='changeCurrentWorker($event); changeAction(actions.ADD_WORKER);')
                |{{worker.firstName}} {{worker.lastName}}
 .btn-group
    button.btn.btn-default.navbar-btn.dropdown-toggle('[class.open]'='roomToggle', '(click)'='roomToggle = !roomToggle')
@@ -20,7 +20,7 @@
       span.caret
       ul.dropdown-menu
          li('*ngFor'='#room of rooms')
-            a(class='{{room.id}}', '(click)'='changeCurrentRoom($event); toggleDropdown(); changeAction(actions.ADD_ROOM);')
+            a(class='{{room.id}}', '(click)'='changeCurrentRoom($event); changeAction(actions.ADD_ROOM);')
                | {{room.name}}
 
 .btn-group
