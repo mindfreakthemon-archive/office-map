@@ -11,6 +11,7 @@ import { Room } from '../../rooms/models/room';
 
 
 @Component({
+    selector: 'map-renderer',
     templateUrl: 'map/templates/map.renderer.jade',
     directives: [MapCanvas]
 })
