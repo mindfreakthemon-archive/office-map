@@ -7,8 +7,7 @@ var gulp = require('gulp'),
 gulp.task('ts-server', function () {
 	var tsResult = gulp.src([
 			'app/server/**/*.ts',
-			//'app/shared/**/*.ts',
-			'typings/tsd.d.ts'
+			'typings/main.d.ts'
 		], { base: 'app/' })
 		.pipe(plumber())
 		.pipe(inlineNG2Template({ base: 'app/shared', jade: true }))

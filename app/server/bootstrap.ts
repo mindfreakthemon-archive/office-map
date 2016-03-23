@@ -9,6 +9,8 @@ import { initializePassport } from './passport';
 import { roAPI } from './ro.api';
 import { rwAPI } from './rw.api';
 
+const PORT = process.env['PORT'] || 3000;
+
 let app = express();
 
 initializePassport();
@@ -49,6 +51,6 @@ app.get('/logout', (req, res) => {
 
 app.all('*', (req, res) => res.sendStatus(404));
 
-app.listen(3000, () => {
-    console.log('Listen on http://localhost:3000');
+app.listen(PORT, () => {
+    console.log(`Listen on http://localhost:${PORT}`);
 });

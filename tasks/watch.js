@@ -1,8 +1,6 @@
 var gulp = require('gulp'),
 	livereload = require('gulp-livereload');
 
-gulp.task('build', ['images', 'styles', 'ts-client', 'ts-server']);
-
 gulp.task('watch', ['nodemon', 'build'], function () {
 	livereload.listen();
 

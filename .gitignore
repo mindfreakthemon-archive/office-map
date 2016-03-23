@@ -1,7 +1,5 @@
 /node_modules
 /bower_components
-/typings/*
-!/typings/tsd.d.client.ts
 /build
 /public/*
 npm-debug.log

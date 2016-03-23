@@ -5,7 +5,7 @@ import {IRoom} from '../shared/rooms/models/room';
 import {IWorker} from '../shared/workers/models/worker';
 import {IAdmin} from '../shared/admin/models/admin';
 
-const MONGODB_ENDPOINT = 'mongodb://82.196.2.52:27017/officeMap';
+const MONGODB_ENDPOINT = process.env['MONGOLAB_URI'] || 'mongodb://82.196.2.52:27017/officeMap';
 
 export function db() {
     return db['instance'] || (db['instance'] = mongodb.MongoClient.connect(MONGODB_ENDPOINT));

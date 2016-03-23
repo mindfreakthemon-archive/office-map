@@ -9,7 +9,7 @@ gulp.task('ts-client', function () {
 	var tsResult = gulp.src([
 			'app/client/**/*.ts',
 			'app/shared/**/*.ts',
-			'typings/tsd.d.client.ts'
+			'typings/browser.d.ts'
 		], { base: 'app/' })
 		.pipe(plumber())
 		.pipe(inlineNG2Template({ base: 'app/shared', jade: true }))

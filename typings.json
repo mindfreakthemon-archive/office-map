@@ -1,0 +1,23 @@
+{
+  "name": "office-map",
+  "version": false,
+  "ambientDependencies": {
+    "express": "github:DefinitelyTyped/DefinitelyTyped/express/express.d.ts#cc3d223a946f661eff871787edeb0fcb8f0db156",
+    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#cc3d223a946f661eff871787edeb0fcb8f0db156",
+    "serve-static": "github:DefinitelyTyped/DefinitelyTyped/serve-static/serve-static.d.ts#cc3d223a946f661eff871787edeb0fcb8f0db156",
+    "mime": "github:DefinitelyTyped/DefinitelyTyped/mime/mime.d.ts#cc3d223a946f661eff871787edeb0fcb8f0db156",
+    "mongodb": "github:DefinitelyTyped/DefinitelyTyped/mongodb/mongodb.d.ts#dc9dabe74a5be62613b17a3605309783a12ff28a",
+    "leaflet": "github:DefinitelyTyped/DefinitelyTyped/leaflet/leaflet.d.ts#95b7178e0ef33b4b88327676418b4cc3ad61df0f",
+    "es6-shim": "github:DefinitelyTyped/DefinitelyTyped/es6-shim/es6-shim.d.ts#99c4fb76b5d941939ba53e61d0daee4bd74f150f",
+    "leaflet-curve": "github:DefinitelyTyped/DefinitelyTyped/leaflet-curve/leaflet-curve.d.ts#95b7178e0ef33b4b88327676418b4cc3ad61df0f",
+    "node-uuid": "github:DefinitelyTyped/DefinitelyTyped/node-uuid/node-uuid.d.ts#9f0f926a12026287b5a4a229e5672c01e7549313",
+    "node-uuid-base": "github:DefinitelyTyped/DefinitelyTyped/node-uuid/node-uuid-base.d.ts#9f0f926a12026287b5a4a229e5672c01e7549313",
+    "node-uuid-cjs": "github:DefinitelyTyped/DefinitelyTyped/node-uuid/node-uuid-cjs.d.ts#9f0f926a12026287b5a4a229e5672c01e7549313",
+    "body-parser": "github:DefinitelyTyped/DefinitelyTyped/body-parser/body-parser.d.ts#0cd5f0a1482dc3149f5446b1d885ef6ac7c57720",
+    "express-serve-static-core": "github:DefinitelyTyped/DefinitelyTyped/express-serve-static-core/express-serve-static-core.d.ts#cc3d223a946f661eff871787edeb0fcb8f0db156",
+    "cookie-parser": "github:DefinitelyTyped/DefinitelyTyped/cookie-parser/cookie-parser.d.ts#cc3d223a946f661eff871787edeb0fcb8f0db156",
+    "express-session": "github:DefinitelyTyped/DefinitelyTyped/express-session/express-session.d.ts#cc3d223a946f661eff871787edeb0fcb8f0db156",
+    "passport": "github:DefinitelyTyped/DefinitelyTyped/passport/passport.d.ts#cc3d223a946f661eff871787edeb0fcb8f0db156",
+    "passport-local": "github:DefinitelyTyped/DefinitelyTyped/passport-local/passport-local.d.ts#cc3d223a946f661eff871787edeb0fcb8f0db156"
+  }
+}
