@@ -8,6 +8,6 @@ gulp.task('styles', function () {
 		.pipe(sourcemaps.init())
 		.pipe(stylus())
 		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('./public/css'))
+		.pipe(gulp.dest('./build/client/css'))
 		.pipe(livereload());
 });

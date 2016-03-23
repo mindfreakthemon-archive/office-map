@@ -15,7 +15,7 @@ let app = express();
 
 initializePassport();
 
-app.set('views', `${process.cwd()}/app/shared/`);
+app.set('views', './app/shared/');
 app.set('view engine', 'jade');
 
 app.use(cookieParser());
@@ -30,7 +30,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.static(process.cwd()));
+app.use(express.static('./build/client/'));
 
 app.get('/', (req, res) => {
     res.render('index', { user: req.user });

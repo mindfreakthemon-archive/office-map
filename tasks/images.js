@@ -3,6 +3,6 @@ var gulp = require('gulp'),
 
 gulp.task('images', function () {
     gulp.src('./assets/images/**/*.png')
-        .pipe(gulp.dest('./public/images'))
+        .pipe(gulp.dest('./build/client/images'))
         .pipe(livereload());
 });
