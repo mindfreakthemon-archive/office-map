@@ -23,4 +23,8 @@ export class RoomService extends DataService<Room> {
     protected get LOAD_ENDPOINT() {
         return '/api/getrooms';
     }
+
+    protected get REMOVE_ENDPOINT() {
+        return '/api/deleteroom';
+    }
 }

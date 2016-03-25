@@ -17,13 +17,27 @@ rwAPI.post('/setfloor', (req, res) => {
         .then(() => res.sendStatus(200));
 });
 
+rwAPI.post('/deletefloor', (req, res) => {
+    db.deleteFloor(req.body)
+        .then(() => res.sendStatus(200));
+});
 
 rwAPI.post('/setroom', (req, res) => {
     db.setRoom(req.body)
         .then(() => res.sendStatus(200));
 });
 
+rwAPI.post('/deleteroom', (req, res) => {
+    db.deleteRoom(req.body)
+        .then(() => res.sendStatus(200));
+});
+
 rwAPI.post('/setworker', (req, res) => {
     db.setWorker(req.body)
+        .then(() => res.sendStatus(200));
+});
+
+rwAPI.post('/deleteworker', (req, res) => {
+    db.deleteWorker(req.body)
         .then(() => res.sendStatus(200));
 });

@@ -5,7 +5,7 @@ h3('*ngIf'='!rooms') Loading...
 		.col-md-8('*ngIf'='!rooms.length')
 			h4 Nothing was found for "{{query}}"
 		.col-md-8('*ngIf'='rooms.length')
-			room-item.media('*ngFor'='#room of rooms | paginate:itemsPerPage', '[room]'='room', '[adminMode]'='adminMode')
+			room-item.media('*ngFor'='#room of rooms | paginate:itemsPerPage', '[room]'='room', '[adminMode]'='adminMode', '(onItemDeleted)'='handleItemDelete($event)')
 		.col-md-4
 			form
 				.form-grorup('*ngIf'='showQueryField')

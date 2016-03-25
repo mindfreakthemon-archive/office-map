@@ -50,6 +50,7 @@ export class WorkerSearch implements OnChanges, OnInit {
 
     ngOnChanges(changes: {[propName: string]: SimpleChange}) {
         if (changes['query']) {
+            this.setPage();
             this.request();
         }
     }
@@ -62,6 +63,7 @@ export class WorkerSearch implements OnChanges, OnInit {
         this.query = query;
 
         // also makes request on every change
+        this.setPage();
         this.request();
     }
 
@@ -73,6 +75,7 @@ export class WorkerSearch implements OnChanges, OnInit {
         }
 
         // also makes request on every change
+        this.setPage();
         this.request();
     }
 
@@ -84,14 +87,17 @@ export class WorkerSearch implements OnChanges, OnInit {
         }
 
         // also makes request on every change
+        this.setPage();
         this.request();
+    }
+
+    setPage(page: number = 1) {
+        this.paginationService
+            .setCurrentPage(this.paginationService.defaultId, page);
     }
 
     request() {
         this.workers = null;
-
-        this.paginationService
-            .setCurrentPage(this.paginationService.defaultId, 1);
 
         this.workerService.getEach()
             .filter(FilterUtils.searchFilter(this.query, ['firstName', 'lastName']))
@@ -114,5 +120,9 @@ export class WorkerSearch implements OnChanges, OnInit {
                 this.workers = workers;
                 this.results.emit(workers);
             });
+    }
+
+    handleItemDelete() {
+        this.request();
     }
 }

@@ -1,4 +1,4 @@
-import { Component } from 'angular2/core';
+import { Component, EventEmitter, Output } from 'angular2/core';
 import { ROUTER_DIRECTIVES } from 'angular2/router';
 
 import { Toolbar } from '../../app/components/toolbar';
@@ -15,9 +15,7 @@ import { Floor } from '../models/floor';
 export class FloorList {
     floors: Floor[];
 
-    constructor(
-        public floorService: FloorService
-    ) {
+    constructor(public floorService: FloorService) {
         this.floorService.getAll()
             .subscribe(floors => this.floors = floors);
     }

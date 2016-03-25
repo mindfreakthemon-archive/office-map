@@ -22,22 +22,30 @@ export class RoomSearch implements OnChanges, OnInit {
     /**
      * Toggles Edit and Delete button.
      */
-    @Input() adminMode: boolean = false;
+    @Input()
+    adminMode: boolean = false;
 
     /**
      * Toggles small query input field to filter with.
      */
-    @Input() showQueryField: boolean = false;
+    @Input()
+    showQueryField: boolean = false;
 
-    @Input() query: string = '';
-    @Input() itemsPerPage = 10;
+    @Input()
+    query: string = '';
 
-    @Output() results = new EventEmitter<Room[]>();
+    @Input()
+    itemsPerPage = 10;
 
-    constructor(public roomService: RoomService, private paginationService: PaginationService) {}
+    @Output()
+    results = new EventEmitter<Room[]>();
+
+    constructor(public roomService: RoomService, private paginationService: PaginationService) {
+    }
 
     ngOnChanges(changes: {[propName: string]: SimpleChange}) {
         if (changes['query']) {
+            this.setPage();
             this.request();
         }
     }
@@ -50,14 +58,17 @@ export class RoomSearch implements OnChanges, OnInit {
         this.query = query;
 
         // also makes request on every change
+        this.setPage();
         this.request();
+    }
+
+    setPage(page: number = 1) {
+        this.paginationService
+            .setCurrentPage(this.paginationService.defaultId, page);
     }
 
     request() {
         this.rooms = null;
-
-        this.paginationService
-            .setCurrentPage(this.paginationService.defaultId, 1);
 
         this.roomService.getEach()
             .filter(FilterUtils.searchFilter(this.query, ['name']))
@@ -66,5 +77,9 @@ export class RoomSearch implements OnChanges, OnInit {
                 this.rooms = rooms;
                 this.results.emit(rooms);
             });
+    }
+
+    handleItemDelete() {
+        this.request();
     }
 }

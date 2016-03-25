@@ -32,6 +32,10 @@ export class FloorService extends DataService<Floor> {
         return '/api/getfloors';
     }
 
+    protected get REMOVE_ENDPOINT() {
+        return '/api/deletefloor';
+    }
+
     getFloorByWorkerId(id: string) {
         return this.getAll()
             .flatMap<Floor>(array => Observable.from(array, null, null, null))

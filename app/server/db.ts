@@ -41,6 +41,11 @@ export function getFloors() {
         .then(db => db.collection('floors').find({}).toArray());
 }
 
+export function deleteFloor(floor: IFloor) {
+    return db()
+        .then(db => db.collection('floors').findOneAndDelete({ number: floor.number }));
+}
+
 let insertRoom = (room, db) => {
     return db
         .collection('rooms')
@@ -64,6 +69,11 @@ export function setRoom(room: IRoom) {
                     insertRoom(room, db);
                 }
             }));
+}
+
+export function deleteRoom(room: IRoom) {
+    return db()
+        .then(db => db.collection('rooms').findOneAndDelete({ id: room.id }));
 }
 
 export function getRooms() {
@@ -116,6 +126,11 @@ export function setWorker(worker: IWorker) {
                     insertWorker(worker, db);
                 }
             }));
+}
+
+export function deleteWorker(worker: IWorker) {
+    return db()
+        .then(db => db.collection('workers').findOneAndDelete({ id: worker.id }));
 }
 
 export function getWorkers() {

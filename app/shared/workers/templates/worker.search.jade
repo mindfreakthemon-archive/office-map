@@ -5,7 +5,7 @@ h3('*ngIf'='!workers') Loading...
 		.col-md-8('*ngIf'='!workers.length')
 			h4 Nothing was found for "{{query}}"
 		.col-md-8('*ngIf'='workers.length')
-			worker-item.media('*ngFor'='#worker of workers | paginate:itemsPerPage', '[worker]'='worker', '[adminMode]'='adminMode')
+			worker-item.media('*ngFor'='#worker of workers | paginate:itemsPerPage', '[worker]'='worker', '[adminMode]'='adminMode', '(onItemDeleted)'='handleItemDelete($event)')
 		.col-md-4
 			form
 				.form-grorup('*ngIf'='showQueryField')

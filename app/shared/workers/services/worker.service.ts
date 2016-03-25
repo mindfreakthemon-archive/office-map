@@ -23,6 +23,10 @@ export class WorkerService extends DataService<Worker> {
         return '/api/getworkers';
     }
 
+    protected get REMOVE_ENDPOINT() {
+        return '/api/deleteworker';
+    }
+
     search(query: string) {
         query = query.toLowerCase();
 
