@@ -1,0 +1,24 @@
+toolbar.navbar.navbar-default.navbar-fixed-top
+	.container
+		.nav.navbar-nav.btn-toolbar
+			admin-toolbar.btn-group
+
+.container
+	form('(ngSubmit)'='onSubmit()', '*ngIf'='floors')
+		h4 Copy all meta data from one floor to another
+
+		.form-group
+			label(for='fromFloor') Source Floor:
+			select#fromFloor.form-control('[(ngModel)]'='sourceFloorNumber', required)
+				option.hidden(selected, disabled, value='') Please, select
+				option('*ngFor'='#floor of floors', '[value]'='floor.number') {{floor.number}}
+
+
+		.form-group
+			label(for='toFloor') Destination Floor:
+			select#toFloor.form-control('[(ngModel)]'='destinationFloorNumber', required)
+				option.hidden(selected, disabled, value='') Please, select
+				option('*ngFor'='#floor of floors | omit:"number":sourceFloorNumber', '[value]'='floor.number') {{floor.number}}
+
+		button.btn.btn-default(type='submit') JUST DO IT
+

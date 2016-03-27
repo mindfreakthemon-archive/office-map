@@ -15,3 +15,4 @@
 /// <reference path="browser/ambient/passport-local/index.d.ts" />
 /// <reference path="browser/ambient/passport/index.d.ts" />
 /// <reference path="browser/ambient/serve-static/index.d.ts" />
+/// <reference path="browser/definitions/lodash/index.d.ts" />

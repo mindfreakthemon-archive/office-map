@@ -15,3 +15,4 @@
 /// <reference path="main/ambient/passport-local/index.d.ts" />
 /// <reference path="main/ambient/passport/index.d.ts" />
 /// <reference path="main/ambient/serve-static/index.d.ts" />
+/// <reference path="main/definitions/lodash/index.d.ts" />

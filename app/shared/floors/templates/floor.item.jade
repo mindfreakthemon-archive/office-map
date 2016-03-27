@@ -1,0 +1,10 @@
+.media
+	.media-left
+		img.media-object(src='http://placehold.it/64x64?text={{floor.number}}')
+	.media-body
+		h4.media-heading: a('[routerLink]'='["/MapRouter", "Floor", { floor: floor.number }]') {{floor.number}}
+		.btn-group('*ngIf'='adminMode')
+			a.btn.btn-info('[routerLink]'='["/AdminRouter", "Floors", "FloorConfigure", { floor: floor.number }]') Configure
+			a.btn.btn-warning('[routerLink]'='["/AdminRouter", "Floors", "FloorEdit", { floor: floor.number }]') Edit
+			a.btn.btn-danger('(click)'='cleanSeats()') Clean seats
+			a.btn.btn-danger('(click)'='deleteFloor()') Delete

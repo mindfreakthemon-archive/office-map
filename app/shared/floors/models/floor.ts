@@ -9,7 +9,7 @@ export interface IFloor {
     number: string;
     walls: Wall[];
     places: Place[];
-    seats: any[];
+    seats: Seat[];
 }
 
 const FLOOR_DEFAULT_SKELETON: IFloor = { number: null, walls: [], places: [], seats: [] };
@@ -78,9 +78,9 @@ export class Floor implements Serializable, IFloor {
     toJSON(): IFloor {
         return {
             number: this.number,
-            walls: this.walls,
-            places: this.places,
-            seats: this.seats
+            walls: this.walls.slice(0),
+            places: this.places.slice(0),
+            seats: this.seats.slice(0)
         };
     }
 }

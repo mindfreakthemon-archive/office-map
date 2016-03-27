@@ -1,5 +1,4 @@
 import { EventEmitter, Component, Input, Output } from 'angular2/core';
-import { RouteParams, ROUTER_DIRECTIVES } from 'angular2/router';
 
 import { Floor } from '../models/floor';
 import { FloorService } from '../services/floor.service';

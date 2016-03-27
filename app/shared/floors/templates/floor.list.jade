@@ -4,14 +4,8 @@ toolbar.navbar.navbar-default.navbar-fixed-top
 			admin-toolbar.btn-group
 
 .container
-	.media('*ngFor'='#floor of floors')
-		.media-left
-			img.media-object(src='http://placehold.it/64x64')
-		.media-body
-			h4.media-heading {{floor.number}}
-			.btn-group
-				a.btn.btn-info('[routerLink]'='["/AdminRouter", "Floors", "FloorConfigure", { floor: floor.number }]') Configure
-				a.btn.btn-warning('[routerLink]'='["/AdminRouter", "Floors", "FloorEdit", { floor: floor.number }]') Edit
-				a.btn.btn-danger('(click)'='deleteFloor(floor)') Delete
+	floor-item('*ngFor'='#floor of floors', '[floor]'='floor', '[adminMode]'='true')
 
-	p: a.btn.btn-default('[routerLink]'='["/AdminRouter", "Floors", "FloorAdd"]') Add
+	.btn-group
+		a.btn.btn-default('[routerLink]'='["/AdminRouter", "Floors", "FloorAdd"]') Add
+		a.btn.btn-default('[routerLink]'='["/AdminRouter", "Floors", "FloorCopy"]') Copy

@@ -1,5 +1,5 @@
 form('(ngSubmit)'='onSubmit()')
    .form-group
       label(for='number') Number:
-      input#number.form-control(type='number', placeholder='Number', '[(ngModel)]'='floor.number', '[readonly]'='!create')
+      input#number.form-control(type='text', pattern='[0-9]+', placeholder='Number', '[(ngModel)]'='floor.number', '[readonly]'='!create')
    button.btn.btn-default(type='submit', '[innerText]'='create ? "Add" : "Edit"')

@@ -5,6 +5,7 @@ import { FloorList } from './floor.list';
 import { FloorEdit } from './floor.edit';
 import { FloorAdd } from './floor.add';
 import { FloorConfigure } from './floor.configure';
+import { FloorCopy } from './floor.copy';
 
 
 @Component({
@@ -15,6 +16,7 @@ import { FloorConfigure } from './floor.configure';
 @RouteConfig([
     { path: '/list', as: 'FloorList', component: FloorList },
     { path: '/floor/new', as: 'FloorAdd', component: FloorAdd },
+    { path: '/floor/copy', as: 'FloorCopy', component: FloorCopy },
     { path: '/floor/:floor/edit', as: 'FloorEdit', component: FloorEdit },
     { path: '/floor/:floor/configure', as: 'FloorConfigure', component: FloorConfigure },
 ])
