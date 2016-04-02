@@ -2,7 +2,7 @@ import { Wall } from '../../map/models/wall';
 import { Place } from '../../map/models/place';
 import { Seat } from '../../map/models/seat';
 import { Point } from '../../map/models/point';
-import { IRoom } from '../../rooms/models/room';
+import { Room } from '../../rooms/models/room';
 import { Serializable } from '../../app/common/serializable';
 
 export interface IFloor {
@@ -41,8 +41,8 @@ export class Floor implements Serializable, IFloor {
             .filter((nextWall) => !Object.is(nextWall, wall));
     }
 
-    addPlace(latlng, room: IRoom) {
-        this.places.push(new Place(room.id, room.name, room.icon, { x: latlng.lat, y: latlng.lng }, room.floor));
+    addPlace(latlng, room: Room) {
+        this.places.push(new Place(room.id, room.name, room.icon, { x: latlng.lat, y: latlng.lng }, this.number));
     }
 
     deletePlace(place: Place) {

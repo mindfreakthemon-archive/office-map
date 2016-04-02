@@ -1,9 +1,11 @@
 import { Injectable } from 'angular2/core';
-import { Http, Headers } from 'angular2/http';
-import { Observable } from 'rxjs/Observable';
+import { Http } from 'angular2/http';
 
-import { Room } from '../models/room';
+import { Room, IRoom, RoomType } from '../models/room';
 import { DataService } from '../../app/services/data.service';
+import { MeetingRoom, IMeetingRoom } from '../models/meeting.room';
+import { TeamRoom, ITeamRoom } from '../models/team.room';
+import { UtilityRoom, IUtilityRoom } from '../models/utility.room';
 
 
 @Injectable()
@@ -12,8 +14,18 @@ export class RoomService extends DataService<Room> {
         super(http);
     }
     
-    protected create(data) {
-        return new Room(data);
+    protected create(data: IRoom) {
+        switch (data.type) {
+            case RoomType.MEETING:
+                return new MeetingRoom(<IMeetingRoom> data);
+            case RoomType.TEAM:
+                return new TeamRoom(<ITeamRoom> data);
+            case RoomType.UTILITY:
+                return new UtilityRoom(<IUtilityRoom> data);
+            default:
+                // as a backward compatibility support
+                return new MeetingRoom(<IMeetingRoom> data);
+        }
     }
 
     protected get PUT_ENDPOINT() {

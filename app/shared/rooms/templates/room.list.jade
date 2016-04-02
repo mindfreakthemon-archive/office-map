@@ -5,4 +5,8 @@ toolbar.navbar.navbar-default.navbar-fixed-top
 
 .container
 	room-search('[showQueryField]'='true', '[adminMode]'='true')
-	p: a.btn.btn-default('[routerLink]'='["/AdminRouter", "Rooms", "RoomAdd"]') Add
+
+	.btn-group
+		a.btn.btn-default('[routerLink]'='["/AdminRouter", "Rooms", "MeetingRoomAdd"]') Add Meeting Room
+		a.btn.btn-default('[routerLink]'='["/AdminRouter", "Rooms", "TeamRoomAdd"]') Add Team Room
+		a.btn.btn-default('[routerLink]'='["/AdminRouter", "Rooms", "UtilityRoomAdd"]') Add Utility Room

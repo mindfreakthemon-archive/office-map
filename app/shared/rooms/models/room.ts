@@ -1,60 +1,57 @@
 import { Point } from '../../map/models/point';
 import { Serializable } from '../../app/common/serializable';
 
+export enum RoomType {
+    MEETING,
+    TEAM,
+    UTILITY
+}
+
 export interface IRoom {
     id: string;
     name: string;
     icon: string;
-    flag: string;
-    floor?: string;
     position: Point;
-    capacity: number;
-    description: string;
+    type: RoomType;
 }
 
-const ROOM_DEFAULT_SKELETON: IRoom = {
+export const ROOM_DEFAULT_SKELETON: IRoom = {
     id: null,
-    icon: null,
-    flag: null,
     name: '',
-    floor: null,
+    icon: null,
     position: null,
-    capacity: null,
-    description: ''
+    type: RoomType.MEETING
 };
 
-export class Room implements Serializable, IRoom {
+export abstract class Room implements Serializable {
 
-    id: string;
-    name: string;
-    icon: string;
-    flag: string;
-    floor: string;
-    position: Point;
-    capacity: number;
-    description: string;
+    static ROOM_TYPES_MAP = new Map<RoomType, string>(<Array<any>> [
+        [RoomType.MEETING, 'Meeting Room'],
+        [RoomType.TEAM, 'Team Room'],
+        [RoomType.UTILITY, 'Utility Room'],
+    ]);
+    
+    public id: string;
+    public name: string;
+    public icon: string;
+    public position: Point;
+    public type: RoomType;
 
-    constructor({ id, name, icon, flag, floor, position, capacity, description }: IRoom = ROOM_DEFAULT_SKELETON) {
+    constructor({ id, name, icon, position, type }: IRoom = ROOM_DEFAULT_SKELETON) {
         this.id = id;
         this.name = name;
         this.icon = icon;
-        this.flag = flag;
-        this.floor = floor;
         this.position = position;
-        this.capacity = capacity;
-        this.description = description;
+        this.type = type;
     }
 
-    toJSON(): IRoom {
+    public toJSON(): IRoom {
         return {
             id: this.id,
             name: this.name,
             icon: this.icon,
-            flag: this.flag,
-            floor: this.floor,
             position: this.position,
-            capacity: this.capacity,
-            description: this.description
+            type: this.type
         };
     }
 }

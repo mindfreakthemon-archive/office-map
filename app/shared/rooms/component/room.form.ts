@@ -1,6 +1,6 @@
 import { EventEmitter, Component, Input, Output } from 'angular2/core';
 
-import { Room } from '../models/room';
+import { Room, RoomType } from '../models/room';
 import { RoomService } from '../services/room.service';
 
 @Component({
@@ -15,6 +15,8 @@ export class RoomForm {
 
     @Output()
     complete = new EventEmitter<Room>();
+
+    roomTypes = RoomType;
 
     constructor(private roomService: RoomService) {
     }

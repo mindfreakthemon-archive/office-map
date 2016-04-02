@@ -6,12 +6,9 @@ form('(ngSubmit)'='onSubmit()')
 		label Name:
 		input.form-control(type='text', placeholder='Name', '[(ngModel)]'='room.name')
 	.form-group
-		label Flag URL:
-		input.form-control(type='text', placeholder='Flag URL', '[(ngModel)]'='room.flag')
-	.form-group
 		label Map Icon URL:
 		input.form-control(type='text', placeholder='Map Icon URL', '[(ngModel)]'='room.icon')
-	.form-group
+	.form-group('*ngIf'='room.type === roomTypes.MEETING')
 		label Capacity:
 		input.form-control(text='number', placeholder='Room Capacity', '[(ngModel)]'='room.capacity')
 	.form-group

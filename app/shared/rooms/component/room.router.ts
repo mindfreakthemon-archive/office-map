@@ -13,7 +13,9 @@ import { RoomAdd } from './room.add';
 })
 @RouteConfig([
     { path: '/list', as: 'RoomList', component: RoomList },
-    { path: '/room/new', as: 'RoomAdd', component: RoomAdd },
+    { path: '/room/meeting/new', as: 'MeetingRoomAdd', component: RoomAdd, data: { type: 'meeting' } },
+    { path: '/room/team/new', as: 'TeamRoomAdd', component: RoomAdd, data: { type: 'team' } },
+    { path: '/room/utility/new', as: 'UtilityRoomAdd', component: RoomAdd, data: { type: 'utility' } },
     { path: '/room/:room/edit', as: 'RoomEdit', component: RoomEdit }
 ])
 export class RoomRouter {

@@ -1,12 +1,9 @@
 import { Injectable } from 'angular2/core';
-import { Http, Headers, RequestOptions } from 'angular2/http';
+import { Http } from 'angular2/http';
 import { Observable } from 'rxjs/Observable';
 
 import { Floor } from '../models/floor';
 import { DataService } from '../../app/services/data.service';
-
-import { IRoom } from '../../rooms/models/room';
-import { Place } from '../../map/models/place';
 
 
 @Injectable()

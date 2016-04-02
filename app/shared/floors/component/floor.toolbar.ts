@@ -6,7 +6,7 @@ import { AdminActionService, AdminAction } from '../../admin/services/admin.acti
 import { WorkerService } from '../../workers/services/worker.service';
 import { RoomService } from '../../rooms/services/room.service';
 import { Worker } from '../../workers/models/worker';
-import { IRoom } from '../../rooms/models/room';
+import { Room } from '../../rooms/models/room';
 
 @Component({
     selector: 'floor-toolbar',
@@ -19,7 +19,7 @@ export class FloorToolbar {
     getWorkersSubscription: any;
     getRoomsSubscription: any;
     workers: Worker[];
-    rooms: IRoom[];
+    rooms: Room[];
     currentWorker: string;
     currentRoom: string;
 

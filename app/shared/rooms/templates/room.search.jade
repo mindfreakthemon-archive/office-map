@@ -12,8 +12,11 @@ h3('*ngIf'='!rooms') Loading...
 					h4 Query:
 					input.form-control('[(ngModel)]'='query', '(input)'='setQuery($event.target.value)')
 				.form-group
-					h4 Floor:
-						p haha
+					h4 Type:
+					.checkbox('*ngFor'='#entry of roomTypes')
+						label
+							input(type='checkbox', '[checked]'='roomTypeFilter.has(entry[0])', '(change)'='setRoomTypeFilter(entry[0], $event.target.checked)')
+							| {{entry[1]}}
 
 	.row('*ngIf'='rooms.length')
 		pagination-controls
