@@ -291,7 +291,10 @@ export class MapCanvas {
         });
 
         let placeOnMap = L.marker([place.position.x, place.position.y], {icon: myIcon})
-            .bindPopup(`room: ${place.name}`);
+            .bindPopup(`
+            room: ${place.name}
+            <br><a class="btn btn-primary" href="#/map/locateRoom/${place.id}">Locate</a>
+            `);
 
         this.allMapLayers.addLayer(placeOnMap);
 
@@ -333,8 +336,9 @@ export class MapCanvas {
                 seatOnMap
                     .setStyle({color: 'red'})
                     .bindPopup(`<img src="${worker.photo}" alt=""/>
-                         <br>worker: ${worker['firstName']}
-                         <br>lastName: ${worker['lastName']}`);
+                         <br>worker: ${worker.firstName}
+                         <br>lastName: ${worker.lastName}
+                         <br><a class="btn btn-primary" href="#/map/locate/${worker.id}">Locate</a>`);
             });
         } else seatOnMap.on('click', (e) => {
             if (this.clickAction === 2) {
