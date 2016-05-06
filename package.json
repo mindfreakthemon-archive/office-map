@@ -6,6 +6,7 @@
     "angular2": "2.0.0-beta.7",
     "body-parser": "1.15.0",
     "cookie-parser": "^1.4.1",
+    "es6-shim": "^0.33.0",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "jade": "^1.11.0",
@@ -17,9 +18,10 @@
     "node-uuid": "^1.4.7",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
+    "reflect-metadata": "0.1.2",
     "rxjs": "5.0.0-beta.2",
-    "systemjs": "0.19.9",
-    "zone.js": "0.5.14"
+    "systemjs": "^0.19.9",
+    "zone.js": "^0.5.14"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
@@ -30,8 +32,10 @@
     "gulp-plumber": "^1.1.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-stylus": "^2.3.0",
+    "gulp-tslint": "^5.0.0",
     "gulp-typescript": "^2.12.1",
     "requiredir": "^1.0.7",
+    "tslint": "^3.9.0",
     "typescript": "^1.8.9"
   },
   "scripts": {
