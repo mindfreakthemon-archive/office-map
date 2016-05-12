@@ -9,7 +9,7 @@
       span.glyphicon.glyphicon-modal-window
       | #{' '} Attach Worker #{' '}
       span.caret
-      ul.dropdown-menu
+      ul.dropdown-menu.floor-toolbar__workers
          li('*ngFor'='#worker of workers')
             a(class='{{worker.id}}', '(click)'='changeCurrentWorker($event); changeAction(actions.ADD_WORKER);')
                |{{worker.firstName}} {{worker.lastName}}

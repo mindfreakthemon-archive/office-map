@@ -9,11 +9,11 @@ body {
 }
 
 #map {
-  position absolute;
-  left 0;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
+	position absolute;
+	left 0;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
 	background: #fff;
 }
 
@@ -54,7 +54,6 @@ admin {
 	left: 10px;
 	z-index: 1000;
 
-
 	font-size: 2em;
 	border: 1px solid #000;
 	background: #fff;
@@ -80,7 +79,16 @@ tabs {
 }
 
 .leaflet-container {
-  a {
-	color: white;
-  }
+	a {
+		color: white;
+	}
+}
+
+.floor-toolbar__workers {
+	overflow: auto;
+	max-height: 300px;
+}
+
+.leaflet-marker-icon {
+	max-height: 32px;
 }

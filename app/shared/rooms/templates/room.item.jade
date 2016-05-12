@@ -2,7 +2,7 @@
 	img.media-object('[src]'='room.icon')
 .media-body
 	h4.media-heading {{room.name}}
-	h6 Capacity: {{room.capacity}}
+	h6('*ngIf'='room.capacity') Capacity: {{room.capacity}}
 	p {{room.description}}
 	.btn-group
 		a.btn.btn-primary('[routerLink]'='["/MapRouter", "RoomLocate", { room: room.id }]') Locate
